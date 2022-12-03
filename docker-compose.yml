@@ -1,0 +1,17 @@
+services:
+  app:
+    build: .
+    container_name: always_date
+    restart: always
+    ports:
+      - "4000:4000"
+    command: "npm run start"
+
+  nginx:
+    build: nginx
+    ports:
+      - "80:80"
+      - "443:443"
+    depends_on:
+      - app
+

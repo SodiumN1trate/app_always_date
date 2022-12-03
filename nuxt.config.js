@@ -18,6 +18,7 @@ export default {
 
   // Global CSS: https://go.nuxtjs.dev/config-css
   css: [
+    './assets/sass/style.css'
   ],
 
   // Plugins to run before rendering page: https://go.nuxtjs.dev/config-plugins
@@ -26,7 +27,7 @@ export default {
 
   // Auto import components: https://go.nuxtjs.dev/config-components
   components: true,
-
+  extractCSS: true,
   // Modules for dev and build (recommended): https://go.nuxtjs.dev/config-modules
   buildModules: [
     // https://go.nuxtjs.dev/eslint
@@ -40,13 +41,14 @@ export default {
     // https://go.nuxtjs.dev/axios
     '@nuxtjs/axios',
     // https://go.nuxtjs.dev/pwa
-    '@nuxtjs/pwa'
+    '@nuxtjs/pwa',
+    '@nuxtjs/auth-next'
   ],
 
   // Axios module configuration: https://go.nuxtjs.dev/config-axios
   axios: {
     // Workaround to avoid enforcing hard-coded localhost:3000: https://github.com/nuxt-community/axios-module/issues/308
-    baseURL: '/'
+    baseURL: process.env.API_ADDRESS
   },
 
   // PWA module configuration: https://go.nuxtjs.dev/pwa
@@ -58,5 +60,52 @@ export default {
 
   // Build Configuration: https://go.nuxtjs.dev/config-build
   build: {
+    postcss: null,
+    loaders: {
+      scss: { sourceMap: false },
+      vue: { cacheBusting: false }
+    }
+  },
+
+  router: {
+    middleware: ['auth']
+  },
+
+  publicRuntimeConfig: {
+    axios: {
+      browserBaseURL: process.env.API_ADDRESS
+    }
+  },
+
+  privateRuntimeConfig: {
+    axios: {
+      baseURL: process.env.API_ADDRESS
+    }
+  },
+
+  auth: {
+    redirect: {
+      login: '/',
+      callback: false,
+      home: false
+    },
+    strategies: {
+      local: {
+        token: {
+          required: true,
+          type: 'Bearer',
+          property: 'token'
+        },
+        user: {
+          property: false,
+          autoFetch: true
+        },
+        endpoints: {
+          login: { url: process.env.API_ADDRESS + '/callback-url', method: 'GET' },
+          logout: { url: process.env.API_ADDRESS + '/logout', method: 'GET' },
+          user: false
+        }
+      }
+    }
   }
 }

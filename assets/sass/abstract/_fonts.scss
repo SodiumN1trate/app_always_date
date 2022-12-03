@@ -1,0 +1,320 @@
+@font-face {
+  font-family: 'Alef';
+  src: url("static/fonts/Alef-Regular.ttf") format('truetype');
+}
+
+@font-face {
+  font-family: 'Alata';
+  src: url("static/fonts/Alata-regular.ttf") format('truetype');
+}
+
+@font-face {
+  font-family: 'NotoSans';
+  src: url("static/fonts/NotoSans-Regular.ttf") format('truetype');
+}
+
+// Icons font-face
+@font-face {
+  font-family: 'icomoon';
+  src: url('static/fonts/icons/icons.woff') format('woff') /* Chrome 6+, Firefox 3.6+, IE 9+, Safari 5.1+ /
+  /url('@/static/fonts/icomoon.ttf') format('truetype'); !* Chrome 4+, Firefox 3.5, Opera 10+, Safari 3—5 !/ */
+}
+
+
+[class^="icon-"], [class=" icon-"] {
+  font-family: 'icomoon' !important;
+  speak: never;
+  font-style: normal;
+  font-weight: normal;
+  font-variant: normal;
+  text-transform: none;
+  line-height: 1;
+
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+//.icon-heart::before {
+//  display: inline-block;
+//  content: "\e900";
+//  font-size: 16px;
+//  color: #131821;
+//  transition: transform 0.2s;
+//}
+//.icon-heart:hover::before {
+//  color: red;
+//  cursor: pointer;
+//  transform: rotate(180deg);
+//}
+
+// icon-class
+
+
+.icon-heart-filled::before {
+  content: "\e900";
+  display: inline-block;
+  font-size: inherit;
+}
+.icon-heart::before {
+  content: "\e901";
+  display: inline-block;
+  font-size: inherit;
+}
+.icon-profile::before {
+  content: "\e902";
+  display: inline-block;
+  font-size: inherit;
+}
+.icon-statistic::before {
+  content: "\e903";
+  display: inline-block;
+  font-size: inherit;
+}
+.icon-globe::before {
+  content: "\e904";
+  display: inline-block;
+  font-size: inherit;
+}
+.icon-flame::before {
+  content: "\e905";
+  display: inline-block;
+  font-size: inherit;
+}
+.icon-message::before {
+  content: "\e906";
+  display: inline-block;
+  font-size: inherit;
+}
+.icon-book::before {
+  content: "\e907";
+  display: inline-block;
+  font-size: inherit;
+}
+.icon-newspaper::before {
+  content: "\e908";
+  display: inline-block;
+  font-size: inherit;
+}
+.icon-filter::before {
+  content: "\e909";
+  display: inline-block;
+  font-size: inherit;
+}
+.icon-search::before {
+  content: "\e90a";
+  display: inline-block;
+  font-size: inherit;
+}
+.icon-eye::before {
+  content: "\e90b";
+  display: inline-block;
+  font-size: inherit;
+}
+.icon-message::before {
+  content: "\e90c";
+  display: inline-block;
+  font-size: inherit;
+}
+.icon-sun::before {
+  content: "\e90d";
+  display: inline-block;
+  font-size: inherit;
+}
+.icon-moon::before {
+  content: "\e90e";
+  display: inline-block;
+  font-size: inherit;
+}
+.icon-smile::before {
+  content: "\e90f";
+  display: inline-block;
+  font-size: inherit;
+}
+.icon-arrow-down::before {
+  content: "\e910";
+  display: inline-block;
+  font-size: inherit;
+}
+.icon-logout::before {
+  content: "\e911";
+  display: inline-block;
+  font-size: inherit;
+}
+.icon-dot-circle::before {
+  content: "\e912";
+  display: inline-block;
+  font-size: inherit;
+}
+.icon-load::before {
+  content: "\e913";
+  display: inline-block;
+  font-size: inherit;
+}
+.icon-birthday::before {
+  content: "\e914";
+  display: inline-block;
+  font-size: inherit;
+}
+.icon-location::before {
+  content: "\e915";
+  display: inline-block;
+  font-size: inherit;
+}
+.icon-star::before {
+  content: "\e916";
+  display: inline-block;
+  font-size: inherit;
+}
+.icon-circle-cross::before {
+  content: "\e917";
+  display: inline-block;
+  font-size: inherit;
+}
+.icon-circle-warning::before {
+  content: "\e918";
+  display: inline-block;
+  font-size: inherit;
+}
+.icon-circle-money::before {
+  content: "\e919";
+  display: inline-block;
+  font-size: inherit;
+}
+.icon-circle-banned::before {
+  content: "\e91a";
+  display: inline-block;
+  font-size: inherit;
+}
+.icon-user::before {
+  content: "\e91b";
+  display: inline-block;
+  font-size: inherit;
+}
+.icon-accept::before {
+  content: "\e91c";
+  display: inline-block;
+  font-size: inherit;
+}
+.icon-edit::before {
+  content: "\e91d";
+  display: inline-block;
+  font-size: inherit;
+}
+.icon-trash::before {
+  content: "\e91e";
+  display: inline-block;
+  font-size: inherit;
+}
+.icon-hammer::before {
+  content: "\e91f";
+  display: inline-block;
+  font-size: inherit;
+}
+.icon-calendar::before {
+  content: "\e920";
+  display: inline-block;
+  font-size: inherit;
+}
+.icon-send::before {
+  content: "\e921";
+  display: inline-block;
+  font-size: inherit;
+}
+.icon-sent::before {
+  content: "\e923";
+  display: inline-block;
+  font-size: inherit;
+}
+.icon-read::before {
+  content: "\e924";
+  display: inline-block;
+  font-size: inherit;
+}
+.icon-attach::before {
+  content: "\e925";
+  display: inline-block;
+  font-size: inherit;
+}
+.icon-phone-support::before {
+  content: "\e926";
+  display: inline-block;
+  font-size: inherit;
+}
+.icon-phone-issue::before {
+  content: "\e927";
+  display: inline-block;
+  font-size: inherit;
+}
+.icon-email-support::before {
+  content: "\e928";
+  display: inline-block;
+  font-size: inherit;
+}
+.icon-email-filled::before {
+  content: "\e929";
+  display: inline-block;
+  font-size: inherit;
+}
+.icon-confirm::before {
+  content: "\e92a";
+  display: inline-block;
+  font-size: inherit;
+}
+.icon-refuse::before {
+  content: "\e92b";
+  display: inline-block;
+  font-size: inherit;
+}
+.icon-youtube::before {
+  content: "\e92c";
+  display: inline-block;
+  font-size: inherit;
+}
+.icon-instagram::before {
+  content: "\e92e";
+  display: inline-block;
+  font-size: inherit;
+}
+.icon-twitter::before {
+  content: "\e92f";
+  display: inline-block;
+  font-size: inherit;
+}
+.icon-dots::before {
+  content: "\e930";
+  display: inline-block;
+  font-size: inherit;
+}
+.icon-star-filled::before {
+  content: "\e932";
+  display: inline-block;
+  font-size: inherit;
+}
+.icon-previous::before {
+  content: "\e931";
+  display: inline-block;
+  font-size: inherit;
+}
+.icon-circle-clock::before {
+  content: "\e933";
+  display: inline-block;
+  font-size: inherit;
+}
+.icon-lock::before {
+  content: "\e934";
+  display: inline-block;
+  font-size: inherit;
+}
+
+.icon-up-vote::before {
+  content: "\e922";
+  display: inline-block;
+  font-size: inherit;
+  color: #FF9E9E;
+}
+.icon-down-vote::before {
+  content: "\e92d";
+  display: inline-block;
+  font-size: inherit;
+  color: #FF9E9E;
+}
