@@ -1,0 +1,45 @@
+body {
+  background-repeat: no-repeat;
+  background-attachment: fixed;
+  background-size: cover;
+  background-position: center;
+  background-color: #FFFAFA;
+}
+
+#content {
+  display: flex;
+  flex-direction: column;
+  gap: 30px;
+  width: calc(100% - 50px);
+  margin-left: 50px;
+  margin-top: 100px;
+  justify-content: center;
+  align-items: center;
+  margin-bottom: 60px;
+}
+
+#box {
+  padding: 1% 1% 4%;
+  gap: 2%;
+  background-color: #FBFDFF;
+  border-top: solid 1px #CFCFCF;
+  border-bottom: solid 1px #CFCFCF;
+  width: 75%;
+  box-shadow: 0px 3.24px 13.77px rgba(0, 0, 0, 0.03);
+  border-radius: 10.53px;
+}
+
+@media only screen and (max-width: 1000px) {
+  #content {
+    width: 90%;
+    margin-right: auto;
+    margin-left: auto;
+  }
+  #box {
+    width: 100%;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+  }
+}
