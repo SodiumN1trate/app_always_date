@@ -1,17 +1,20 @@
 <template>
-  <div id="content">
+  <div id="content" v-if="$store.state.targetUser">
     <div id="box">
       <div>
         <div id="photo-side">
-          <img src="images/match_photo.png" id="match-photo">
+          <div id="match-photo" :style="{backgroundImage: `url(${$store.state.targetUser.avatar})`}">
+
+          </div>
+<!--          <img id="match-photo" :src="$store.state.targetUser.avatar">-->
           <div id="buttons">
             <div class="small-button">
               <span class="icon-previous"></span>
             </div>
-            <div class="large-button">
+            <div class="large-button" @click="$store.dispatch('match', { user_2: $store.state.targetUser.id, user_1_rating: false })">
               <span class="icon-refuse"></span>
             </div>
-            <div class="large-button">
+            <div class="large-button" @click="$store.dispatch('match', { user_2: $store.state.targetUser.id, user_1_rating: true })">
               <span class="icon-heart-filled"></span>
             </div>
             <div class="small-button">
@@ -23,12 +26,17 @@
       </div>
       <div id="user-data">
         <div>
-          <h1>Anna, 25</h1>
+          <h1>{{ $store.state.targetUser.firstname }} {{ $store.state.targetUser.lastname }}, {{ $store.state.targetUser.age }}</h1>
           <p>Esmu enerģētiska, patīk ceļot, ēst, sportot, klausīties mūziku un runāt ar cilvēkiem 😉</p>
         </div>
-        <UserData location="Latvia, Rīga" date="17.03.2003" star="9.9/10" exp="55/100" />
+        <UserData
+          location="Latvia, Rīga"
+          :date="$store.state.targetUser.birthday"
+          :star="$store.state.targetUser.rating"
+          :exp="$store.state.targetUser.read_school_exp"
+        />
         <h2>Par mani</h2>
-        <p>Es meklēju sev vīru kas būtu gatavs ar mani pabadīt visu atlikušo dzīvi. Man patīk gara auguma, dominējoši vīrieši.😉😉Droši sazinaties ja ir interese atrast dzīves biedru 😍</p>
+        <p>{{ $store.state.targetUser.about_me }}</p>
         <div>
           <h3>Bildes</h3>
           <UserPhotos />
@@ -41,7 +49,16 @@
 <script>
 export default {
   name: 'MeAsFavorite',
-  layout: 'NavigationLayout'
+  layout: 'NavigationLayout',
+  auth: true,
+  data () {
+    return {
+      user: this.$auth.$state.user.data
+    }
+  },
+  created () {
+    this.$store.dispatch('getRandomUser')
+  }
 }
 </script>
 
@@ -64,6 +81,8 @@ export default {
 #match-photo {
   width: 350px;
   height: 450px;
+  background-position: center;
+  background-size: 350px 450px;
 }
 
 #photo-side {

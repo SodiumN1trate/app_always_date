@@ -7,8 +7,8 @@
         </div>
         <div class="user">
           <div class="user-info">
-            <h2>Markuss Lācis</h2>
-            <p>Astrofizikas un indžinierzinātņu lauku datu interpretētājs.</p>
+            <h2>{{ user.firstname }} {{ user.lastname }}</h2>
+            <p>{{ user.about_me }}</p>
           </div>
           <div class="user-data">
             <div>
@@ -54,8 +54,10 @@
 export default {
   name: 'ProfilePage',
   layout: 'NavigationLayout',
+  auth: true,
   data () {
     return {
+      user: this.$auth.$state.user.data,
       cards: [
         {
           id: 1,

@@ -1,18 +1,18 @@
 <template>
   <div class="user-data">
-    <div>
+    <div v-if="location">
       <span class="icon-location" />
       <span>{{ location }}</span>
     </div>
-    <div>
+    <div v-if="date">
       <span class="icon-birthday" />
       <span>{{ date }}</span>
     </div>
-    <div>
+    <div v-if="star">
       <span class="icon-star" />
       <span>{{ star }}</span>
     </div>
-    <div>
+    <div v-if="exp">
       <span class="icon-book" />
       <span>{{ exp }}</span>
     </div>

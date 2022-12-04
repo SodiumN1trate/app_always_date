@@ -103,7 +103,7 @@ export default {
         endpoints: {
           login: { url: process.env.API_ADDRESS + '/callback-url', method: 'GET' },
           logout: { url: process.env.API_ADDRESS + '/logout', method: 'GET' },
-          user: false
+          user: { url: process.env.API_ADDRESS + '/me', method: 'GET', propertyName: false }
         }
       }
     }

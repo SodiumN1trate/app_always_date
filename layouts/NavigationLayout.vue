@@ -1,5 +1,6 @@
 <template>
   <div class="body-container">
+    <PopUp />
     <NavBar />
     <div id="profile-background-image"></div>
     <transition>
