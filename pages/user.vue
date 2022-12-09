@@ -8,7 +8,7 @@
         <div class="user">
           <div class="user-info">
             <div>
-              <h2>{{ user.firstname + ' ' + user.lastname }}</h2>
+              <h2>{{ user.firstname }} {{ user.lastname }}</h2>
               <button class="send-message-buttom">
                 Nosūtīt ziņu 12.00
                 <i class="icon-circle-money" />
