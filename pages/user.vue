@@ -3,21 +3,23 @@
     <div id="profile-upper">
       <div id="profile-info">
         <div class="profile-picture">
-          <img src="../static/images/ProfilePicture.png" alt="ProfilePicture">
+          <img :src="user.avatar" alt="ProfilePicture">
         </div>
         <div class="user">
           <div class="user-info">
-            <h2>Markuss Lācis</h2>
-            <p>Astrofizikas un indžinierzinātņu lauku datu interpretētājs.</p>
+            <div>
+              <h2>{{ user.firstname }} {{ user.lastname }}</h2>
+              <button class="send-message-buttom">
+                Nosūtīt ziņu 12.00
+                <i class="icon-circle-money" />
+              </button>
+            </div>
+            <p>{{ user.about_me }}</p>
           </div>
-          <UserData location="Latvia, Rīga" date="17.03.2003" star="9.9/10" exp="55/100" />
+          <userData location="Latvija, Rīga" :date="user.birthday" :star="user.rating" :exp="user.read_school_exp"/>
         </div>
         <div id="user-interactions">
           <div style="display: flex">
-            <button class="send-message-buttom">
-              Nosūtīt ziņu 12.00
-              <i class="icon-circle-money" />
-            </button>
             <MoreOptions @show-popup="showReportPopup" />
           </div>
         </div>
@@ -26,9 +28,7 @@
     <div id="profile-info-content">
       <div id="about-me">
         <h3>Par mani</h3>
-        <p>
-          Es meklēju sev brūti kas būtu gatava ar mani pabadīt visu atlikušo dzīvi. Man patīk gara auguma, dominējošas sievietes. Droši sazinaties ja ir interese atrast dzīves biedru 😍 💍
-        </p>
+        <p>{{ user.about_me }}</p>
       </div>
       <div v-show="cards.length !== 0" id="interests">
         <h3>Intereses</h3>
@@ -50,6 +50,7 @@ export default {
   data () {
     return {
       showPopup: false,
+      user: this.$auth.$state.user.data,
       cards: [
         {
           id: 1,
@@ -133,6 +134,7 @@ body {
 }
 
 #profile-info {
+  position: relative;
   display: flex;
   justify-content: center;
   gap: 2%;
@@ -140,7 +142,8 @@ body {
   border-top: solid 1px $color-grey-3;
   border-bottom: solid 1px $color-grey-3;
   width: 100%;
-  height: 120px;
+  height: fit-content;
+  padding-bottom: 10px;
 }
 
 .profile-picture > img {
@@ -159,16 +162,27 @@ body {
 }
 
 .user-info {
-  height: 80%;
+  display: flex;
+  flex-direction: column;
+  height: fit-content;
   font-family: Alata;
 }
 
-.user-info > h2 {
-  color: $color-black-1
+.user-info > div {
+  display: flex;
+  gap: 20px;
+  align-items: center;
+}
+
+.user-info > div > h2 {
+  margin: 0;
+  color: $color-black-1;
 }
 
 .user-info > p {
-  color: $color-black-2
+  margin: 0;
+  max-width: 500px;
+  color: $color-black-2;
 }
 
 #profile-info-content {
@@ -178,12 +192,16 @@ body {
 }
 
 #user-interactions {
+  position: absolute;
+  top: 10px;
+  right: 10px;
   font-family: NotoSans;
   margin-top: 0.5%;
   display: flex;
   align-items: flex-start;
   flex-direction: column;
   justify-content: right;
+  height: fit-content;
 }
 
 .send-message-buttom {
@@ -195,6 +213,8 @@ body {
   border-radius: 30px;
   padding: 7px;
   border: none;
+  white-space: nowrap;
+  height: fit-content;
 }
 
 .send-message-buttom > i {
@@ -217,9 +237,11 @@ body {
   border: solid 1px $color-grey-0;
   border-radius: 13px;
   width: 40%;
-  padding: 1%;
+  padding: 20px;
   margin-inline: auto;
-  color: #6F6F6F
+  font-family: Alata;
+  color: #6F6F6F;
+  transition: 0.2s;
 }
 #about-me > h3 {
   font-family: Alata;
@@ -238,6 +260,7 @@ body {
   margin-inline: auto;
   font-family: Alata;
   color: #6F6F6F;
+  transition: 0.2s;
 }
 
 #interests > h3 {
@@ -250,9 +273,63 @@ body {
   border: solid 1px $color-grey-0;
   border-radius: 13px;
   width: 40%;
-  padding: 1%;
+  padding: 20px;
   margin-inline: auto;
   font-family: Alata;
-  color: #6F6F6F
+  color: #6F6F6F;
+  transition: 0.2s;
+}
+
+@media only screen and (max-width: 1200px) {
+  .user-info > div {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 5px;
+  }
+  #about-me, #interests, #user-photos {
+    width: 70%;
+  }
+}
+
+@media only screen and (max-width: 880px) {
+  .user-info > div {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 5px;
+  }
+  #user-content {
+    margin-left: 0;
+    width: 100%;
+  }
+  #about-me, #interests, #user-photos {
+    width: 90%;
+  }
+}
+
+@media only screen and (max-width: 670px) {
+  .user-info > div {
+    align-items: center;
+  }
+  #profile-info {
+    flex-direction: column;
+    align-items: center;
+  }
+  .user-info {
+    align-items: center;
+  }
+  .user-info > p {
+    text-align: center;
+  }
+  .user-info > p {
+    padding-left: 20px;
+    padding-right: 20px;
+  }
+}
+
+@media only screen and (max-width: 600px) {
+  #about-me, #interests, #user-photos {
+    width: 98%;
+    padding: 10px;
+  }
 }
 </style>
