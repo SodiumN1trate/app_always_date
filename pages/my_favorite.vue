@@ -52,7 +52,6 @@ export default {
     async nextPage () {
       this.debounce = false
       const nextPage = this.currentPage + 1
-      console.log(nextPage)
       await this.$axios.get('/rated_match_user?page=' + nextPage).then((response) => {
         this.currentPage = response.data.current_page
         this.favorites = this.favorites.concat(response.data.data)

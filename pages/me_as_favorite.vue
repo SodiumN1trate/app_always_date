@@ -50,12 +50,9 @@ export default {
     async nextPage () {
       this.debounce = false
       const nextPage = this.currentPage + 1
-      console.log(nextPage)
       await this.$axios.get('/user_match_rated?page=' + nextPage).then((response) => {
         this.currentPage = response.data.current_page
-        console.log(this.currentPage)
         this.favorites = this.favorites.concat(response.data.data)
-        console.log(this.favorites)
         window.scrollTo({
           top: document.body.scrollHeight - 1000,
           behavior: 'smooth'
