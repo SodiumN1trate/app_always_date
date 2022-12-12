@@ -2,8 +2,8 @@
   <div id="profile-content">
     <div id="profile-upper">
       <div id="profile-info">
-        <div class="profile-picture">
-          <img :src="user.avatar" alt="ProfilePicture"> <!-- ../static/images/ProfilePicture.png -->
+        <div class="profile-picture"> <!-- :style="{ backgroundImage: `url(${ user.avatar })` }" -->
+          <img :src="user.avatar" alt="ProfilePicture">
         </div>
         <div class="user">
           <div class="user-info">
@@ -128,9 +128,11 @@ body {
 }
 
 .profile-picture > img {
+  object-fit: cover;
   height: 200px;
+  width: 200px;
   border: solid 6px $color-white-2;
-  border-radius: 100%;
+  border-radius: 50%;
   filter: drop-shadow(0px 15px 35px rgba(0, 0, 0, 0.1));
   margin-top: -100px;
   user-select: none;
