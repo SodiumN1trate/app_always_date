@@ -147,7 +147,9 @@ body {
 }
 
 .profile-picture > img {
+  object-fit: cover;
   height: 200px;
+  width: 200px;
   border: solid 6px $color-white-2;
   border-radius: 100%;
   filter: drop-shadow(0px 15px 35px rgba(0, 0, 0, 0.1));

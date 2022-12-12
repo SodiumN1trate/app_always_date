@@ -3,8 +3,11 @@
     <div class="box">
       <h2>Manas sakritības</h2>
       <div id="user-list-container">
-        <div v-for="(user) in favorites" :key="user.id" class="leaderboard-user">
+        <div v-for="(user) in matchedUsers" :key="user.id" class="leaderboard-user">
           <Leaderboard :prop-user="user" :show-top="false" />
+        </div>
+        <div v-if="matchedUsers.length === 0">
+          <h2 style="text-align: center">Jums nav nevienas sakritības :(</h2>
         </div>
       </div>
       <div class="load-more-content">
@@ -23,107 +26,39 @@ export default {
   layout: 'NavigationLayout',
   data () {
     return {
-      favorites: [
-        {
-          id: 0,
-          photo: '1',
-          name: 'Markuss',
-          aboutMe: 'Esmu dzīves priecīgs cilvēks, nodarbojos ar sportu un brīvaja laikā nodarbojos ar kulināriju',
-          stars: '10/10',
-          votes: '12345678',
-          exp: '100/100'
-        },
-        {
-          id: 1,
-          photo: '11',
-          name: 'Raimonda',
-          aboutMe: 'Esmu dzīves priecīgs cilvēks, nodarbojos ar sportu un brīvaja laikā nodarbojos ar kulināriju',
-          stars: '9.9/10',
-          votes: '12345678',
-          exp: '100/100'
-        },
-        {
-          id: 2,
-          photo: '2',
-          name: 'Ārvalds',
-          aboutMe: 'Esmu dzīves priecīgs cilvēks, nodarbojos ar sportu un brīvaja laikā nodarbojos ar kulināriju',
-          stars: '9.4/10',
-          votes: '12345678',
-          exp: '100/100'
-        },
-        {
-          id: 3,
-          photo: '22',
-          name: 'Krista',
-          aboutMe: 'Esmu dzīves priecīgs cilvēks, nodarbojos ar sportu un brīvaja laikā nodarbojos ar kulināriju',
-          stars: '6.0/10',
-          votes: '12345678',
-          exp: '100/100'
-        },
-        {
-          id: 4,
-          photo: '3',
-          name: 'Krišjānis',
-          aboutMe: 'Esmu dzīves priecīgs cilvēks, nodarbojos ar sportu un brīvaja laikā nodarbojos ar kulināriju',
-          stars: '5.0/10',
-          votes: '12345678',
-          exp: '100/100'
-        },
-        {
-          id: 5,
-          photo: '33',
-          name: 'Regīna',
-          aboutMe: 'Esmu dzīves priecīgs cilvēks, nodarbojos ar sportu un brīvaja laikā nodarbojos ar kulināriju',
-          stars: '4.0/10',
-          votes: '12345678',
-          exp: '100/100'
-        },
-        {
-          id: 6,
-          photo: '4',
-          name: 'Uvis',
-          aboutMe: 'Esmu dzīves priecīgs cilvēks, nodarbojos ar sportu un brīvaja laikā nodarbojos ar kulināriju',
-          stars: '4.0/10',
-          votes: '12345678',
-          exp: '100/100'
-        },
-        {
-          id: 7,
-          photo: '44',
-          name: 'Sonora',
-          aboutMe: 'Esmu dzīves priecīgs cilvēks, nodarbojos ar sportu un brīvaja laikā nodarbojos ar kulināriju',
-          stars: '4.0/10',
-          votes: '12345678',
-          exp: '100/100'
-        },
-        {
-          id: 8,
-          photo: '5',
-          name: 'Austris',
-          aboutMe: 'Esmu dzīves priecīgs cilvēks, nodarbojos ar sportu un brīvaja laikā nodarbojos ar kulināriju',
-          stars: '4.0/10',
-          votes: '12345678',
-          exp: '100/100'
-        },
-        {
-          id: 9,
-          photo: '55',
-          name: 'Sigita',
-          aboutMe: 'Esmu dzīves priecīgs cilvēks, nodarbojos ar sportu un brīvaja laikā nodarbojos ar kulināriju',
-          stars: '4.0/10',
-          votes: '12345678',
-          exp: '100/100'
-        },
-        {
-          id: 10,
-          photo: '6',
-          name: 'Tomass',
-          aboutMe: 'Esmu dzīves priecīgs cilvēks, nodarbojos ar sportu un brīvaja laikā nodarbojos ar kulināriju',
-          stars: '4.0/10',
-          votes: '12345678',
-          exp: '100/100'
-        }
-      ]
+      matchedUsers: [],
+      currentPage: null,
+      lastPage: null,
+      debounce: true
+    }
+  },
+  mounted () {
+    window.addEventListener('scroll', () => {
+      if ((window.innerHeight + window.scrollY) >= document.body.scrollHeight && this.lastPage !== this.currentPage && this.debounce) {
+        this.nextPage()
+      }
+    })
+    this.$axios.get('/is_match').then((response) => {
+      this.currentPage = response.data.meta.current_page
+      this.lastPage = response.data.meta.last_page
+      this.matchedUsers = response.data.data
+    })
+  },
+  methods: {
+    async nextPage () {
+      this.debounce = false
+      const nextPage = this.currentPage + 1
+      await this.$axios.get('/is_match?page=' + nextPage).then((response) => {
+        this.currentPage = response.data.meta.current_page
+        this.favorites = this.favorites.concat(response.data.data)
+        window.scrollTo({
+          top: document.body.scrollHeight - 1000,
+          behavior: 'smooth'
+        })
+        setTimeout(() => {
+          this.debounce = true
+        }, 1000)
+      })
     }
   }
 }
@@ -150,13 +85,14 @@ body {
 
 #user-list-container {
   display: grid;
-  grid-template-columns: auto auto;
+  grid-template-columns: repeat(auto-fit, minmax(400px, 1fr));
   gap: 10px;
   padding: 2.5%;
   margin-top: initial;
 }
 
 .leaderboard-user {
+  width: 100%;
   display: flex;
   gap: 10px;
   background-color: $color-white-2;
@@ -213,6 +149,24 @@ body {
   }
   to {
     transform: rotate(0deg);
+  }
+}
+
+@media only screen and (max-width: 780px) {
+  .box {
+    width: 90%;
+  }
+}
+
+@media only screen and (max-width: 480px) {
+  #user-list-container {
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+  }
+  .box {
+    width: 97%;
+  }
+  .box > h2 {
+    margin-left: 10px;
   }
 }
 </style>

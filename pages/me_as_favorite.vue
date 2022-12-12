@@ -6,6 +6,9 @@
         <div v-for="(user) in favorites" :key="user.id" class="leaderboard-user">
           <Leaderboard :prop-user="user" :show-top="false" />
         </div>
+        <div v-if="favorites.length === 0">
+          <h2 style="text-align: center">Jūs vēl neviens nav novērtējis :(</h2>
+        </div>
       </div>
       <div class="load-more-content">
         <div class="load-more">
@@ -23,107 +26,41 @@ export default {
   layout: 'NavigationLayout',
   data () {
     return {
-      favorites: [
-        {
-          id: 0,
-          photo: '1',
-          name: 'Markuss',
-          aboutMe: 'Esmu dzīves priecīgs cilvēks, nodarbojos ar sportu un brīvaja laikā nodarbojos ar kulināriju',
-          stars: '10/10',
-          votes: '12345678',
-          exp: '100/100'
-        },
-        {
-          id: 1,
-          photo: '11',
-          name: 'Raimonda',
-          aboutMe: 'Esmu dzīves priecīgs cilvēks, nodarbojos ar sportu un brīvaja laikā nodarbojos ar kulināriju',
-          stars: '9.9/10',
-          votes: '12345678',
-          exp: '100/100'
-        },
-        {
-          id: 2,
-          photo: '2',
-          name: 'Ārvalds',
-          aboutMe: 'Esmu dzīves priecīgs cilvēks, nodarbojos ar sportu un brīvaja laikā nodarbojos ar kulināriju',
-          stars: '9.4/10',
-          votes: '12345678',
-          exp: '100/100'
-        },
-        {
-          id: 3,
-          photo: '22',
-          name: 'Krista',
-          aboutMe: 'Esmu dzīves priecīgs cilvēks, nodarbojos ar sportu un brīvaja laikā nodarbojos ar kulināriju',
-          stars: '6.0/10',
-          votes: '12345678',
-          exp: '100/100'
-        },
-        {
-          id: 4,
-          photo: '3',
-          name: 'Krišjānis',
-          aboutMe: 'Esmu dzīves priecīgs cilvēks, nodarbojos ar sportu un brīvaja laikā nodarbojos ar kulināriju',
-          stars: '5.0/10',
-          votes: '12345678',
-          exp: '100/100'
-        },
-        {
-          id: 5,
-          photo: '33',
-          name: 'Regīna',
-          aboutMe: 'Esmu dzīves priecīgs cilvēks, nodarbojos ar sportu un brīvaja laikā nodarbojos ar kulināriju',
-          stars: '4.0/10',
-          votes: '12345678',
-          exp: '100/100'
-        },
-        {
-          id: 6,
-          photo: '4',
-          name: 'Uvis',
-          aboutMe: 'Esmu dzīves priecīgs cilvēks, nodarbojos ar sportu un brīvaja laikā nodarbojos ar kulināriju',
-          stars: '4.0/10',
-          votes: '12345678',
-          exp: '100/100'
-        },
-        {
-          id: 7,
-          photo: '44',
-          name: 'Sonora',
-          aboutMe: 'Esmu dzīves priecīgs cilvēks, nodarbojos ar sportu un brīvaja laikā nodarbojos ar kulināriju',
-          stars: '4.0/10',
-          votes: '12345678',
-          exp: '100/100'
-        },
-        {
-          id: 8,
-          photo: '5',
-          name: 'Austris',
-          aboutMe: 'Esmu dzīves priecīgs cilvēks, nodarbojos ar sportu un brīvaja laikā nodarbojos ar kulināriju',
-          stars: '4.0/10',
-          votes: '12345678',
-          exp: '100/100'
-        },
-        {
-          id: 9,
-          photo: '55',
-          name: 'Sigita',
-          aboutMe: 'Esmu dzīves priecīgs cilvēks, nodarbojos ar sportu un brīvaja laikā nodarbojos ar kulināriju',
-          stars: '4.0/10',
-          votes: '12345678',
-          exp: '100/100'
-        },
-        {
-          id: 10,
-          photo: '6',
-          name: 'Tomass',
-          aboutMe: 'Esmu dzīves priecīgs cilvēks, nodarbojos ar sportu un brīvaja laikā nodarbojos ar kulināriju',
-          stars: '4.0/10',
-          votes: '12345678',
-          exp: '100/100'
-        }
-      ]
+      favorites: [],
+      currentPage: null,
+      lastPage: null,
+      debounce: true
+    }
+  },
+  mounted () {
+    window.addEventListener('scroll', () => {
+      if ((window.innerHeight + window.scrollY) >= document.body.scrollHeight && this.lastPage !== this.currentPage && this.debounce) {
+        this.nextPage()
+      }
+    })
+    this.$axios.get('/user_match_rated').then((response) => {
+      this.currentPage = response.data.current_page
+      this.lastPage = response.data.last_page
+      this.favorites = response.data.data
+    }).catch((e) => {
+      console.log(e)
+    })
+  },
+  methods: {
+    async nextPage () {
+      this.debounce = false
+      const nextPage = this.currentPage + 1
+      await this.$axios.get('/user_match_rated?page=' + nextPage).then((response) => {
+        this.currentPage = response.data.current_page
+        this.favorites = this.favorites.concat(response.data.data)
+        window.scrollTo({
+          top: document.body.scrollHeight - 1000,
+          behavior: 'smooth'
+        })
+        setTimeout(() => {
+          this.debounce = true
+        }, 1000)
+      })
     }
   }
 }
@@ -157,6 +94,7 @@ body {
 }
 
 .leaderboard-user {
+  width: 100%;
   display: flex;
   gap: 10px;
   background-color: $color-white-2;

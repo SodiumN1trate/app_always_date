@@ -1,24 +1,24 @@
 <template>
   <div class="user-list-container">
-    <img class="profile-image" :class="{ 'topUsers': showTop }" :src="`../images/${user.photo}.png`">
+    <img class="profile-image" :class="{ 'topUsers': showTop }" :src="user.avatar">
     <div class="user-info">
       <div class="user-data">
-        <h3>{{ user.name }}</h3>
-        <p>{{ user.aboutMe }}</p>
+        <h3>{{ user.firstname }} {{ user.lastname }}</h3>
+        <p>{{ user.about_me }}</p>
       </div>
       <div class="statistic">
         <div class="stars" @mouseover="isHover = true" @mouseleave="isHover = false">
           <img style="user-select: none" src="../static/svg/Star.svg">
-          <p>{{ user.stars }}</p>
+          <p>{{ user.rating }}</p>
           <transition name="vote">
             <div v-show="isHover" ref="userVotes" class="vote-hover">
-              <p>{{ `${user.votes} vētējumi` }}</p>
+              <p>{{ `${user.rate_count} vērtējumi` }}</p>
             </div>
           </transition>
         </div>
         <div class="experience">
           <img style="user-select: none" src="../static/svg/Book.svg">
-          <p>{{ user.exp }}</p>
+          <p>{{ user.read_school_exp }}</p>
         </div>
       </div>
     </div>
@@ -48,8 +48,10 @@ export default {
 }
 
 .profile-image {
+  object-fit: cover;
   border-radius:100%;
   height: 110px;
+  width: 110px;
   margin-left: 5px;
   //background-image: conic-gradient(from 0deg at 50% 50%, #7C8EB0, #E9BAFF, #7C8EB0);
   box-shadow: 0px 4px 17px rgba(0, 0, 0, 0.1);
