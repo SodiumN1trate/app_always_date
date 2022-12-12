@@ -7,7 +7,7 @@
         <div>
           <p class="user-name">{{ users[1].firstname }} {{ users[1].age }}</p>
           <h3>{{ users[1].rating }} no 10</h3>
-          <p class="rating-count">{{ users[1].rate_count }} Vērtējumi</p>
+          <p class="rating-count">{{ users[1].rate_count }} vērtējumi</p>
         </div>
       </div>
     </div>
@@ -18,7 +18,7 @@
         <div>
           <p class="user-name">{{ users[0].firstname }} {{ users[0].age }}</p>
           <h3>{{ users[0].rating }} no 10</h3>
-          <p class="rating-count">{{ users[0].rate_count }} Vērtējumi</p>
+          <p class="rating-count">{{ users[0].rate_count }} vērtējumi</p>
         </div>
       </div>
     </div>
@@ -29,7 +29,7 @@
         <div>
           <p class="user-name">{{ users[2].firstname }} {{ users[2].age }}</p>
           <h3>{{ users[2].rating }} no 10</h3>
-          <p class="rating-count">{{ users[2].rate_count }} Vērtējumi</p>
+          <p class="rating-count">{{ users[2].rate_count }} vērtējumi</p>
         </div>
       </div>
     </div>
