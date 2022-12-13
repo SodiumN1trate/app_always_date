@@ -35,6 +35,7 @@
 export default {
   name: 'ProfilePage',
   layout: 'NavigationLayout',
+  auth: true,
   data () {
     return {
       user: this.$auth.$state.user.data,
