@@ -11,10 +11,10 @@
             <div class="small-button">
               <span class="icon-previous"></span>
             </div>
-            <div class="large-button" @click="$store.dispatch('match', { user_2: $store.state.targetUser.id, user_1_rating: false })">
+            <div class="large-button" @click="$store.dispatch('match', { user_2: $store.state.targetUser.id, user_1_rating: false , filter: filter})">
               <span class="icon-refuse"></span>
             </div>
-            <div class="large-button" @click="$store.dispatch('match', { user_2: $store.state.targetUser.id, user_1_rating: true })">
+            <div class="large-button" @click="$store.dispatch('match', { user_2: $store.state.targetUser.id, user_1_rating: true, filter: filter })">
               <span class="icon-heart-filled"></span>
             </div>
             <div class="small-button">
@@ -22,7 +22,7 @@
             </div>
           </div>
         </div>
-        <UserFiltration />
+        <UserFiltration @filter-submit="filterSubmit" />
       </div>
       <div id="user-data">
         <div>
@@ -53,11 +53,30 @@ export default {
   auth: true,
   data () {
     return {
-      user: this.$auth.$state.user.data
+      user: this.$auth.$state.user.data,
+      filter: null
     }
   },
   created () {
-    this.$store.dispatch('getRandomUser')
+    this.$store.dispatch('getRandomUser', this.filter)
+  },
+  methods: {
+    filterSubmit (form) {
+      try {
+        this.filter = form
+        this.$store.dispatch('getRandomUser', this.filter)
+        this.$store.commit('setPopup', {
+          type: 'success',
+          text: 'Filtrs uzlikts!'
+        })
+      } catch (e) {
+        this.$store.commit('setPopup', {
+          type: 'danger',
+          text: 'Nav tādu lietotāju!'
+        })
+        this.filter = null
+      }
+    }
   }
 }
 </script>
@@ -105,6 +124,7 @@ export default {
   align-items: center;
   width: 80px;
   height: 80px;
+  cursor: pointer;
 }
 
 .small-button {
@@ -115,6 +135,7 @@ export default {
   align-items: center;
   width: 65px;
   height: 65px;
+  cursor: pointer;
 }
 
 .icon-heart-filled {

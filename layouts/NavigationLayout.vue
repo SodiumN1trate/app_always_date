@@ -1,6 +1,14 @@
 <template>
   <div class="body-container">
-    <PopUp />
+    <div class="popups">
+      <PopUp
+        v-for="(pop, index) in $store.state.popups"
+        :key="index"
+        :popupType="pop.popupType"
+        :popupText="pop.popupText"
+        :popupShowTime="pop.popupShowTime + index / 2"
+      />
+    </div>
     <NavBar />
     <div id="profile-background-image"></div>
     <transition>
@@ -33,6 +41,21 @@ body, html {
   width: 100%;
   position: absolute;
   z-index: -2;
+}
+
+.popups {
+  display: flex;
+  flex-direction: column;
+  position: absolute;
+  top: 20px;
+  left: 0;
+  right: 0;
+  margin-left: auto;
+  margin-right: auto;
+  gap: 10px;
+  z-index: 20;
+  justify-content: center;
+  align-items: center;
 }
 
 .page-enter-active,
