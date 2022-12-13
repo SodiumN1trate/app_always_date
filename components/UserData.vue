@@ -39,6 +39,7 @@ export default {
   display: flex;
   align-items: center;
   flex-wrap: wrap;
+  white-space: nowrap;
   justify-content: center;
   gap: 5px;
   font-family: Alata;

@@ -1,35 +1,35 @@
 <template>
-  <div class="pedestals">
-    <div class="pedestal-container">
+  <div v-if="users.length > 0" class="pedestals">
+    <div v-if="users[1]" class="pedestal-container">
       <img class="pedestal" src="../static/svg/SecondPlacePedestal.svg">
       <div class="pedestal-user-data">
-        <img :src="`../images/${users[1].photo}.png`">
+        <img :src="users[1].avatar">
         <div>
-          <p class="user-name">{{ `${users[1].name}, 21` }}</p>
-          <h3>{{ users[1].stars }}</h3>
-          <p class="rating-count">371289 vērtējumi</p>
+          <p class="user-name">{{ users[1].firstname }} {{ users[1].age }}</p>
+          <h3>{{ users[1].rating }} no 10</h3>
+          <p class="rating-count">{{ users[1].rate_count }} vērtējumi</p>
         </div>
       </div>
     </div>
-    <div class="pedestal-container">
+    <div v-if="users[0]" class="pedestal-container">
       <img class="pedestal" style="margin-top: -45px" src="../static/svg/FirstPlacePedestal.svg">
       <div class="pedestal-user-data" style="margin-top: -46px;">
-        <img style="width: 150px;" :src="`../images/${users[0].photo}.png`">
+        <img :src="users[0].avatar">
         <div>
-          <p class="user-name">{{ `${users[0].name}, 25` }}</p>
-          <h3>{{ users[0].stars }}</h3>
-          <p class="rating-count">371289 vērtējumi</p>
+          <p class="user-name">{{ users[0].firstname }} {{ users[0].age }}</p>
+          <h3>{{ users[0].rating }} no 10</h3>
+          <p class="rating-count">{{ users[0].rate_count }} vērtējumi</p>
         </div>
       </div>
     </div>
-    <div class="pedestal-container">
+    <div v-if="users[2]" class="pedestal-container">
       <img class="pedestal" src="../static/svg/ThirdPlacePedestal.svg">
       <div class="pedestal-user-data">
-        <img :src="`../images/${users[2].photo}.png`">
+        <img :src="users[2].avatar">
         <div>
-          <p class="user-name">{{ `${users[2].name}, 30` }}</p>
-          <h3>{{ users[2].stars }}</h3>
-          <p class="rating-count">371289 vērtējumi</p>
+          <p class="user-name">{{ users[2].firstname }} {{ users[2].age }}</p>
+          <h3>{{ users[2].rating }} no 10</h3>
+          <p class="rating-count">{{ users[2].rate_count }} vērtējumi</p>
         </div>
       </div>
     </div>
@@ -95,7 +95,9 @@ body {
 }
 
 .pedestal-user-data > img {
+  object-fit: cover;
   width: 140px;
+  height: 140px;
   border-radius: 100%;
 }
 

@@ -8,8 +8,11 @@
       <div class="top-users">
         <div>
           <div id="user-list-container">
-            <div v-for="(user) in topUsers" :key="user.id" class="leaderboard-user">
+            <div v-for="(user, index) in topUsers" :key="index" class="leaderboard-user">
               <Leaderboard :prop-user="user" :show-top="false" />
+            </div>
+            <div v-if="top3.length === 0">
+              <h2 style="text-align: center">Vēl neviens lietotajs nav novērtējis nevienu lietotāju :(</h2>
             </div>
           </div>
           <div class="load-more-content">
@@ -31,115 +34,45 @@ export default {
   data () {
     return {
       top3: [],
-      topUsers: [
-        {
-          id: 0,
-          photo: '1',
-          name: 'Markuss',
-          aboutMe: 'Esmu dzīves priecīgs cilvēks, nodarbojos ar sportu un brīvaja laikā nodarbojos ar kulināriju',
-          stars: '10/10',
-          votes: '12345678',
-          exp: '100/100'
-        },
-        {
-          id: 1,
-          photo: '11',
-          name: 'Raimonda',
-          aboutMe: 'Esmu dzīves priecīgs cilvēks, nodarbojos ar sportu un brīvaja laikā nodarbojos ar kulināriju',
-          stars: '9.9/10',
-          votes: '12345678',
-          exp: '100/100'
-        },
-        {
-          id: 2,
-          photo: '2',
-          name: 'Ārvalds',
-          aboutMe: 'Esmu dzīves priecīgs cilvēks, nodarbojos ar sportu un brīvaja laikā nodarbojos ar kulināriju',
-          stars: '9.4/10',
-          votes: '12345678',
-          exp: '100/100'
-        },
-        {
-          id: 3,
-          photo: '22',
-          name: 'Krista',
-          aboutMe: 'Esmu dzīves priecīgs cilvēks, nodarbojos ar sportu un brīvaja laikā nodarbojos ar kulināriju',
-          stars: '6.0/10',
-          votes: '12345678',
-          exp: '100/100'
-        },
-        {
-          id: 4,
-          photo: '3',
-          name: 'Krišjānis',
-          aboutMe: 'Esmu dzīves priecīgs cilvēks, nodarbojos ar sportu un brīvaja laikā nodarbojos ar kulināriju',
-          stars: '5.0/10',
-          votes: '12345678',
-          exp: '100/100'
-        },
-        {
-          id: 5,
-          photo: '33',
-          name: 'Regīna',
-          aboutMe: 'Esmu dzīves priecīgs cilvēks, nodarbojos ar sportu un brīvaja laikā nodarbojos ar kulināriju',
-          stars: '4.0/10',
-          votes: '12345678',
-          exp: '100/100'
-        },
-        {
-          id: 6,
-          photo: '4',
-          name: 'Uvis',
-          aboutMe: 'Esmu dzīves priecīgs cilvēks, nodarbojos ar sportu un brīvaja laikā nodarbojos ar kulināriju',
-          stars: '4.0/10',
-          votes: '12345678',
-          exp: '100/100'
-        },
-        {
-          id: 7,
-          photo: '44',
-          name: 'Sonora',
-          aboutMe: 'Esmu dzīves priecīgs cilvēks, nodarbojos ar sportu un brīvaja laikā nodarbojos ar kulināriju',
-          stars: '4.0/10',
-          votes: '12345678',
-          exp: '100/100'
-        },
-        {
-          id: 8,
-          photo: '5',
-          name: 'Austris',
-          aboutMe: 'Esmu dzīves priecīgs cilvēks, nodarbojos ar sportu un brīvaja laikā nodarbojos ar kulināriju',
-          stars: '4.0/10',
-          votes: '12345678',
-          exp: '100/100'
-        },
-        {
-          id: 9,
-          photo: '55',
-          name: 'Sigita',
-          aboutMe: 'Esmu dzīves priecīgs cilvēks, nodarbojos ar sportu un brīvaja laikā nodarbojos ar kulināriju',
-          stars: '4.0/10',
-          votes: '12345678',
-          exp: '100/100'
-        },
-        {
-          id: 10,
-          photo: '6',
-          name: 'Tomass',
-          aboutMe: 'Esmu dzīves priecīgs cilvēks, nodarbojos ar sportu un brīvaja laikā nodarbojos ar kulināriju',
-          stars: '4.0/10',
-          votes: '12345678',
-          exp: '100/100'
-        }
-      ]
+      topUsers: [],
+      currentPage: null,
+      lastPage: null,
+      debounce: true,
+      isUsersNotExist: false
     }
   },
-  beforeMount () {
-    this.topUsers.slice(0, 3).filter((user) => {
-      this.top3.push(user)
-      this.topUsers.shift()
-      return 0
+  mounted () {
+    window.addEventListener('scroll', () => {
+      if ((window.innerHeight + window.scrollY) >= document.body.scrollHeight && this.lastPage !== this.currentPage && this.debounce) {
+        this.nextPage()
+      }
     })
+  },
+  beforeMount () {
+    this.$axios.get('/leaderboard').then((response) => {
+      this.currentPage = response.data.meta.current_page
+      this.lastPage = response.data.meta.last_page
+      this.topUsers = response.data.data
+      this.top3 = this.topUsers.slice(0, 3)
+      this.topUsers.splice(0, 3)
+    })
+  },
+  methods: {
+    async nextPage () {
+      this.debounce = false
+      const nextPage = this.currentPage + 1
+      await this.$axios.get('/leaderboard?page=' + nextPage).then((response) => {
+        this.currentPage = response.data.meta.current_page
+        this.topUsers = this.topUsers.concat(response.data.data)
+        window.scrollTo({
+          top: document.body.scrollHeight - 1000,
+          behavior: 'smooth'
+        })
+        setTimeout(() => {
+          this.debounce = true
+        }, 1000)
+      })
+    }
   }
 }
 </script>
@@ -186,6 +119,7 @@ export default {
 }
 
 .leaderboard-user {
+  width: 100%;
   display: flex;
   gap: 10px;
   background-color: $color-white-2;
