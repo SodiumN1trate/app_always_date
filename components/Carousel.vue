@@ -1,169 +1,131 @@
 <template>
-  <div class="container">
-    <i class="icon-arrow-down left-arrow-button" @click="previous" />
-    <div ref="carousel" class="carousel" @mousedown="mouseDownOnScroller" @touchstart="touchDownOnScroller">
-      <div
-        v-for="card in cards"
-        :key="card.id"
-        :ref="`card-${card.id}`"
-        class="interest-card carousel-child"
-      >
+  <div class="carousel-container">
+    <VueSlickCarousel
+      class="vue-slick"
+      v-bind="settings"
+    >
+      <div v-for="card in cards" :key="card.id" class="card">
         <img :src="`../images/${card.photo}`">
         <p>{{ card.text }}</p>
       </div>
-    </div>
-    <i class="icon-arrow-down right-arrow-button" @click="next" />
+      <template #prevArrow="arrowOption">
+        <div class="prev-arrow"></div>
+        {{ arrowOption.currentSlide }}/{{ arrowOption.slideCount }}
+      </template>
+      <template #nextArrow="arrowOption">
+        <span class="next-arrow">
+          {{ arrowOption.currentSlide }}/{{ arrowOption.slideCount }}
+        </span>
+      </template>
+    </VueSlickCarousel>
   </div>
 </template>
 
 <script>
+import VueSlickCarousel from 'vue-slick-carousel'
+import 'vue-slick-carousel/dist/vue-slick-carousel.css'
+
+import 'vue-slick-carousel/dist/vue-slick-carousel-theme.css'
 
 export default {
-  name: 'CarouselContainer',
-  props: {
-    cards: {
-      type: Array,
-      default: () => { return [] }
-    }
-  },
+  name: 'CarouselComponent',
+  components: { VueSlickCarousel },
+  props: ['cards'],
   data () {
     return {
-      currentCard: -1,
-      offsets: [],
-      mousePos: { top: 0, left: 0, x: 0, y: 0 }
+      settings: {
+        arrows: true,
+        dots: true,
+        infinite: true,
+        swipeToSlide: true,
+        slidesToShow: 5,
+        autoplay: true,
+        autoplaySpeed: 5000,
+        pauseOnDotsHover: true,
+        pauseOnFocus: true,
+        pauseOnHover: true
+      }
     }
   },
   mounted () {
-    this.$nextTick(() => {
-      this.calcOffsetTable()
-      this.carouselCycle()
+    window.addEventListener('resize', (e) => {
+      console.log(e.target.innerWidth)
+      if (e.target.innerWidth > 1650) {
+        this.settings.slidesToShow = 5
+        console.log('a')
+      } else if (e.target.innerWidth > 1200) {
+        this.settings.slidesToShow = 3
+      } else if (e.target.innerWidth > 880) {
+        this.settings.slidesToShow = 4
+      } else if (e.target.innerWidth > 670) {
+        this.settings.slidesToShow = 4
+      } else if (e.target.innerWidth > 600) {
+        this.settings.slidesToShow = 4
+      } else {
+        this.settings.slidesToShow = 3
+      }
     })
-  },
-
-  methods: {
-    carouselCycle () {
-      setInterval(this.next(), 10000)
-    },
-    calcOffsetTable () {
-      let off = 0
-      this.offsets = []
-      for (let i = 0; i < this.$props.cards.length; i++) {
-        const card = this.$refs[`card-${this.$props.cards[i].id}`][0]
-        this.offsets.push(off)
-        off += card.offsetWidth
-      }
-    },
-    touchDownOnScroller (e) {
-      e.preventDefault()
-      this.mouseDownOnScroller(e.touches[0])
-    },
-    touchMoveHandler (e) {
-      e.preventDefault()
-      this.mouseMoveHandler(e.touches[0])
-    },
-    mouseDownOnScroller (client) {
-      const el = this.$refs.carousel
-      this.mousePos = {
-        left: el.scrollLeft,
-        top: el.scrollTop,
-        x: client.clientX,
-        y: client.clientY
-      }
-      el.style.cursor = 'grabbing'
-      document.addEventListener('mousemove', this.mouseMoveHandler)
-      document.addEventListener('touchmove', this.touchMoveHandler, { passive: false })
-      document.addEventListener('mouseup', this.mouseUpHandler)
-      document.addEventListener('touchend', this.mouseUpHandler, { passive: false })
-    },
-    mouseMoveHandler (client) {
-      const dx = client.clientX - this.mousePos.x
-      const dy = client.clientY - this.mousePos.y
-      const el = this.$refs.carousel
-      el.scrollTop = this.mousePos.top - dy
-      el.scrollLeft = this.mousePos.left - dx
-    },
-    mouseUpHandler () {
-      document.removeEventListener('mousemove', this.mouseMoveHandler)
-      document.removeEventListener('touchmove', this.touchMoveHandler)
-      document.removeEventListener('mouseup', this.mouseUpHandler)
-      document.removeEventListener('touchend', this.mouseUpHandler)
-      const el = this.$refs.carousel
-      el.style.cursor = 'grab'
-      this.currentCard = Math.round(el.scrollLeft / Math.floor(el.scrollWidth / this.offsets.length))
-      this.$refs.carousel.scrollTo({ top: 0, left: this.offsets[this.currentCard], behavior: 'smooth' })
-    },
-    next () {
-      this.to(++this.currentCard)
-    },
-    previous () {
-      this.to(--this.currentCard)
-    },
-    to (card) {
-      if (card >= this.$props.cards.length) {
-        card = 0
-      } else if (card < 0) {
-        card = this.$props.cards.length - 1
-      }
-      this.$refs.carousel.scrollTo({ top: 0, left: this.offsets[card], behavior: 'smooth' })
-      this.currentCard = card
-    }
   }
 }
 </script>
 
 <style scoped>
-.container {
-  display: flex;
-  justify-content: center;
-  width: 100%;
-}
-.carousel {
-  overflow: hidden;
-  justify-content: flex-start;
-  display: flex;
-  flex-direction: row;
-  flex-grow: 1;
-}
 
-.carousel-child {
-  scroll-snap-align: start;
+.card {
   user-select: none;
-}
-
-.carousel-child > * {
   pointer-events: none;
+  border: none;
+  outline: none;
+  background-color: transparent;
 }
 
-.interest-card {
-  flex: 0 0 120px;
+.card > img {
+  object-fit: cover;
+  border-radius: 50%;
+  margin-inline: auto;
+}
+
+.card > p {
+  margin: 0;
   text-align: center;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  gap: 5px
 }
 
-.interest-card > p {
-  font-size: 14px;
+.prev-arrow, .next-arrow {
+  filter: invert(42%) sepia(0%) saturate(50%) hue-rotate(87deg) brightness(119%) contrast(119%);
+  width: 32px;
+  height: 32px;
+  transition: 0.1s;
 }
 
-.interest-card > img {
-  border-radius: 100%;
-  width: 100px;
+.prev-arrow:active, .next-arrow:active {
+  filter: invert(70%) sepia(0%) saturate(20%) hue-rotate(87deg) brightness(119%) contrast(119%);
 }
 
-.icon-arrow-down {
+.prev-arrow {
+  top: 60px;
+  left: -40px;
+}
+
+.next-arrow {
+  top: 60px;
+  right: -40px;
+}
+
+.prev-arrow::before {
   font-size: 32px;
-  cursor: pointer;
-  width: 40px;
-  margin: 32px 0px;
 }
 
-.left-arrow-button::before {
-  transform: rotate(90deg);
+.next-arrow::before {
+  font-size: 32px;
 }
 
-.right-arrow-button::before {
-  transform: rotate(-90deg);
+@media only screen and (max-width: 670px) {
+  .prev-arrow, .next-arrow {
+    display: none;
+  }
+  .carousel-container {
+    padding-bottom: 25px;
+  }
+
 }
 </style>
