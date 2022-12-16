@@ -25,6 +25,9 @@ export default {
       isDateFocus: false
     }
   },
+  updated () {
+    this.$emit('input', this.content)
+  },
   methods: {
     changeDateBorder () {
       this.isDateFocus && this.$nextTick(() => {
