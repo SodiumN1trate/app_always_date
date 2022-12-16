@@ -55,6 +55,7 @@ export default {
       }
 
       this.fill()
+      this.$emit('input', { min: this.from, max: this.to })
     },
     fill () {
       const rangeDistance = this.max - this.min

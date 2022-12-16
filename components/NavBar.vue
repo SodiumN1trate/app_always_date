@@ -71,7 +71,7 @@ export default {
           link: '/match'
         },
         {
-          title: 'Mans reitins',
+          title: 'Mans reitings',
           icon: 'flame',
           link: '/profile'
         }

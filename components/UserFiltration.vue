@@ -7,10 +7,11 @@
         <InfoPopup info="Izmanto šo funkciju, lai atrastu sev piemērotu cilvēku" size="20" />
       </div>
       <div id="filtration-sliders">
-        <DualRangeSlider :min="18" :max="100" title="Vecums" />
-        <DualRangeSlider :min="0" :max="10" title="Reiting" />
-        <DualRangeSlider :min="0" :max="100" title="Apgūtie dzīves padomi" />
+        <DualRangeSlider v-model="form.age" :max="100" :min="18" title="Vecums" />
+        <DualRangeSlider v-model="form.rating" :max="10" :min="1" title="Reiting" />
+        <DualRangeSlider v-model="form.schoolExp" :max="100" :min="1" title="Apgūtie dzīves padomi" />
       </div>
+      <button @click="$emit('filter-submit', form)">Filtrēt</button>
     </div>
   </div>
 </template>
@@ -20,7 +21,12 @@ export default {
   name: 'UserFiltration',
   data () {
     return {
-      show: true
+      show: true,
+      form: {
+        age: { min: 18, max: 100 },
+        rating: { min: 0, max: 10 },
+        schoolExp: { min: 0, max: 100 }
+      }
     }
   }
 }
@@ -56,6 +62,22 @@ export default {
   font-size: 40px;
   cursor: pointer;
   color: #A3A3A3;
+}
+
+button {
+  cursor: pointer;
+  border: 1.89px solid #FFCBCB;
+  border-radius: 5.67px;
+  font-style: normal;
+  font-weight: 500;
+  font-size: 15.12px;
+  line-height: 21px;
+  display: flex;
+  align-items: center;
+  text-align: center;
+  background-color: transparent;
+  color: #FFBBBB;
+  margin-top: 20px;
 }
 
 @media only screen and (max-width: 1000px) {
