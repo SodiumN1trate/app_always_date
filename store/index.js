@@ -19,6 +19,7 @@ export const mutations = {
   setPopup (state, popup) {
     state.popups.push({
       popupText: popup.text,
+      // popupType: success || danger
       popupType: popup.type,
       popupShowTime: popup.seconds || 2
     })

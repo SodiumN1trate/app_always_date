@@ -19,7 +19,7 @@ export default {
 }
 </script>
 
-<style lang="scss">
+<style lang="scss" scoped>
 @use 'assets/sass/abstract' as *;
 
 .textarea-color-pink {

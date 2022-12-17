@@ -1,5 +1,14 @@
 <template>
   <div class="register-background">
+    <div class="popups">
+      <PopUp
+        v-for="(pop, index) in $store.state.popups"
+        :key="index"
+        :popupType="pop.popupType"
+        :popupText="pop.popupText"
+        :popupShowTime="pop.popupShowTime + index / 2"
+      />
+    </div>
     <div class="register-logo-container">
       <img class="register-logo" src="../static/images/RegisterLogo.png" alt="MainLogo">
     </div>
@@ -52,9 +61,11 @@ export default {
     }
   },
   mounted () {
+    document.body.style.backgroundImage = "url('images/RegisterPageBackground.png')"
     this.userData.firstname = this.user.firstname
     this.userData.lastname = this.user.lastname
     console.log(this.user)
+    console.log(this.userData)
   },
   methods: {
     async registerUser () {
@@ -78,25 +89,43 @@ export default {
           window.location.href = '/profile'
         }, 1000)
       }).catch((e) => {
-        console.log(e.response.data)
+        let errorText = 'Lauki'
+        for (const error in e.response.data.errors) {
+          errorText += ' ' + error
+        }
+        errorText += ' nav aizpildīti!'
+        console.log(errorText)
+        this.$store.commit('setPopup', {
+          text: errorText,
+          type: 'danger',
+          seconds: 10
+        })
       })
     }
   }
 }
 </script>
 
-<style lang="scss">
+<style lang="scss" scoped>
 @use 'assets/sass/abstract' as *;
-body {
-  background-image: url("static/images/RegisterPageBackground.png");
+
+.popups {
+  display: flex;
+  flex-direction: column;
+  position: absolute;
+  top: 20px;
+  left: 0;
+  right: 0;
+  margin-left: auto;
+  margin-right: auto;
+  gap: 10px;
+  z-index: 20;
+  justify-content: center;
+  align-items: center;
 }
 
 body::-webkit-scrollbar {
   display: none;
-}
-
-html {
-  scrollbar-width: none
 }
 
 .register-logo-container {
@@ -106,7 +135,6 @@ html {
     user-select: none;
   }
 }
-
 .register-form {
   h2 {
     color: $color-pink-2;

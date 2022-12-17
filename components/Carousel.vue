@@ -43,7 +43,8 @@ export default {
         autoplaySpeed: 5000,
         pauseOnDotsHover: true,
         pauseOnFocus: true,
-        pauseOnHover: true
+        pauseOnHover: true,
+        speed: 200
       }
     }
   },
