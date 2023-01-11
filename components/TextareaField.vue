@@ -8,11 +8,9 @@ export default {
   props: ['placeholder', 'color'],
   methods: {
     checkColorPink (color) {
-      console.log(color === 'pink')
       return color === 'pink'
     },
     checkColorGrey (color) {
-      console.log(color === 'grey')
       return color === 'grey'
     }
   }

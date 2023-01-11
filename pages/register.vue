@@ -67,7 +67,6 @@ export default {
   },
   methods: {
     async registerUser () {
-      console.log(this.userData.gender)
       if (this.userData.gender === 'Sieviete') {
         this.userData.gender = 0
       } else if (this.userData.gender === 'Vīrietis') {
