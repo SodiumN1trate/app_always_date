@@ -14,7 +14,7 @@
           <button>Paziņojumi</button>
         </div>
       </div>
-      <form class="settings-sections">
+      <form class="settings-sections" @submit.prevent>
         <div class="settings-sections-basic-info">
           <div class="settings-sections-profile-picture">
             <label v-show="mobileUpload" class="upload-image mobile-upload">
@@ -38,21 +38,21 @@
             <div class="settings-sections-full-name">
               <div>
                 <h5>Vārds</h5>
-                <InputField class="settings-sections-first-name" placeholder="Vārds" color="grey" />
+                <InputField v-model="userData.firstname" class="settings-sections-first-name" placeholder="Vārds" color="grey" />
               </div>
               <div>
                 <h5>Uzvārds</h5>
-                <InputField class="settings-sections-last-name" placeholder="Uzvārds" color="grey" />
+                <InputField v-model="userData.lastname" class="settings-sections-last-name" placeholder="Uzvārds" color="grey" />
               </div>
             </div>
             <div>
               <div class="settings-section-gender-select">
-                <h5>Dzimšanas datums</h5>
-                <SelectInput class="settings-select-gender" placeholder="Dzimums" :options="['Vīrietis','Sieviete']" color="grey" />
+                <h5>Dzimums</h5>
+                <SelectInput v-model="userData.gender" class="settings-select-gender" placeholder="Dzimums" :options="['Vīrietis','Sieviete']" color="grey" />
               </div>
               <div>
                 <h5>Dzimšanas datums</h5>
-                <SelectDate class="settings-sections-date" color="grey" />
+                <SelectDate v-model="userData.birthday" class="settings-sections-date" color="grey" />
               </div>
             </div>
           </div>
@@ -63,17 +63,13 @@
             <SelectInput class="select-input-region" placeholder="Reģions" :options="['Rīga, centrs', 'Jelgava', 'Bauska', 'Daugavpils']" color="grey" />
           </div>
           <div>
-            <h5>Kas es esmu</h5>
-            <TextareaField class="text-area" placeholder="Īss apraksts par mani" color="grey" />
-          </div>
-          <div>
             <h5>Par mani</h5>
-            <TextareaField class="text-area" placeholder="Par mani" color="grey" />
+            <TextareaField v-model="userData.about_me" class="text-area" placeholder="Par mani" color="grey" />
           </div>
         </div>
         <div class="settings-form-buttons">
           <button class="setting-cancel-button">Atsaukt</button>
-          <button class="setting-save-button">Saglabāt</button>
+          <button class="setting-save-button" @click="updateUser()">Saglabāt</button>
         </div>
       </form>
     </div>
@@ -90,6 +86,15 @@ export default {
       dropZoneColor: null,
       displayDropZone: true,
       mobileUpload: true,
+      user: this.$auth.state.user.data,
+      userData: {
+        firstname: null,
+        lastname: null,
+        birthday: null,
+        language: null,
+        gender: null,
+        about_me: null
+      },
       infoModal: {
         showModal: false,
         title: '',
@@ -100,6 +105,13 @@ export default {
         image: null
       }
     }
+  },
+  mounted () {
+    this.userData.firstname = this.user.firstname
+    this.userData.lastname = this.user.lastname
+    this.userData.birthday = this.user.birthday
+    this.userData.language = this.user.language
+    this.userData.gender = this.user.gender
   },
   methods: {
     uploadImage (e) {
@@ -119,7 +131,7 @@ export default {
       const reader = new FileReader()
       reader.readAsDataURL(image)
       reader.onload = (e) => {
-        // this.user.avatar = image
+        this.userData.avatar = image
         this.previewImage = e.target.result
         this.ImageCrop.image = e.target.result
         this.displayDropZone = false
@@ -127,6 +139,9 @@ export default {
         this.ImageCrop.showModal = true
         this.dropZoneColor = '#575757'
       }
+    },
+    updateUser () {
+      console.log(this.userData)
     }
   }
 }
@@ -140,6 +155,7 @@ export default {
   justify-content: center;
   width: 100%;
   margin-top: 200px;
+  margin-bottom: 50px;
 }
 
 #settings-box {
