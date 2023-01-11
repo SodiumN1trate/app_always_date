@@ -1,6 +1,15 @@
 <template>
   <div class="body-container">
-    <div class="popups">
+    <div v-if="$nuxt.$route.name === 'profile'" class="popups-profile">
+      <PopUp
+        v-for="(pop, index) in $store.state.popups"
+        :key="index"
+        :popupType="pop.popupType"
+        :popupText="pop.popupText"
+        :popupShowTime="pop.popupShowTime + index / 2"
+      />
+    </div>
+    <div v-else class="popups">
       <PopUp
         v-for="(pop, index) in $store.state.popups"
         :key="index"
@@ -52,6 +61,18 @@ body, html {
   right: 0;
   margin-left: auto;
   margin-right: auto;
+  gap: 10px;
+  z-index: 20;
+  justify-content: center;
+  align-items: center;
+}
+
+.popups-profile {
+  display: flex;
+  flex-direction: column;
+  position: absolute;
+  bottom: 50px;
+  right: 55px;
   gap: 10px;
   z-index: 20;
   justify-content: center;

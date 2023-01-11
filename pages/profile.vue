@@ -2,7 +2,7 @@
   <div id="profile-content">
     <div id="profile-upper">
       <div id="profile-info">
-        <div class="profile-picture"> <!-- :style="{ backgroundImage: `url(${ user.avatar })` }" -->
+        <div class="profile-picture">
           <img :src="user.avatar" alt="ProfilePicture">
         </div>
         <div class="user">
@@ -91,6 +91,13 @@ export default {
         }
       ]
     }
+  },
+  mounted () {
+    this.$store.commit('setPopup', {
+      text: 'Jūs veiksmīgi autentificējāties!',
+      type: 'success',
+      seconds: 5
+    })
   }
 }
 </script>

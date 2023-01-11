@@ -6,7 +6,6 @@
         class="date-select"
         :class="{ 'date-select-color-pink': checkColorPink(color), 'date-select-color-grey': checkColorGrey(color) }"
         type="date"
-        required
         @click="isDateFocus = !isDateFocus"
         @click.stop="changeDateBorder"
       >
@@ -24,6 +23,9 @@ export default {
       content: '',
       isDateFocus: false
     }
+  },
+  updated () {
+    this.$emit('input', this.content)
   },
   methods: {
     changeDateBorder () {
@@ -45,7 +47,7 @@ export default {
 }
 </script>
 
-<style lang="scss">
+<style lang="scss" scoped>
 @use 'assets/sass/abstract' as *;
 
 .date-box {

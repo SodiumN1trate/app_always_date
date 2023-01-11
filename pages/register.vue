@@ -1,25 +1,34 @@
 <template>
   <div class="register-background">
+    <div class="popups">
+      <PopUp
+        v-for="(pop, index) in $store.state.popups"
+        :key="index"
+        :popupType="pop.popupType"
+        :popupText="pop.popupText"
+        :popupShowTime="pop.popupShowTime + index / 2"
+      />
+    </div>
     <div class="register-logo-container">
       <img class="register-logo" src="../static/images/RegisterLogo.png" alt="MainLogo">
     </div>
     <form class="register-form" @submit.prevent="registerUser">
       <h2>Vārds, Uzvārds</h2>
       <div class="full-name-input">
-        <InputField placeholder="Vārds" color="pink" />
-        <InputField placeholder="Uzvārds" color="pink" />
+        <InputField v-model="userData.firstname" placeholder="Vārds" color="pink" />
+        <InputField v-model="userData.lastname" placeholder="Uzvārds" color="pink" />
       </div>
       <hr class="form-lines">
       <h2>Dzimšanas datums</h2>
       <div class="date-select-input">
-        <SelectDate color="pink" />
+        <SelectDate v-model="userData.birthday" color="pink" />
       </div>
       <hr class="form-lines">
       <h2>Valoda</h2>
-      <SelectInput :placeholder="'Valoda'" :options="['Latviešu', 'Krievu', 'Angļu']" tabindex="1" color="pink" />
+      <SelectInput v-model="userData.language" :placeholder="'Valoda'" :options="['Latviešu', 'Krievu', 'Angļu']" tabindex="1" color="pink" />
       <hr class="form-lines">
       <h2>Dzimums</h2>
-      <SelectInput :placeholder="'Dzimums'" :options="['Sieviete', 'Vīrietis']" tabindex="0" color="pink" />
+      <SelectInput v-model="userData.gender" :placeholder="'Dzimums'" :options="['Sieviete', 'Vīrietis']" tabindex="0" color="pink" />
       <hr class="form-lines">
       <div class="register-button-center">
         <button ref="button" class="register-button" type="submit" @blur="isButtonFocus = false">
@@ -40,28 +49,75 @@ export default {
   name: 'RegisterPage',
   data () {
     return {
-      isButtonFocus: false
+      isButtonFocus: false,
+      user: this.$auth.state.user.data,
+      userData: {
+        firstname: null,
+        lastname: null,
+        birthday: null,
+        language: null,
+        gender: null
+      }
     }
   },
+  mounted () {
+    document.body.style.backgroundImage = "url('images/RegisterPageBackground.png')"
+    this.userData.firstname = this.user.firstname
+    this.userData.lastname = this.user.lastname
+  },
   methods: {
-    registerUser () {
-      console.log('Register')
+    async registerUser () {
+      if (this.userData.gender === 'Sieviete') {
+        this.userData.gender = 0
+      } else if (this.userData.gender === 'Vīrietis') {
+        this.userData.gender = 1
+      }
+      const fd = new FormData()
+      for (const [key, value] of Object.entries(this.userData)) {
+        if (this.userData[key]) {
+          fd.append(key, value)
+        }
+      }
+
+      await this.$axios.post('/users/' + this.user.id + '?_method=PUT', fd).then((res) => {
+        this.$auth.fetchUser(res.data.data)
+        setTimeout(() => {
+          window.location.href = '/profile?successRegistration=true'
+        }, 1000)
+      }).catch((e) => {
+        for (const error in e.response.data.errors) {
+          this.$store.commit('setPopup', {
+            text: e.response.data.errors[error][0],
+            type: 'danger',
+            seconds: 5
+          })
+        }
+      })
     }
   }
 }
 </script>
 
-<style lang="scss">
+<style lang="scss" scoped>
 @use 'assets/sass/abstract' as *;
 
-body {
-  background-image: url("static/images/RegisterPageBackground.png");
+.popups {
+  display: flex;
+  flex-direction: column;
+  position: absolute;
+  top: 20px;
+  left: 0;
+  right: 0;
+  margin-left: auto;
+  margin-right: auto;
+  gap: 10px;
+  z-index: 20;
+  justify-content: center;
+  align-items: center;
 }
+
 body::-webkit-scrollbar {
   display: none;
-}
-html {
-  scrollbar-width: none
 }
 
 .register-logo-container {
@@ -71,7 +127,6 @@ html {
     user-select: none;
   }
 }
-
 .register-form {
   h2 {
     color: $color-pink-2;

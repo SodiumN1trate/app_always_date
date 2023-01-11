@@ -8,18 +8,16 @@ export default {
   props: ['placeholder', 'color'],
   methods: {
     checkColorPink (color) {
-      console.log(color === 'pink')
       return color === 'pink'
     },
     checkColorGrey (color) {
-      console.log(color === 'grey')
       return color === 'grey'
     }
   }
 }
 </script>
 
-<style lang="scss">
+<style lang="scss" scoped>
 @use 'assets/sass/abstract' as *;
 
 .textarea-color-pink {

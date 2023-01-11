@@ -23,7 +23,7 @@ export default {
 }
 </script>
 
-<style lang="scss">
+<style lang="scss" scoped>
 @use 'assets/sass/abstract' as *;
 
 .input-field-color-pink {
@@ -36,7 +36,7 @@ export default {
   color: $color-pink-3;
 }
 
-.input-color-pink:focus {
+.input-field-color-pink:focus {
   outline: solid 1px $color-pink-3;
 }
 
