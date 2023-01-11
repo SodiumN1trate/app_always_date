@@ -50,16 +50,10 @@ export default {
   },
   mounted () {
     window.addEventListener('resize', (e) => {
-      console.log(e.target.innerWidth)
       if (e.target.innerWidth > 1650) {
         this.settings.slidesToShow = 5
-        console.log('a')
       } else if (e.target.innerWidth > 1200) {
         this.settings.slidesToShow = 3
-      } else if (e.target.innerWidth > 880) {
-        this.settings.slidesToShow = 4
-      } else if (e.target.innerWidth > 670) {
-        this.settings.slidesToShow = 4
       } else if (e.target.innerWidth > 600) {
         this.settings.slidesToShow = 4
       } else {
