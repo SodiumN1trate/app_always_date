@@ -64,12 +64,10 @@ export default {
     document.body.style.backgroundImage = "url('images/RegisterPageBackground.png')"
     this.userData.firstname = this.user.firstname
     this.userData.lastname = this.user.lastname
-    console.log(this.user)
-    console.log(this.userData)
   },
   methods: {
     async registerUser () {
-      console.log(this.userData)
+      console.log(this.userData.gender)
       if (this.userData.gender === 'Sieviete') {
         this.userData.gender = 0
       } else if (this.userData.gender === 'Vīrietis') {
@@ -83,23 +81,18 @@ export default {
       }
 
       await this.$axios.post('/users/' + this.user.id + '?_method=PUT', fd).then((res) => {
-        console.log(res.data.data)
         this.$auth.fetchUser(res.data.data)
         setTimeout(() => {
-          window.location.href = '/profile'
+          window.location.href = '/profile?successRegistration=true'
         }, 1000)
       }).catch((e) => {
-        let errorText = 'Lauki'
         for (const error in e.response.data.errors) {
-          errorText += ' ' + error
+          this.$store.commit('setPopup', {
+            text: e.response.data.errors[error][0],
+            type: 'danger',
+            seconds: 5
+          })
         }
-        errorText += ' nav aizpildīti!'
-        console.log(errorText)
-        this.$store.commit('setPopup', {
-          text: errorText,
-          type: 'danger',
-          seconds: 10
-        })
       })
     }
   }

@@ -6,7 +6,6 @@
         class="date-select"
         :class="{ 'date-select-color-pink': checkColorPink(color), 'date-select-color-grey': checkColorGrey(color) }"
         type="date"
-        required
         @click="isDateFocus = !isDateFocus"
         @click.stop="changeDateBorder"
       >
