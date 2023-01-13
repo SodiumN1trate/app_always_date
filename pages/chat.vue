@@ -178,8 +178,8 @@ export default {
     })
     window.addEventListener('resize', this.onResize)
     this.checkPageStatus()
-    console.log(window.Echo.private('channel.3'))
-    window.Echo.private('channel.3')
+    console.log(this.$echo.private('chat.3'))
+    this.$echo.private('chat.3')
       .listen('MessageEvent', (e) => {
         this.messages.push(e)
         this.getMessagesDateTime()

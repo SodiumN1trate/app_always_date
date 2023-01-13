@@ -45,6 +45,9 @@ export default {
     '@nuxtjs/pwa',
     '@nuxtjs/auth-next'
   ],
+  env: {
+    API_ADDRESS: process.env.API_ADDRESS
+  },
 
   // Axios module configuration: https://go.nuxtjs.dev/config-axios
   axios: {
