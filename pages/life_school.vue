@@ -499,8 +499,11 @@ body {
   margin: 0;
   font-size: 16px;
   border: none;
+  outline: none;
+  resize: none;
   width: 100%;
   height: 130px;
+  padding: 12px 20px;
   background: #FBFDFF;
   overflow-y: scroll;
 }
