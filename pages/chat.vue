@@ -25,7 +25,7 @@
         <span v-show="showChat" class="icon-arrow-down" @click="closeUserChat()" />
         <UserCard :user="SelectedUser" />
       </div>
-      <div class="chat">
+      <div ref="chat" class="chat">
         <Messages
           v-for="message in messages"
           :key="message.id"
@@ -34,13 +34,13 @@
       </div>
       <div class="messages-chat-input">
         <div>
-          <input placeholder="Write some message..">
+          <input v-model="chatInput" placeholder="Write some message..">
           <div>
             <span class="icon-attach" />
             <span class="icon-smile" />
           </div>
         </div>
-        <span class="icon-send" />
+        <span class="icon-send" @click="sendMessage()" />
       </div>
     </div>
   </div>
@@ -48,20 +48,10 @@
 
 <script>
 export default {
-  name: 'MessagesUser',
+  name: 'ChatPage',
   layout: 'NavigationLayout',
   data () {
     return {
-      profile: {
-        id: 10,
-        photo: '6',
-        name: 'Tomass',
-        aboutMe: 'Esmu dzīves priecīgs cilvēks, nodarbojos ar sportu un brīvaja laikā nodarbojos ar kulināriju',
-        lastMessage: 'Čau, ko dari, gribēju jautāt vai tu rīt 19:00 esi aizņemts.',
-        stars: '4.0/10',
-        votes: '12345678',
-        exp: '100/100'
-      },
       users: [
         {
           id: 0,
@@ -175,7 +165,8 @@ export default {
         }
       ],
       SelectedUser: '',
-      messages: '',
+      messages: [],
+      chatInput: '',
       showChatsNavigation: true,
       showChat: false,
       showNotSelectedUser: true
@@ -187,6 +178,13 @@ export default {
     })
     window.addEventListener('resize', this.onResize)
     this.checkPageStatus()
+    console.log(window.Echo.private('channel.3'))
+    window.Echo.private('channel.3')
+      .listen('MessageEvent', (e) => {
+        this.messages.push(e)
+        this.getMessagesDateTime()
+        console.log(e)
+      })
   },
   updated () {
     this.checkPageStatus()
@@ -217,126 +215,47 @@ export default {
         }, 100)
       })
     },
-    openUserChat (user) {
+    scrollBottom () {
+      this.$nextTick(() => {
+        this.$refs.chat.scrollTop = this.$refs.chat.scrollHeight
+      })
+    },
+    async openUserChat (user) {
       this.SelectedUser = user
-      this.messages = [
-        {
-          id: 0,
-          created_at: '2022-10-05 13:30:00',
-          chat_room_id: 1,
-          user: 10,
-          user_message: 'Čau'
-        },
-        {
-          id: 1,
-          created_at: '2022-10-05 13:31:03',
-          chat_room_id: 1,
-          user: 11,
-          user_message: 'Čau, kā tev iet?'
-        },
-        {
-          id: 2,
-          created_at: '2022-10-05 13:32:03',
-          chat_room_id: 1,
-          user: 10,
-          user_message: 'Labi'
-        },
-        {
-          id: 3,
-          created_at: '2022-11-05 12:20:03',
-          chat_room_id: 1,
-          user: 11,
-          user_message: 'Cikos domā šodien uz skolu iesi?'
-        },
-        {
-          id: 4,
-          created_at: '2022-11-05 12:22:03',
-          chat_room_id: 1,
-          user: 10,
-          user_message: '9:00'
-        },
-        {
-          id: 5,
-          created_at: '2022-11-05 13:32:03',
-          chat_room_id: 1,
-          user: 11,
-          user_message: 'Forši, tiekas skolā'
-        },
-        {
-          id: 6,
-          created_at: '2022-12-05 20:15:03',
-          chat_room_id: 1,
-          user: 11,
-          user_message: 'Stunda jau sākās, kur esi?'
-        },
-        {
-          id: 7,
-          created_at: '2022-12-05 22:33:03',
-          chat_room_id: 1,
-          user: 10,
-          user_message: 'Pipec, es aizgulējos, ša būšu, tikai aizturat to autobusu, ja nē es nepaspēšu, man ar 3 transportiem ir jābrauc '
-        },
-        {
-          id: 8,
-          created_at: '2022-12-05 23:13:03',
-          chat_room_id: 1,
-          user: 11,
-          user_message: 'Davaj, mēs gaidam!'
-        },
-        {
-          id: 9,
-          created_at: '2022-12-05 23:13:03',
-          chat_room_id: 1,
-          user: 11,
-          user_message: 'Davaj, mēs gaidam!'
-        },
-        {
-          id: 10,
-          created_at: '2022-12-05 23:13:03',
-          chat_room_id: 1,
-          user: 11,
-          user_message: 'Davaj, mēs gaidam!'
-        },
-        {
-          id: 11,
-          created_at: '2022-12-05 23:13:03',
-          chat_room_id: 1,
-          user: 11,
-          user_message: 'Davaj, mēs gaidam!'
-        },
-        {
-          id: 12,
-          created_at: '2022-12-05 23:13:03',
-          chat_room_id: 1,
-          user: 11,
-          user_message: 'Davaj, mēs gaidam!'
-        },
-        {
-          id: 13,
-          created_at: '2022-12-05 23:13:03',
-          chat_room_id: 1,
-          user: 11,
-          user_message: 'Davaj, mēs gaidam!'
-        }
-      ]
+      await this.$axios.get('/chat_room_messages/' + '3').then((res) => {
+        this.messages = res.data.data
+        this.getMessagesDateTime()
+      })
+    },
+    getMessagesDateTime () {
       for (let i = 0; i < this.messages.length; i++) {
-        this.messages[i] = this.setDateTimeToMessage(this.messages[i])
+        // this.messages[i] = this.setDateTimeToMessage(this.messages[i])
         if (!this.messages[i - 1] || (this.messages[i - 1] && this.messages[i].date !== this.messages[i - 1].date)) {
           this.messages[i].date_title = this.messages[i].date
         }
-        if (this.profile.id === this.messages[i].user) {
+        if (this.$auth.$state.user.data.id === this.messages[i].user) {
           this.messages[i].is_auth_user = true
         }
       }
+      console.log(this.messages)
+      this.scrollBottom()
     },
     closeUserChat () {
       this.SelectedUser = ''
     },
-    setDateTimeToMessage (message) {
-      const dateTime = new Date(message.created_at)
-      message.time = dateTime.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })
-      message.date = dateTime.toLocaleDateString()
-      return message
+    // setDateTimeToMessage (message) {
+    //   const dateTime = new Date(message.created_at)
+    //   message.time = dateTime.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })
+    //   message.date = dateTime.toLocaleDateString()
+    //   return message
+    // },
+    async sendMessage () {
+      await this.$axios.post('/messages', {
+        chat_room_id: 3,
+        message: this.chatInput
+      }).then((res) => {
+        this.openUserChat(this.SelectedUser)
+      })
     }
   }
 }
@@ -472,6 +391,7 @@ export default {
   overflow: auto;
   max-height: 580px;
   height: 100%;
+  scroll-behavior: smooth;
   //Firefox
   scrollbar-width: thin;
   scrollbar-color: rgba(0, 0, 0, 0) rgba(0, 0, 0, 0);
@@ -554,6 +474,7 @@ export default {
 .messages-chat-input > span {
   font-size: 48px;
   color: $color-pink-4;
+  cursor: pointer;
 }
 
 @media only screen and (max-width: 850px) {
