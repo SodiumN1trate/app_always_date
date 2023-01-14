@@ -42,8 +42,6 @@ export default {
       this.currentPage = response.data.current_page
       this.lastPage = response.data.last_page
       this.favorites = response.data.data
-    }).catch((e) => {
-      console.log(e)
     })
   },
   methods: {

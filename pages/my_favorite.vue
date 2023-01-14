@@ -44,8 +44,6 @@ export default {
         this.lastPage = response.data.last_page
       }
       this.favorites = response.data.data
-    }).catch((e) => {
-      console.log(e)
     })
   },
   methods: {

@@ -2,12 +2,12 @@
   <div id="message-container">
     <div v-if="message.date_title" class="date">
       <div />
-      <p>{{ message.date_title }}</p>
+      <p>{{ message.date }}</p>
       <div />
     </div>
     <div v-if="message.is_auth_user" class="auth-user-message-outer">
       <div class="message auth-user-message">
-        <p>{{ message.user_message }}</p>
+        <p>{{ message.message }}</p>
       </div>
       <div class="time auth-time">
         <p>{{ message.time }}</p>
@@ -15,7 +15,7 @@
     </div>
     <div v-else class="user-message-outer">
       <div class="message user-message">
-        <p>{{ message.user_message }}</p>
+        <p>{{ message.message }}</p>
       </div>
       <div class="time user-time">
         <p>{{ message.time }}</p>

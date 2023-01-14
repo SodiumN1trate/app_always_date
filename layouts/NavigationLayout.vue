@@ -28,10 +28,7 @@
 
 <script>
 export default {
-  name: 'NavigationLayout',
-  mounted () {
-    console.log(this.$nuxt.$route.name)
-  }
+  name: 'NavigationLayout'
 }
 </script>
 

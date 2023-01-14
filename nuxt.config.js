@@ -23,6 +23,7 @@ export default {
 
   // Plugins to run before rendering page: https://go.nuxtjs.dev/config-plugins
   plugins: [
+    { src: '~/plugins/echo.js' }
   ],
 
   // Auto import components: https://go.nuxtjs.dev/config-components
@@ -44,6 +45,9 @@ export default {
     '@nuxtjs/pwa',
     '@nuxtjs/auth-next'
   ],
+  env: {
+    API_ADDRESS: process.env.API_ADDRESS
+  },
 
   // Axios module configuration: https://go.nuxtjs.dev/config-axios
   axios: {

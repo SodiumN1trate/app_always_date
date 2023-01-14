@@ -1,11 +1,11 @@
 <template>
   <div class="user-container">
     <div>
-      <img :src="`../images/${user.photo}.png`">
+      <img :src="user.avatar">
     </div>
     <div class="messages-profile-data">
-      <h4>{{ user.name }}</h4>
-      <p>{{ user.lastMessage }}</p>
+      <h4>{{ user.firstname + ' ' + user.lastname }}</h4>
+<!--      <p>{{ user.lastMessage }}</p>-->
     </div>
   </div>
 </template>
@@ -29,9 +29,11 @@ export default {
 }
 
 .user-container > div > img {
+  height: 80px;
   width: 80px;
-  border-radius: 100%;
+  border-radius: 50%;
   box-shadow: 0px 2.43px 13px rgba(0, 0, 0, 0.1);
+  object-fit: cover;
 }
 
 .messages-profile-data > h4 {
