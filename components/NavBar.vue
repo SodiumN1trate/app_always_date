@@ -43,7 +43,7 @@ export default {
         {
           title: 'Vēstules',
           icon: 'message',
-          link: '/messages'
+          link: '/chat'
         },
         {
           title: 'Tops',
