@@ -15,15 +15,15 @@
         </div>
       </div>
     </div>
-    <div v-show="!SelectedUser && showNotSelectedUser" id="not-selected-user">
+    <div v-show="!selectedUser && showNotSelectedUser" id="not-selected-user">
       <div>
         <h1>Lai sāktu saraksti, izvēlaties kādu no lietotājiem!</h1>
       </div>
     </div>
-    <div v-show="SelectedUser || showChat" class="messages-chat">
+    <div v-show="selectedUser || showChat" class="messages-chat">
       <div class="chat-header">
         <span v-show="showChat" class="icon-arrow-down" @click="closeUserChat()" />
-        <UserCard :user="SelectedUser" />
+        <UserCard :user="selectedUser" />
       </div>
       <div ref="chat" class="chat">
         <Messages
@@ -34,7 +34,7 @@
       </div>
       <div class="messages-chat-input">
         <div>
-          <input v-model="chatInput" placeholder="Write some message..">
+          <input v-model="chatInput" placeholder="Write some message.." @keyup.enter="sendMessage()">
           <div>
             <span class="icon-attach" />
             <span class="icon-smile" />
@@ -52,119 +52,8 @@ export default {
   layout: 'NavigationLayout',
   data () {
     return {
-      users: [
-        {
-          id: 0,
-          photo: '1',
-          name: 'Markuss Markuss',
-          aboutMe: 'Esmu dzīves priecīgs cilvēks, nodarbojos ar sportu un brīvaja laikā nodarbojos ar kulināriju',
-          lastMessage: 'Čau, ko dari, gribēju jautāt vai tu rīt 19:00 esi aizņemts.',
-          stars: '10/10',
-          votes: '12345678',
-          exp: '100/100'
-        },
-        {
-          id: 1,
-          photo: '11',
-          name: 'Raimonda Markuss',
-          aboutMe: 'Esmu dzīves priecīgs cilvēks, nodarbojos ar sportu un brīvaja laikā nodarbojos ar kulināriju',
-          lastMessage: 'Čau, ko dari, gribēju jautāt vai tu rīt 19:00 esi aizņemts.',
-          stars: '9.9/10',
-          votes: '12345678',
-          exp: '100/100'
-        },
-        {
-          id: 2,
-          photo: '2',
-          name: 'Ārvalds Markuss',
-          aboutMe: 'Esmu dzīves priecīgs cilvēks, nodarbojos ar sportu un brīvaja laikā nodarbojos ar kulināriju',
-          lastMessage: 'Čau, ko dari, gribēju jautāt vai tu rīt 19:00 esi aizņemts.',
-          stars: '9.4/10',
-          votes: '12345678',
-          exp: '100/100'
-        },
-        {
-          id: 3,
-          photo: '22',
-          name: 'Krista Markuss',
-          aboutMe: 'Esmu dzīves priecīgs cilvēks, nodarbojos ar sportu un brīvaja laikā nodarbojos ar kulināriju',
-          lastMessage: 'Čau, ko dari, gribēju jautāt vai tu rīt 19:00 esi aizņemts.',
-          stars: '6.0/10',
-          votes: '12345678',
-          exp: '100/100'
-        },
-        {
-          id: 4,
-          photo: '3',
-          name: 'Krišjānis Markuss',
-          aboutMe: 'Esmu dzīves priecīgs cilvēks, nodarbojos ar sportu un brīvaja laikā nodarbojos ar kulināriju',
-          lastMessage: 'Čau, ko dari, gribēju jautāt vai tu rīt 19:00 esi aizņemts.',
-          stars: '5.0/10',
-          votes: '12345678',
-          exp: '100/100'
-        },
-        {
-          id: 5,
-          photo: '33',
-          name: 'Regīna Markuss',
-          aboutMe: 'Esmu dzīves priecīgs cilvēks, nodarbojos ar sportu un brīvaja laikā nodarbojos ar kulināriju',
-          lastMessage: 'Čau, ko dari, gribēju jautāt vai tu rīt 19:00 esi aizņemts.',
-          stars: '4.0/10',
-          votes: '12345678',
-          exp: '100/100'
-        },
-        {
-          id: 6,
-          photo: '4',
-          name: 'Uvis Markuss',
-          aboutMe: 'Esmu dzīves priecīgs cilvēks, nodarbojos ar sportu un brīvaja laikā nodarbojos ar kulināriju',
-          lastMessage: 'Čau, ko dari, gribēju jautāt vai tu rīt 19:00 esi aizņemts.',
-          stars: '4.0/10',
-          votes: '12345678',
-          exp: '100/100'
-        },
-        {
-          id: 7,
-          photo: '44',
-          name: 'Sonora Markuss',
-          aboutMe: 'Esmu dzīves priecīgs cilvēks, nodarbojos ar sportu un brīvaja laikā nodarbojos ar kulināriju',
-          lastMessage: 'Čau, ko dari, gribēju jautāt vai tu rīt 19:00 esi aizņemts.',
-          stars: '4.0/10',
-          votes: '12345678',
-          exp: '100/100'
-        },
-        {
-          id: 8,
-          photo: '5',
-          name: 'Austris Markuss',
-          aboutMe: 'Esmu dzīves priecīgs cilvēks, nodarbojos ar sportu un brīvaja laikā nodarbojos ar kulināriju',
-          lastMessage: 'Čau, ko dari, gribēju jautāt vai tu rīt 19:00 esi aizņemts.',
-          stars: '4.0/10',
-          votes: '12345678',
-          exp: '100/100'
-        },
-        {
-          id: 9,
-          photo: '55',
-          name: 'Sigita Markuss',
-          aboutMe: 'Esmu dzīves priecīgs cilvēks, nodarbojos ar sportu un brīvaja laikā nodarbojos ar kulināriju',
-          lastMessage: 'Čau, ko dari, gribēju jautāt vai tu rīt 19:00 esi aizņemts.',
-          stars: '4.0/10',
-          votes: '12345678',
-          exp: '100/100'
-        },
-        {
-          id: 10,
-          photo: '6',
-          name: 'Tomass Markuss',
-          aboutMe: 'Esmu dzīves priecīgs cilvēks, nodarbojos ar sportu un brīvaja laikā nodarbojos ar kulināriju',
-          lastMessage: 'Čau, ko dari, gribēju jautāt vai tu rīt 19:00 esi aizņemts.',
-          stars: '4.0/10',
-          votes: '12345678',
-          exp: '100/100'
-        }
-      ],
-      SelectedUser: '',
+      users: [],
+      selectedUser: '',
       messages: [],
       chatInput: '',
       showChatsNavigation: true,
@@ -176,27 +65,33 @@ export default {
     this.$nextTick(function () {
       this.onResize()
     })
+    this.getUsers()
     window.addEventListener('resize', this.onResize)
     this.checkPageStatus()
-    console.log(this.$echo.private('chat.3'))
-    this.$echo.private('chat.3')
-      .listen('MessageEvent', (e) => {
-        this.messages.push(e)
-        this.getMessagesDateTime()
-        console.log(e)
-      })
   },
   updated () {
     this.checkPageStatus()
   },
   methods: {
+    listenChatChannel () {
+      this.$echo.private('chat.' + this.selectedUser.chat_room_id)
+        .listen('MessageEvent', (e) => {
+          this.getUserMessage(e)
+        })
+    },
+    async getUserMessage (message) {
+      await this.$axios.get('/get_message/' + message.messageId).then((res) => {
+        this.messages.push(res.data.data)
+        this.checkIsDateTitle()
+      })
+    },
     checkPageStatus () {
       if (window.matchMedia('(max-width: 850px)').matches) {
         this.showNotSelectedUser = false
-        if (this.SelectedUser) {
+        if (this.selectedUser) {
           this.showChatsNavigation = false
           this.showChat = true
-        } else if (!this.SelectedUser) {
+        } else if (!this.selectedUser) {
           this.showChatsNavigation = true
           this.showChat = false
         }
@@ -220,16 +115,26 @@ export default {
         this.$refs.chat.scrollTop = this.$refs.chat.scrollHeight
       })
     },
+    async getUsers () {
+      await this.$axios.get('/get_users_chats').then((res) => {
+        this.users = res.data.data
+      })
+    },
     async openUserChat (user) {
-      this.SelectedUser = user
-      await this.$axios.get('/chat_room_messages/' + '3').then((res) => {
+      if (user.chat_room_id === this.selectedUser.chat_room_id) {
+        return 0
+      } else if (this.selectedUser.id !== user.id) {
+        this.$echo.leave('chat.' + this.selectedUser.chat_room_id)
+      }
+      this.selectedUser = user
+      this.listenChatChannel()
+      await this.$axios.get('/chat_room_messages/' + user.chat_room_id).then((res) => {
         this.messages = res.data.data
         this.getMessagesDateTime()
       })
     },
     getMessagesDateTime () {
       for (let i = 0; i < this.messages.length; i++) {
-        // this.messages[i] = this.setDateTimeToMessage(this.messages[i])
         if (!this.messages[i - 1] || (this.messages[i - 1] && this.messages[i].date !== this.messages[i - 1].date)) {
           this.messages[i].date_title = this.messages[i].date
         }
@@ -237,25 +142,26 @@ export default {
           this.messages[i].is_auth_user = true
         }
       }
-      console.log(this.messages)
       this.scrollBottom()
     },
     closeUserChat () {
-      this.SelectedUser = ''
+      this.selectedUser = ''
     },
-    // setDateTimeToMessage (message) {
-    //   const dateTime = new Date(message.created_at)
-    //   message.time = dateTime.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })
-    //   message.date = dateTime.toLocaleDateString()
-    //   return message
-    // },
     async sendMessage () {
-      await this.$axios.post('/messages', {
-        chat_room_id: 3,
+      await this.$axios.post('/message', {
+        chat_room_id: this.selectedUser.chat_room_id,
         message: this.chatInput
-      }).then((res) => {
-        this.openUserChat(this.SelectedUser)
       })
+      this.chatInput = ''
+    },
+    checkIsDateTitle () {
+      if (!this.messages[this.messages.length - 2] || (this.messages[this.messages.length - 2] && this.messages[this.messages.length - 1].date !== this.messages[this.messages.length - 2].date)) {
+        this.messages[this.messages.length - 1].date_title = this.messages[this.messages.length - 1].date
+      }
+      if (this.$auth.$state.user.data.id === this.messages[this.messages.length - 1].user) {
+        this.messages[this.messages.length - 1].is_auth_user = true
+      }
+      this.scrollBottom()
     }
   }
 }
@@ -313,7 +219,7 @@ export default {
 .messages-user-chats {
   overflow: scroll;
   scrollbar-width: none;
-  max-height: 700px;
+  height: 700px;
   background-color: white;
   border-bottom-left-radius: 16px;
 }
