@@ -2,58 +2,14 @@
   <div id="content">
     <div id="box">
       <h2>Dzīves skola</h2>
-      <LifeSchoolCarousel />
-      <div class="article">
+      <LifeSchoolCarousel2 :previews="lifeSchools" @change="changeLifeSchool"/>
+      <div class="article" v-if="lifeSchool">
         <div class="text-content">
           <h2>Dzīves dilēmas</h2>
         </div>
         <div class="vertical-line"></div>
         <div class="text">
-          <h1>Dzīves dilēmas, to risināšana</h1>
-          <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Phasellus ligula ipsum, vehicula at nibh in, scelerisque consequat libero. Donec id placerat eros, et blandit sem. Cras vitae turpis volutpat, commodo risus laoreet, fermentum lectus. Nulla fermentum elit diam, eget rutrum justo tincidunt nec. Vestibulum vestibulum arcu in
-            <br>
-            <br>
-            condimentum blandit. Donec ligula eros, mollis eu nunc id, lobortis eleifend massa. Nunc faucibus iaculis semper.
-          </p>
-          <br>
-          <h2>Dzīves dilēmas, to risināšana</h2>
-          <p>
-            orem ipsum dolor sit amet, consectetur adipiscing elit. Phasellus ligula ipsum, vehicula at nibh in, scelerisque consequat libero. Donec id placerat eros, et blandit sem. Cras vitae turpis volutpat, commodo risus laoreet, fermentum lectus. Nulla fermentum elit diam, eget rutrum justo tincidunt nec. Vestibulum vestibulum arcu in
-          </p>
-          <h2>Dzīves dilēmas, to risināšana</h2>
-          <p>
-            orem ipsum dolor sit amet, consectetur adipiscing elit. Phasellus ligula ipsum, vehicula at nibh in, scelerisque consequat libero. Donec id placerat eros, et blandit sem. Cras vitae turpis volutpat, commodo risus laoreet, fermentum lectus. Nulla fermentum elit diam, eget rutrum justo tincidunt nec. Vestibulum vestibulum arcu in
-          </p>
-          <h1>Dzīves dilēmas, to risināšana</h1>
-          <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Phasellus ligula ipsum, vehicula at nibh in, scelerisque consequat libero. Donec id placerat eros, et blandit sem. Cras vitae turpis volutpat, commodo risus laoreet, fermentum lectus. Nulla fermentum elit diam, eget rutrum justo tincidunt nec. Vestibulum vestibulum arcu in
-            <br>
-            <br>
-            condimentum blandit. Donec ligula eros, mollis eu nunc id, lobortis eleifend massa. Nunc faucibus iaculis semper.
-          </p>
-          <br>
-          <h2>Dzīves dilēmas, to risināšana</h2>
-          <p>
-            orem ipsum dolor sit amet, consectetur adipiscing elit. Phasellus ligula ipsum, vehicula at nibh in, scelerisque consequat libero. Donec id placerat eros, et blandit sem. Cras vitae turpis volutpat, commodo risus laoreet, fermentum lectus. Nulla fermentum elit diam, eget rutrum justo tincidunt nec. Vestibulum vestibulum arcu in
-          </p>
-          <h2>Dzīves dilēmas, to risināšana</h2>
-          <p>
-            orem ipsum dolor sit amet, consectetur adipiscing elit. Phasellus ligula ipsum, vehicula at nibh in, scelerisque consequat libero. Donec id placerat eros, et blandit sem. Cras vitae turpis volutpat, commodo risus laoreet, fermentum lectus. Nulla fermentum elit diam, eget rutrum justo tincidunt nec. Vestibulum vestibulum arcu in
-          </p>
-          <h1>Dzīves dilēmas, to risināšana</h1>
-          <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Phasellus ligula ipsum, vehicula at nibh in, scelerisque consequat libero. Donec id placerat eros, et blandit sem. Cras vitae turpis volutpat, commodo risus laoreet, fermentum lectus. Nulla fermentum elit diam, eget rutrum justo tincidunt nec. Vestibulum vestibulum arcu in
-            <br>
-            <br>
-            condimentum blandit. Donec ligula eros, mollis eu nunc id, lobortis eleifend massa. Nunc faucibus iaculis semper.
-          </p>
-          <br>
-          <h2>Dzīves dilēmas, to risināšana</h2>
-          <p>
-            orem ipsum dolor sit amet, consectetur adipiscing elit. Phasellus ligula ipsum, vehicula at nibh in, scelerisque consequat libero. Donec id placerat eros, et blandit sem. Cras vitae turpis volutpat, commodo risus laoreet, fermentum lectus. Nulla fermentum elit diam, eget rutrum justo tincidunt nec. Vestibulum vestibulum arcu in
-          </p>
-          <h2>Dzīves dilēmas, to risināšana</h2>
-          <p>
-            orem ipsum dolor sit amet, consectetur adipiscing elit. Phasellus ligula ipsum, vehicula at nibh in, scelerisque consequat libero. Donec id placerat eros, et blandit sem. Cras vitae turpis volutpat, commodo risus laoreet, fermentum lectus. Nulla fermentum elit diam, eget rutrum justo tincidunt nec. Vestibulum vestibulum arcu in
-          </p>
+          {{ lifeSchool.description }}
         </div>
       </div>
       <div class="comments-container">
@@ -61,279 +17,28 @@
         <div class="add-comment-form">
           <h3>Pievienot komentāru</h3>
           <div>
-            <textarea v-model="comment" placeholder="Komentāra teksts"></textarea>
+            <textarea v-model="form.description" placeholder="Komentāra teksts"></textarea>
             <p
-              :class="{ shake: comment.length > 255 }"
-            >{{ comment.length }}/255</p>
+              :class="{ shake: form.description.length > 255 }"
+            >{{ form.description.length }}/255</p>
           </div>
-          <button>Publicēt</button>
+          <button @click="addComment">Publicēt</button>
         </div>
         <div id="comments">
           <h3>Pievienot komentāru</h3>
-          <div class="comment">
+          <div class="comment" v-for="comment in comments" :key="comment.id">
             <div class="comment-rate">
-              <span class="icon-up-vote"></span>
-              <p>417</p>
-              <span class="icon-down-vote"></span>
+              <span class="icon-up-vote" @click="commentVote(comment.id, true)"></span>
+              <p>{{ comment.votes }}</p>
+              <span class="icon-down-vote" @click="commentVote(comment.id, false)"></span>
             </div>
-            <img :src="`../images/33.png`">
+            <img :src="comment.author.avatar">
             <div class="comment-data">
               <div>
-                <h4>Kanna, 25</h4>
-                <p>12.08.2022</p>
+                <h4>{{ comment.author.firstname }} {{ comment.author.lastname }}</h4>
+                <p>{{ comment.created_at }}</p>
               </div>
-              <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Debitis deserunt explicabo molestiae quod
-                recusandae, repudiandaeā sed vel! Ad amet commodi dolore error et fugiat, quaerat similique sint sunt
-                tempora. Vero!</p>
-            </div>
-          </div>
-          <div class="comment">
-            <div class="comment-rate">
-              <span class="icon-up-vote"></span>
-              <p>417</p>
-              <span class="icon-down-vote"></span>
-            </div>
-            <img :src="`../images/33.png`">
-            <div class="comment-data">
-              <div>
-                <h4>Kanna, 25</h4>
-                <p>12.08.2022</p>
-              </div>
-              <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Debitis deserunt explicabo molestiae quod
-                recusandae, repudiandaeā sed vel! Ad amet commodi dolore error et fugiat, quaerat similique sint sunt
-                tempora. Vero!</p>
-            </div>
-          </div>
-          <div class="comment">
-            <div class="comment-rate">
-              <span class="icon-up-vote"></span>
-              <p>417</p>
-              <span class="icon-down-vote"></span>
-            </div>
-            <img :src="`../images/33.png`">
-            <div class="comment-data">
-              <div>
-                <h4>Kanna, 25</h4>
-                <p>12.08.2022</p>
-              </div>
-              <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Debitis deserunt explicabo molestiae quod
-                recusandae, repudiandaeā sed vel! Ad amet commodi dolore error et fugiat, quaerat similique sint sunt
-                tempora. Vero!</p>
-            </div>
-          </div>
-          <div class="comment">
-            <div class="comment-rate">
-              <span class="icon-up-vote"></span>
-              <p>417</p>
-              <span class="icon-down-vote"></span>
-            </div>
-            <img :src="`../images/33.png`">
-            <div class="comment-data">
-              <div>
-                <h4>Kanna, 25</h4>
-                <p>12.08.2022</p>
-              </div>
-              <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Debitis deserunt explicabo molestiae quod
-                recusandae, repudiandaeā sed vel! Ad amet commodi dolore error et fugiat, quaerat similique sint sunt
-                tempora. Vero!</p>
-            </div>
-          </div>          <div class="comment">
-          <div class="comment-rate">
-            <span class="icon-up-vote"></span>
-            <p>417</p>
-            <span class="icon-down-vote"></span>
-          </div>
-          <img :src="`../images/33.png`">
-          <div class="comment-data">
-            <div>
-              <h4>Kanna, 25</h4>
-              <p>12.08.2022</p>
-            </div>
-            <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Debitis deserunt explicabo molestiae quod
-              recusandae, repudiandaeā sed vel! Ad amet commodi dolore error et fugiat, quaerat similique sint sunt
-              tempora. Vero!</p>
-          </div>
-        </div>          <div class="comment">
-          <div class="comment-rate">
-            <span class="icon-up-vote"></span>
-            <p>417</p>
-            <span class="icon-down-vote"></span>
-          </div>
-          <img :src="`../images/33.png`">
-          <div class="comment-data">
-            <div>
-              <h4>Kanna, 25</h4>
-              <p>12.08.2022</p>
-            </div>
-            <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Debitis deserunt explicabo molestiae quod
-              recusandae, repudiandaeā sed vel! Ad amet commodi dolore error et fugiat, quaerat similique sint sunt
-              tempora. Vero!</p>
-          </div>
-        </div>
-          <div class="comment">
-            <div class="comment-rate">
-              <span class="icon-up-vote"></span>
-              <p>417</p>
-              <span class="icon-down-vote"></span>
-            </div>
-            <img :src="`../images/33.png`">
-            <div class="comment-data">
-              <div>
-                <h4>Kanna, 25</h4>
-                <p>12.08.2022</p>
-              </div>
-              <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Debitis deserunt explicabo molestiae quod
-                recusandae, repudiandaeā sed vel! Ad amet commodi dolore error et fugiat, quaerat similique sint sunt
-                tempora. Vero!</p>
-            </div>
-          </div>
-          <div class="comment">
-            <div class="comment-rate">
-              <span class="icon-up-vote"></span>
-              <p>417</p>
-              <span class="icon-down-vote"></span>
-            </div>
-            <img :src="`../images/33.png`">
-            <div class="comment-data">
-              <div>
-                <h4>Kanna, 25</h4>
-                <p>12.08.2022</p>
-              </div>
-              <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Debitis deserunt explicabo molestiae quod
-                recusandae, repudiandaeā sed vel! Ad amet commodi dolore error et fugiat, quaerat similique sint sunt
-                tempora. Vero!</p>
-            </div>
-          </div>          <div class="comment">
-          <div class="comment-rate">
-            <span class="icon-up-vote"></span>
-            <p>417</p>
-            <span class="icon-down-vote"></span>
-          </div>
-          <img :src="`../images/33.png`">
-          <div class="comment-data">
-            <div>
-              <h4>Kanna, 25</h4>
-              <p>12.08.2022</p>
-            </div>
-            <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Debitis deserunt explicabo molestiae quod
-              recusandae, repudiandaeā sed vel! Ad amet commodi dolore error et fugiat, quaerat similique sint sunt
-              tempora. Vero!</p>
-          </div>
-        </div>          <div class="comment">
-          <div class="comment-rate">
-            <span class="icon-up-vote"></span>
-            <p>417</p>
-            <span class="icon-down-vote"></span>
-          </div>
-          <img :src="`../images/33.png`">
-          <div class="comment-data">
-            <div>
-              <h4>Kanna, 25</h4>
-              <p>12.08.2022</p>
-            </div>
-            <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Debitis deserunt explicabo molestiae quod
-              recusandae, repudiandaeā sed vel! Ad amet commodi dolore error et fugiat, quaerat similique sint sunt
-              tempora. Vero!</p>
-          </div>
-        </div>          <div class="comment">
-          <div class="comment-rate">
-            <span class="icon-up-vote"></span>
-            <p>417</p>
-            <span class="icon-down-vote"></span>
-          </div>
-          <img :src="`../images/33.png`">
-          <div class="comment-data">
-            <div>
-              <h4>Kanna, 25</h4>
-              <p>12.08.2022</p>
-            </div>
-            <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Debitis deserunt explicabo molestiae quod
-              recusandae, repudiandaeā sed vel! Ad amet commodi dolore error et fugiat, quaerat similique sint sunt
-              tempora. Vero!</p>
-          </div>
-        </div>          <div class="comment">
-          <div class="comment-rate">
-            <span class="icon-up-vote"></span>
-            <p>417</p>
-            <span class="icon-down-vote"></span>
-          </div>
-          <img :src="`../images/33.png`">
-          <div class="comment-data">
-            <div>
-              <h4>Kanna, 25</h4>
-              <p>12.08.2022</p>
-            </div>
-            <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Debitis deserunt explicabo molestiae quod
-              recusandae, repudiandaeā sed vel! Ad amet commodi dolore error et fugiat, quaerat similique sint sunt
-              tempora. Vero!</p>
-          </div>
-        </div>
-          <div class="comment">
-            <div class="comment-rate">
-              <span class="icon-up-vote"></span>
-              <p>417</p>
-              <span class="icon-down-vote"></span>
-            </div>
-            <img :src="`../images/33.png`">
-            <div class="comment-data">
-              <div>
-                <h4>Kanna, 25</h4>
-                <p>12.08.2022</p>
-              </div>
-              <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Debitis deserunt explicabo molestiae quod
-                recusandae, repudiandaeā sed vel! Ad amet commodi dolore error et fugiat, quaerat similique sint sunt
-                tempora. Vero!</p>
-            </div>
-          </div>
-          <div class="comment">
-            <div class="comment-rate">
-              <span class="icon-up-vote"></span>
-              <p>417</p>
-              <span class="icon-down-vote"></span>
-            </div>
-            <img :src="`../images/33.png`">
-            <div class="comment-data">
-              <div>
-                <h4>Kanna, 25</h4>
-                <p>12.08.2022</p>
-              </div>
-              <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Debitis deserunt explicabo molestiae quod
-                recusandae, repudiandaeā sed vel! Ad amet commodi dolore error et fugiat, quaerat similique sint sunt
-                tempora. Vero!</p>
-            </div>
-          </div>
-          <div class="comment">
-            <div class="comment-rate">
-              <span class="icon-up-vote"></span>
-              <p>417</p>
-              <span class="icon-down-vote"></span>
-            </div>
-            <img :src="`../images/33.png`">
-            <div class="comment-data">
-              <div>
-                <h4>Kanna, 25</h4>
-                <p>12.08.2022</p>
-              </div>
-              <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Debitis deserunt explicabo molestiae quod
-                recusandae, repudiandaeā sed vel! Ad amet commodi dolore error et fugiat, quaerat similique sint sunt
-                tempora. Vero!</p>
-            </div>
-          </div>
-          <div class="comment">
-            <div class="comment-rate">
-              <span class="icon-up-vote"></span>
-              <p>417</p>
-              <span class="icon-down-vote"></span>
-            </div>
-            <img :src="`../images/33.png`">
-            <div class="comment-data">
-              <div>
-                <h4>Kanna, 25</h4>
-                <p>12.08.2022</p>
-              </div>
-              <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Debitis deserunt explicabo molestiae quod
-                recusandae, repudiandaeā sed vel! Ad amet commodi dolore error et fugiat, quaerat similique sint sunt
-                tempora. Vero!</p>
+              <p>{{ comment.description }}</p>
             </div>
           </div>
         </div>
@@ -348,7 +53,44 @@ export default {
   layout: 'NavigationLayout',
   data () {
     return {
-      comment: ''
+      form: {
+        description: ''
+      },
+      lifeSchool: null,
+      lifeSchools: [],
+      comments: []
+    }
+  },
+  async beforeMount () {
+    await this.$axios.get('/life_schools').then((e) => {
+      this.lifeSchools = e.data.data
+    })
+    this.changeLifeSchool(0)
+  },
+  methods: {
+    changeLifeSchool (index) {
+      this.lifeSchool = this.lifeSchools[index]
+      this.getLifeSchoolComments()
+    },
+    getLifeSchoolComments () {
+      this.$axios.get(`/life_school_comments?article_id=${this.lifeSchool.id}`).then((response) => {
+        this.comments = response.data.data
+      })
+    },
+    addComment () {
+      this.form.article_id = this.lifeSchool.id
+      this.$axios.post('/life_school_comments', this.form).then((response) => {
+        this.getLifeSchoolComments()
+      })
+    },
+    commentVote (commentId, vote) {
+      const data = {
+        life_school_comment_id: commentId,
+        rating: vote
+      }
+      this.$axios.post('/life_school_comments/rate', data).then((response) => {
+        this.getLifeSchoolComments()
+      })
     }
   }
 }
@@ -365,7 +107,7 @@ body {
   display: flex;
   flex-direction: column;
   justify-content: space-between;
-  gap: 2%;
+  gap: 30px;
   overflow: hidden;
 }
 
@@ -524,6 +266,7 @@ body {
   border-radius: 50%;
   width: 70px;
   height: 70px;
+  object-fit: cover;
 }
 
 .comment-rate {
@@ -556,7 +299,6 @@ body {
   width: 100%;
   display: flex;
   flex-direction: column;
-  align-items: center;
   flex-wrap: wrap;
 }
 
