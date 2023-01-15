@@ -93,11 +93,13 @@ export default {
     }
   },
   mounted () {
-    this.$store.commit('setPopup', {
-      text: 'Jūs veiksmīgi autentificējāties!',
-      type: 'success',
-      seconds: 5
-    })
+    if (this.$route.query.successRegistration === 'true') {
+      this.$store.commit('setPopup', {
+        text: 'Jūs veiksmīgi autentificējāties!',
+        type: 'success',
+        seconds: 5
+      })
+    }
   }
 }
 </script>
