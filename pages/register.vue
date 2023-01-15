@@ -68,9 +68,9 @@ export default {
   methods: {
     async registerUser () {
       if (this.userData.gender === 'Sieviete') {
-        this.userData.gender = 0
+        this.userData.gender = '0'
       } else if (this.userData.gender === 'Vīrietis') {
-        this.userData.gender = 1
+        this.userData.gender = '1'
       }
       const fd = new FormData()
       for (const [key, value] of Object.entries(this.userData)) {

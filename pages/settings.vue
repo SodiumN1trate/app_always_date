@@ -14,7 +14,7 @@
           <button>Paziņojumi</button>
         </div>
       </div>
-      <form class="settings-sections" @submit.prevent>
+      <form class="settings-sections" @submit.prevent="updateUser()">
         <div class="settings-sections-basic-info">
           <div class="settings-sections-profile-picture">
             <label v-show="mobileUpload" class="upload-image mobile-upload">
@@ -48,11 +48,11 @@
             <div>
               <div class="settings-section-gender-select">
                 <h5>Dzimums</h5>
-                <SelectInput v-model="userData.gender" class="settings-select-gender" placeholder="Dzimums" :options="['Vīrietis','Sieviete']" color="grey" />
+                <SelectInput v-model="userData.gender" class="settings-select-gender" :placeholder="userData.gender ? 'Vīrietis' : 'Sieviete'" :options="['Vīrietis','Sieviete']" color="grey" />
               </div>
               <div>
                 <h5>Dzimšanas datums</h5>
-                <SelectDate v-model="userData.birthday" class="settings-sections-date" color="grey" />
+                <SelectDate v-model="userData.birthday" :date="userData.birthday" class="settings-sections-date" color="grey" />
               </div>
             </div>
           </div>
@@ -69,7 +69,7 @@
         </div>
         <div class="settings-form-buttons">
           <button class="setting-cancel-button">Atsaukt</button>
-          <button class="setting-save-button" @click="updateUser()">Saglabāt</button>
+          <button class="setting-save-button">Saglabāt</button>
         </div>
       </form>
     </div>
@@ -88,12 +88,13 @@ export default {
       mobileUpload: true,
       user: this.$auth.state.user.data,
       userData: {
-        firstname: null,
-        lastname: null,
-        birthday: null,
-        language: null,
-        gender: null,
-        about_me: null
+        avatar: null,
+        firstname: this.$auth.state.user.data.firstname,
+        lastname: this.$auth.state.user.data.lastname,
+        language: this.$auth.state.user.data.language,
+        birthday: this.$auth.state.user.data.birthday,
+        gender: this.$auth.state.user.data.gender,
+        about_me: ''
       },
       infoModal: {
         showModal: false,
@@ -105,13 +106,6 @@ export default {
         image: null
       }
     }
-  },
-  mounted () {
-    this.userData.firstname = this.user.firstname
-    this.userData.lastname = this.user.lastname
-    this.userData.birthday = this.user.birthday
-    this.userData.language = this.user.language
-    this.userData.gender = this.user.gender
   },
   methods: {
     uploadImage (e) {
@@ -140,7 +134,32 @@ export default {
         this.dropZoneColor = '#575757'
       }
     },
-    updateUser () {
+    async updateUser () {
+      if (this.userData.gender === 'Sieviete') {
+        this.userData.gender = '0'
+      } else if (this.userData.gender === 'Vīrietis') {
+        this.userData.gender = '1'
+      }
+      const fd = new FormData()
+      for (const [key, value] of Object.entries(this.userData)) {
+        if (this.userData[key]) {
+          fd.append(key, value)
+        }
+      }
+      await this.$axios.post('/users/' + this.user.id + '?_method=PUT', fd).then((res) => {
+        this.$auth.fetchUser(res.data.data)
+        setTimeout(() => {
+          // window.location.href = '/profile'
+        }, 1000)
+      }).catch((e) => {
+        for (const error in e.response.data.errors) {
+          this.$store.commit('setPopup', {
+            text: e.response.data.errors[error][0],
+            type: 'danger',
+            seconds: 5
+          })
+        }
+      })
       console.log(this.userData)
     }
   }

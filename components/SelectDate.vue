@@ -19,12 +19,16 @@
 <script>
 export default {
   name: 'SelectDate',
-  props: ['color'],
+  props: ['date', 'color'],
   data () {
     return {
-      content: '',
+      content: this.date,
       isDateFocus: false
     }
+  },
+  beforeMount () {
+    this.content = this.date
+    console.log(this.content)
   },
   methods: {
     changeDateBorder () {
