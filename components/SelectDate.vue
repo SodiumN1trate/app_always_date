@@ -6,6 +6,8 @@
         class="date-select"
         :class="{ 'date-select-color-pink': checkColorPink(color), 'date-select-color-grey': checkColorGrey(color) }"
         type="date"
+        required
+        @input="$emit('input', content)"
         @click="isDateFocus = !isDateFocus"
         @click.stop="changeDateBorder"
       >
@@ -17,15 +19,16 @@
 <script>
 export default {
   name: 'SelectDate',
-  props: ['color'],
+  props: ['date', 'color'],
   data () {
     return {
-      content: '',
+      content: this.date,
       isDateFocus: false
     }
   },
-  updated () {
-    this.$emit('input', this.content)
+  beforeMount () {
+    this.content = this.date
+    console.log(this.content)
   },
   methods: {
     changeDateBorder () {

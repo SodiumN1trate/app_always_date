@@ -1,11 +1,16 @@
 <template>
-  <textarea :class="{ 'textarea-color-pink': checkColorPink(color), 'textarea-color-grey': checkColorGrey(color)}" :placeholder="placeholder" />
+  <textarea v-model="value" @input="$emit('input', value)" :class="{ 'textarea-color-pink': checkColorPink(color), 'textarea-color-grey': checkColorGrey(color)}" :placeholder="placeholder" />
 </template>
 
 <script>
 export default {
   name: 'TextareaField',
   props: ['placeholder', 'color'],
+  data () {
+    return {
+      value: ''
+    }
+  },
   methods: {
     checkColorPink (color) {
       return color === 'pink'
