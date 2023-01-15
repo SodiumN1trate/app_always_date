@@ -1,8 +1,10 @@
 <template>
   <input
+    v-model="text"
     class="input-field"
     :class="{ 'input-field-color-pink': checkColorPink(color), 'input-field-color-grey': checkColorGrey(color)}"
     :type="type"
+    @input="$emit('input', text)"
     :placeholder="placeholder"
     required
   >
@@ -12,6 +14,11 @@
 export default {
   name: 'InputField',
   props: ['type', 'placeholder', 'color'],
+  data () {
+    return {
+      text: ''
+    }
+  },
   methods: {
     checkColorPink (color) {
       return color === 'pink'

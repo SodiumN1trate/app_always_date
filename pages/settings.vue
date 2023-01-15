@@ -86,7 +86,6 @@ export default {
       dropZoneColor: null,
       displayDropZone: true,
       mobileUpload: true,
-      user: this.$auth.state.user.data,
       userData: {
         avatar: null,
         firstname: this.$auth.state.user.data.firstname,
@@ -146,11 +145,11 @@ export default {
           fd.append(key, value)
         }
       }
-      await this.$axios.post('/users/' + this.user.id + '?_method=PUT', fd).then((res) => {
-        this.$auth.fetchUser(res.data.data)
-        setTimeout(() => {
-          // window.location.href = '/profile'
-        }, 1000)
+      await this.$axios.post('/users/' + this.$auth.state.user.data.id + '?_method=PUT', fd).then((res) => {
+        this.$auth.fetchUser()
+        // this.$router.push('/profile')
+        console.log(this.userData)
+        console.log(this.$auth.state.user.data)
       }).catch((e) => {
         for (const error in e.response.data.errors) {
           this.$store.commit('setPopup', {
