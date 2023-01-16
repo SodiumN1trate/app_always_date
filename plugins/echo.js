@@ -6,7 +6,7 @@ export default (_, inject) => {
   console.log(localStorage.getItem('auth._token.local'))
   const echo = new Echo({
     broadcaster: 'pusher',
-    key: 'local1', // .env
+    key: 'local123', // .env
     wsHost: 'localhost',
     wsPort: 6001,
     disableStats: true,

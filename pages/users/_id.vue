@@ -26,7 +26,7 @@
       </div>
     </div>
     <div id="profile-info-content">
-      <div id="about-me">
+      <div v-show="user.about_me" id="about-me">
         <h3>Par mani</h3>
         <p>{{ user.about_me }}</p>
       </div>
@@ -120,7 +120,8 @@ export default {
     },
     async openChat (userId) {
       await this.$axios.post('/chat_room', { user2_id: userId }).then((res) => {
-        this.$router.push('/chat?chatRoom=' + res.data.info.user.chat_room_id + '&userId=' + res.data.info.user.user_id)
+        console.log('REDIRECT')
+        this.$router.push('/chat?chatRoom=' + res.data.data.id)
       }).catch((e) => {
         console.log(e)
       })

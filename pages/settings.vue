@@ -4,8 +4,8 @@
       <div class="settings-navigation">
         <div>
           <div class="settings-navigation-profile">
-            <img class="settings-navigation-profile-picture" src="../static/images/ProfilePicture.png">
-            <h3>Markuss Lācis</h3>
+            <img class="settings-navigation-profile-picture" :src="userNavBarData.avatar">
+            <h3>{{ userNavBarData.firstname + ' ' + userNavBarData.lastname }}</h3>
           </div>
         </div>
         <div class="settings-navigation-buttons">
@@ -27,7 +27,7 @@
               @drop.prevent="uploadImage"
             >
               <img v-show="!displayDropZone" :src="previewImage" alt="imagePreview">
-              <img v-show="displayDropZone" src="../static/images/ProfilePicture.png">
+              <img v-show="displayDropZone" :src="userNavBarData.avatar">
               <label class="upload-image">
                 <span class="icon-circle-cross" />
                 <input type="file" accept="image/*" @change="uploadImage">
@@ -64,7 +64,7 @@
           </div>
           <div>
             <h5>Par mani</h5>
-            <TextareaField v-model="userData.about_me" class="text-area" placeholder="Par mani" color="grey" />
+            <TextareaField v-model="userData.about_me" :text="userData.about_me" class="text-area" placeholder="Par mani" color="grey" />
           </div>
         </div>
         <div class="settings-form-buttons">
@@ -86,6 +86,11 @@ export default {
       dropZoneColor: null,
       displayDropZone: true,
       mobileUpload: true,
+      userNavBarData: {
+        avatar: this.$auth.state.user.data.avatar,
+        firstname: this.$auth.state.user.data.firstname,
+        lastname: this.$auth.state.user.data.lastname
+      },
       userData: {
         avatar: null,
         firstname: this.$auth.state.user.data.firstname,
@@ -93,7 +98,7 @@ export default {
         language: this.$auth.state.user.data.language,
         birthday: this.$auth.state.user.data.birthday,
         gender: this.$auth.state.user.data.gender,
-        about_me: ''
+        about_me: this.$auth.state.user.data.about_me
       },
       infoModal: {
         showModal: false,
@@ -146,8 +151,11 @@ export default {
         }
       }
       await this.$axios.post('/users/' + this.$auth.state.user.data.id + '?_method=PUT', fd).then((res) => {
+        this.$auth.setUser(res.data.data)
         this.$auth.fetchUser()
-        this.$router.push('/profile')
+        setTimeout(() => {
+          this.$router.push('/profile')
+        }, 1000)
       }).catch((e) => {
         for (const error in e.response.data.errors) {
           this.$store.commit('setPopup', {
@@ -213,6 +221,8 @@ export default {
 
 .settings-navigation-profile-picture {
   height: 100px;
+  width: 100px;
+  object-fit: cover;
 }
 
 .settings-navigation-buttons {

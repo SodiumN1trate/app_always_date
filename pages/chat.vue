@@ -70,7 +70,6 @@ export default {
     this.getUsers()
     if (this.$route.query.chatRoom) {
       this.$axios.get('/chat_room/' + this.$route.query.chatRoom).then((res) => {
-        this.selectedChatRoom = res.data.data
         this.openUserChat(res.data.data)
       })
     }
@@ -128,10 +127,12 @@ export default {
     },
     async openUserChat (chatRoom) {
       if (this.selectedChatRoom.id || chatRoom.id === this.selectedChatRoom.id) {
+        console.log(2)
         return 0
       } else if (!this.selectedChatRoom || chatRoom.user.id !== this.selectedChatRoom.user.id) {
         this.$echo.leave('chat.' + this.selectedChatRoom.id)
       }
+      console.log(1)
       this.selectedChatRoom = chatRoom
       this.listenChatChannel()
       await this.$axios.get('/chat_room_messages/' + chatRoom.id).then((res) => {
