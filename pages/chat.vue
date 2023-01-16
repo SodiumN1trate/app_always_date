@@ -7,23 +7,23 @@
       </div>
       <div class="messages-user-chats">
         <div
-          v-for="user in users"
-          :key="user.id"
-          @click="openUserChat(user)"
+          v-for="chatRoom in chatRooms"
+          :key="chatRoom.user.id"
+          @click="openUserChat(chatRoom)"
         >
-          <UserCard :user="user" />
+          <UserCard :user="chatRoom.user" />
         </div>
       </div>
     </div>
-    <div v-show="!selectedUser && showNotSelectedUser" id="not-selected-user">
+    <div v-show="!selectedChatRoom && showNotSelectedUser" id="not-selected-user">
       <div>
         <h1>Lai sāktu saraksti, izvēlaties kādu no lietotājiem!</h1>
       </div>
     </div>
-    <div v-show="selectedUser || showChat" class="messages-chat">
+    <div v-show="selectedChatRoom || showChat" class="messages-chat">
       <div class="chat-header">
         <span v-show="showChat" class="icon-arrow-down" @click="closeUserChat()" />
-        <UserCard :user="selectedUser" />
+        <UserCard v-if="selectedChatRoom" :user="selectedChatRoom.user" />
       </div>
       <div ref="chat" class="chat">
         <Messages
@@ -52,8 +52,8 @@ export default {
   layout: 'NavigationLayout',
   data () {
     return {
-      users: [],
-      selectedUser: '',
+      chatRooms: [],
+      selectedChatRoom: '',
       messages: [],
       chatInput: '',
       showChatsNavigation: true,
@@ -65,16 +65,22 @@ export default {
     this.$nextTick(function () {
       this.onResize()
     })
-    this.getUsers()
     window.addEventListener('resize', this.onResize)
     this.checkPageStatus()
+    this.getUsers()
+    if (this.$route.query.chatRoom) {
+      this.$axios.get('/chat_room/' + this.$route.query.chatRoom).then((res) => {
+        this.selectedChatRoom = res.data.data
+        this.openUserChat(res.data.data)
+      })
+    }
   },
   updated () {
     this.checkPageStatus()
   },
   methods: {
     listenChatChannel () {
-      this.$echo.private('chat.' + this.selectedUser.chat_room_id)
+      this.$echo.private('chat.' + this.selectedChatRoom.id)
         .listen('MessageEvent', (e) => {
           this.getUserMessage(e)
         })
@@ -88,10 +94,10 @@ export default {
     checkPageStatus () {
       if (window.matchMedia('(max-width: 850px)').matches) {
         this.showNotSelectedUser = false
-        if (this.selectedUser) {
+        if (this.selectedChatRoom) {
           this.showChatsNavigation = false
           this.showChat = true
-        } else if (!this.selectedUser) {
+        } else if (!this.selectedChatRoom) {
           this.showChatsNavigation = true
           this.showChat = false
         }
@@ -117,18 +123,18 @@ export default {
     },
     async getUsers () {
       await this.$axios.get('/get_users_chats').then((res) => {
-        this.users = res.data.data
+        this.chatRooms = res.data.data
       })
     },
-    async openUserChat (user) {
-      if (user.chat_room_id === this.selectedUser.chat_room_id) {
+    async openUserChat (chatRoom) {
+      if (this.selectedChatRoom.id || chatRoom.id === this.selectedChatRoom.id) {
         return 0
-      } else if (this.selectedUser.id !== user.id) {
-        this.$echo.leave('chat.' + this.selectedUser.chat_room_id)
+      } else if (!this.selectedChatRoom || chatRoom.user.id !== this.selectedChatRoom.user.id) {
+        this.$echo.leave('chat.' + this.selectedChatRoom.id)
       }
-      this.selectedUser = user
+      this.selectedChatRoom = chatRoom
       this.listenChatChannel()
-      await this.$axios.get('/chat_room_messages/' + user.chat_room_id).then((res) => {
+      await this.$axios.get('/chat_room_messages/' + chatRoom.id).then((res) => {
         this.messages = res.data.data
         this.getMessagesDateTime()
       })
@@ -145,11 +151,11 @@ export default {
       this.scrollBottom()
     },
     closeUserChat () {
-      this.selectedUser = ''
+      this.selectedChatRoom = ''
     },
     async sendMessage () {
       await this.$axios.post('/message', {
-        chat_room_id: this.selectedUser.chat_room_id,
+        chat_room_id: this.selectedChatRoom.id,
         message: this.chatInput
       })
       this.chatInput = ''

@@ -9,7 +9,7 @@
           <div class="user-info">
             <div>
               <h2>{{ user.firstname }} {{ user.lastname }}</h2>
-              <button class="send-message-buttom">
+              <button @click="openChat(user.id)" class="send-message-buttom">
                 Nosūtīt ziņu 12.00
                 <i class="icon-circle-money" />
               </button>
@@ -50,7 +50,7 @@ export default {
   data () {
     return {
       showPopup: false,
-      user: this.$auth.$state.user.data,
+      user: [],
       cards: [
         {
           id: 1,
@@ -104,7 +104,27 @@ export default {
       ]
     }
   },
+  mounted () {
+    this.getUser(parseInt(this.$route.params.id))
+  },
   methods: {
+    async getUser (userId) {
+      if (userId === this.$auth.$state.user.data.id) {
+        await this.$router.push('/profile')
+      }
+      await this.$axios.get('/users/' + userId).then((res) => {
+        this.user = res.data.data
+      }).catch((e) => {
+        return this.$nuxt.error({ statusCode: 404, message: 'Ups, Jūs tikāt neeksistējošā saitē!' })
+      })
+    },
+    async openChat (userId) {
+      await this.$axios.post('/chat_room', { user2_id: userId }).then((res) => {
+        this.$router.push('/chat?chatRoom=' + res.data.info.user.chat_room_id + '&userId=' + res.data.info.user.user_id)
+      }).catch((e) => {
+        console.log(e)
+      })
+    },
     showReportPopup () {
       this.showPopup = true
     }

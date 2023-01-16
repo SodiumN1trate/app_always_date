@@ -147,9 +147,7 @@ export default {
       }
       await this.$axios.post('/users/' + this.$auth.state.user.data.id + '?_method=PUT', fd).then((res) => {
         this.$auth.fetchUser()
-        // this.$router.push('/profile')
-        console.log(this.userData)
-        console.log(this.$auth.state.user.data)
+        this.$router.push('/profile')
       }).catch((e) => {
         for (const error in e.response.data.errors) {
           this.$store.commit('setPopup', {

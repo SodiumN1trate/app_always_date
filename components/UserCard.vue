@@ -5,7 +5,7 @@
     </div>
     <div class="messages-profile-data">
       <h4>{{ user.firstname + ' ' + user.lastname }}</h4>
-<!--      <p>{{ user.lastMessage }}</p>-->
+<!--      <p>{{ users.lastMessage }}</p>-->
     </div>
   </div>
 </template>
