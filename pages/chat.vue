@@ -127,7 +127,6 @@ export default {
     },
     async openUserChat (chatRoom) {
       if (this.selectedChatRoom.id || chatRoom.id === this.selectedChatRoom.id) {
-        console.log(2)
         return 0
       } else if (!this.selectedChatRoom || chatRoom.user.id !== this.selectedChatRoom.user.id) {
         this.$echo.leave('chat.' + this.selectedChatRoom.id)
