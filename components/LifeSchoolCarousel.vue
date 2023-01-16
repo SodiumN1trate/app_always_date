@@ -3,293 +3,14 @@
     <div
       ref="slider"
       id="slider"
-      @wheel="scroll"
+      @wheel="mouseScroll"
       @mousedown="mouseDown"
       @mouseup="mouseUp"
       @mouseleave="mouseUp"
       @mousemove="mouseMove"
+      @scroll="onScroll"
     >
       <div class="article">
-        <div class="article-number">25</div>
-        <div class="article-description">
-          <h5>Dzīves dilēmas</h5>
-          <div class="article-details">
-            <div>
-              <span class="icon-circle-clock"></span>
-              <span>6 min</span>
-            </div>
-            <div>
-              <span class="icon-star"></span>
-              <span>417</span>
-            </div>
-            <div>
-              <span class="icon-lock"></span>
-              <span>25.05.2022 21:54</span>
-            </div>
-          </div>
-        </div>
-      </div>
-      <div class="article">
-        <div class="article-number">26</div>
-        <div class="article-description">
-          <h5>Dzīves dilēmas</h5>
-          <div class="article-details">
-            <div>
-              <span class="icon-circle-clock"></span>
-              <span>6 min</span>
-            </div>
-            <div>
-              <span class="icon-star"></span>
-              <span>417</span>
-            </div>
-            <div>
-              <span class="icon-lock"></span>
-              <span>25.05.2022 21:54</span>
-            </div>
-          </div>
-        </div>
-      </div>
-      <div class="article">
-        <div class="article-number">25</div>
-        <div class="article-description">
-          <h5>Dzīves dilēmas</h5>
-          <div class="article-details">
-            <div>
-              <span class="icon-circle-clock"></span>
-              <span>6 min</span>
-            </div>
-            <div>
-              <span class="icon-star"></span>
-              <span>417</span>
-            </div>
-            <div>
-              <span class="icon-lock"></span>
-              <span>25.05.2022 21:54</span>
-            </div>
-          </div>
-        </div>
-      </div>
-      <div class="article">
-        <div class="article-number">26</div>
-        <div class="article-description">
-          <h5>Dzīves dilēmas</h5>
-          <div class="article-details">
-            <div>
-              <span class="icon-circle-clock"></span>
-              <span>6 min</span>
-            </div>
-            <div>
-              <span class="icon-star"></span>
-              <span>417</span>
-            </div>
-            <div>
-              <span class="icon-lock"></span>
-              <span>25.05.2022 21:54</span>
-            </div>
-          </div>
-        </div>
-      </div>
-      <div class="article">
-        <div class="article-number">25</div>
-        <div class="article-description">
-          <h5>Dzīves dilēmas</h5>
-          <div class="article-details">
-            <div>
-              <span class="icon-circle-clock"></span>
-              <span>6 min</span>
-            </div>
-            <div>
-              <span class="icon-star"></span>
-              <span>417</span>
-            </div>
-            <div>
-              <span class="icon-lock"></span>
-              <span>25.05.2022 21:54</span>
-            </div>
-          </div>
-        </div>
-      </div>
-      <div class="article">
-        <div class="article-number">26</div>
-        <div class="article-description">
-          <h5>Dzīves dilēmas</h5>
-          <div class="article-details">
-            <div>
-              <span class="icon-circle-clock"></span>
-              <span>6 min</span>
-            </div>
-            <div>
-              <span class="icon-star"></span>
-              <span>417</span>
-            </div>
-            <div>
-              <span class="icon-lock"></span>
-              <span>25.05.2022 21:54</span>
-            </div>
-          </div>
-        </div>
-      </div>
-      <div class="article">
-        <div class="article-number">25</div>
-        <div class="article-description">
-          <h5>Dzīves dilēmas</h5>
-          <div class="article-details">
-            <div>
-              <span class="icon-circle-clock"></span>
-              <span>6 min</span>
-            </div>
-            <div>
-              <span class="icon-star"></span>
-              <span>417</span>
-            </div>
-            <div>
-              <span class="icon-lock"></span>
-              <span>25.05.2022 21:54</span>
-            </div>
-          </div>
-        </div>
-      </div>
-      <div class="article">
-        <div class="article-number">26</div>
-        <div class="article-description">
-          <h5>Dzīves dilēmas</h5>
-          <div class="article-details">
-            <div>
-              <span class="icon-circle-clock"></span>
-              <span>6 min</span>
-            </div>
-            <div>
-              <span class="icon-star"></span>
-              <span>417</span>
-            </div>
-            <div>
-              <span class="icon-lock"></span>
-              <span>25.05.2022 21:54</span>
-            </div>
-          </div>
-        </div>
-      </div>
-      <div class="article">
-        <div class="article-number">25</div>
-        <div class="article-description">
-          <h5>Dzīves dilēmas</h5>
-          <div class="article-details">
-            <div>
-              <span class="icon-circle-clock"></span>
-              <span>6 min</span>
-            </div>
-            <div>
-              <span class="icon-star"></span>
-              <span>417</span>
-            </div>
-            <div>
-              <span class="icon-lock"></span>
-              <span>25.05.2022 21:54</span>
-            </div>
-          </div>
-        </div>
-      </div>
-      <div class="article">
-        <div class="article-number">26</div>
-        <div class="article-description">
-          <h5>Dzīves dilēmas</h5>
-          <div class="article-details">
-            <div>
-              <span class="icon-circle-clock"></span>
-              <span>6 min</span>
-            </div>
-            <div>
-              <span class="icon-star"></span>
-              <span>417</span>
-            </div>
-            <div>
-              <span class="icon-lock"></span>
-              <span>25.05.2022 21:54</span>
-            </div>
-          </div>
-        </div>
-      </div>
-      <div class="article">
-        <div class="article-number">25</div>
-        <div class="article-description">
-          <h5>Dzīves dilēmas</h5>
-          <div class="article-details">
-            <div>
-              <span class="icon-circle-clock"></span>
-              <span>6 min</span>
-            </div>
-            <div>
-              <span class="icon-star"></span>
-              <span>417</span>
-            </div>
-            <div>
-              <span class="icon-lock"></span>
-              <span>25.05.2022 21:54</span>
-            </div>
-          </div>
-        </div>
-      </div>
-      <div class="article">
-        <div class="article-number">26</div>
-        <div class="article-description">
-          <h5>Dzīves dilēmas</h5>
-          <div class="article-details">
-            <div>
-              <span class="icon-circle-clock"></span>
-              <span>6 min</span>
-            </div>
-            <div>
-              <span class="icon-star"></span>
-              <span>417</span>
-            </div>
-            <div>
-              <span class="icon-lock"></span>
-              <span>25.05.2022 21:54</span>
-            </div>
-          </div>
-        </div>
-      </div>
-      <div class="article">
-        <div class="article-number">25</div>
-        <div class="article-description">
-          <h5>Dzīves dilēmas</h5>
-          <div class="article-details">
-            <div>
-              <span class="icon-circle-clock"></span>
-              <span>6 min</span>
-            </div>
-            <div>
-              <span class="icon-star"></span>
-              <span>417</span>
-            </div>
-            <div>
-              <span class="icon-lock"></span>
-              <span>25.05.2022 21:54</span>
-            </div>
-          </div>
-        </div>
-      </div>
-      <div class="article">
-        <div class="article-number">26</div>
-        <div class="article-description">
-          <h5>Dzīves dilēmas</h5>
-          <div class="article-details">
-            <div>
-              <span class="icon-circle-clock"></span>
-              <span>6 min</span>
-            </div>
-            <div>
-              <span class="icon-star"></span>
-              <span>417</span>
-            </div>
-            <div>
-              <span class="icon-lock"></span>
-              <span>25.05.2022 21:54</span>
-            </div>
-          </div>
-        </div>
-      </div>
-      <div class="article">
         <div class="article-number">27</div>
         <div class="article-description">
           <h5>Dzīves dilēmas</h5>
@@ -350,46 +71,25 @@
         </div>
       </div>
       <div class="article">
-        <div class="article-number">27</div>
-        <div class="article-description">
-          <h5>Dzīves dilēmas</h5>
-          <div class="article-details">
-            <div>
-              <span class="icon-circle-clock"></span>
-              <span>6 min</span>
-            </div>
-            <div>
-              <span class="icon-star"></span>
-              <span>417</span>
-            </div>
-            <div>
-              <span class="icon-lock"></span>
-              <span>25.05.2022 21:54</span>
-            </div>
+      <div class="article-number">27</div>
+      <div class="article-description">
+        <h5>Dzīves dilēmas</h5>
+        <div class="article-details">
+          <div>
+            <span class="icon-circle-clock"></span>
+            <span>6 min</span>
+          </div>
+          <div>
+            <span class="icon-star"></span>
+            <span>417</span>
+          </div>
+          <div>
+            <span class="icon-lock"></span>
+            <span>25.05.2022 21:54</span>
           </div>
         </div>
       </div>
-      <div class="article">
-        <div class="article-number">27</div>
-        <div class="article-description">
-          <h5>Dzīves dilēmas</h5>
-          <div class="article-details">
-            <div>
-              <span class="icon-circle-clock"></span>
-              <span>6 min</span>
-            </div>
-            <div>
-              <span class="icon-star"></span>
-              <span>417</span>
-            </div>
-            <div>
-              <span class="icon-lock"></span>
-              <span>25.05.2022 21:54</span>
-            </div>
-          </div>
-        </div>
-      </div>
-
+    </div>
     </div>
   </div>
 </template>
@@ -401,18 +101,33 @@ export default {
     return {
       pos: {
         startX: 0,
-        scrollLeft: 0
+        scrollLeft: 0,
+        scrolledTo: null
       },
-      isDown: false
+      isDown: false,
+      counter: 0
     }
   },
   methods: {
-    scroll (e) {
+    mouseScroll (e) {
+      console.log(this.$refs.slider.offsetHeight)
       if (e.deltaY > 0) {
         this.$refs.slider.scrollLeft += 300
+        this.counter += 1
       } else {
         this.$refs.slider.scrollLeft -= 300
+        this.counter -= 1
       }
+    },
+    count (e) {
+      const pos = this.$refs.slider.scrollTop
+      this.$refs.slider.children.forEach((element, index) => {
+        const relativePos = element.offsetTop - pos + (element.offsetHeight / 2)
+        if (relativePos >= 0 && relativePos < element.offsetHeight) {
+          // console.log(element)
+          return 0
+        }
+      })
     },
     mouseDown (e) {
       this.isDown = true
@@ -429,13 +144,24 @@ export default {
       this.$refs.slider.style.scrollSnapType = 'x mandatory'
       this.$refs.slider.style.scrollBehavior = 'smooth'
       this.$refs.slider.style.cursor = 'auto'
+      if (this.scrolledTo) {
+        this.counter -= 1
+      } else {
+        this.counter += 1
+      }
     },
     mouseMove (e) {
       if (!this.isDown) { return 0 }
       e.preventDefault()
       const x = e.pageX - this.$refs.slider.offsetLeft
       const walk = x - this.pos.startX
+      const temp = this.$refs.slider.scrollLeft
       this.$refs.slider.scrollLeft = this.pos.scrollLeft - walk
+      if (temp > this.$refs.slider.scrollLeft) {
+        this.scrolledTo = true
+      } else {
+        this.scrolledTo = false
+      }
     }
   }
 }

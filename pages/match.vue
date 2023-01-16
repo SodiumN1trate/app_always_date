@@ -3,9 +3,8 @@
     <div id="box">
       <div>
         <div id="photo-side">
-          <div id="match-photo" :style="{backgroundImage: `url(${$store.state.targetUser.avatar})`}">
+          <img id="match-photo" :src="$store.state.targetUser.avatar">
 
-          </div>
 <!--          <img id="match-photo" :src="$store.state.targetUser.avatar">-->
           <div id="buttons">
             <div class="small-button">
@@ -102,6 +101,7 @@ export default {
   height: 450px;
   background-position: center;
   background-size: 350px 450px;
+  object-fit: cover;
 }
 
 #photo-side {
