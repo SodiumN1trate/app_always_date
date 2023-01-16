@@ -296,7 +296,7 @@
   font-size: inherit;
 }
 .icon-circle-clock::before {
-  content: "\e933";
+  content: "\e922";
   display: inline-block;
   font-size: inherit;
 }
@@ -305,14 +305,27 @@
   display: inline-block;
   font-size: inherit;
 }
-
-.icon-up-vote::before {
-  content: "\e922";
+.icon-vote-down-stroke::before {
+  content: "\e933";
   display: inline-block;
   font-size: inherit;
+  color: #FF9E9E;
 }
-.icon-down-vote::before {
+.icon-vote-up-stroke::before {
+  content: "\e935";
+  display: inline-block;
+  font-size: inherit;
+  color: #FF9E9E;
+}
+.icon-vote-up-fill::before {
+  content: "\e936";
+  display: inline-block;
+  font-size: inherit;
+  color: #FF9E9E;
+}
+.icon-vote-down-fill::before {
   content: "\e92d";
   display: inline-block;
   font-size: inherit;
+  color: #FF9E9E;
 }

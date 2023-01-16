@@ -5,7 +5,7 @@
       <LifeSchoolCarousel2 :previews="lifeSchools" @change="changeLifeSchool"/>
       <div class="article" v-if="lifeSchool">
         <div class="text-content">
-          <h2>Dzīves dilēmas</h2>
+          <h2>{{ lifeSchool.title }}</h2>
         </div>
         <div class="vertical-line"></div>
         <div class="text">
@@ -28,9 +28,9 @@
           <h3>Pievienot komentāru</h3>
           <div class="comment" v-for="comment in comments" :key="comment.id">
             <div class="comment-rate">
-              <span class="icon-up-vote" @click="commentVote(comment.id, true)"></span>
+              <span :class="{ 'icon-vote-up-fill': comment.voted, 'icon-vote-up-stroke': comment.voted === false || comment.voted === null }" @click="commentVote(comment.id, true)"></span>
               <p>{{ comment.votes }}</p>
-              <span class="icon-down-vote" @click="commentVote(comment.id, false)"></span>
+              <span :class="{ 'icon-vote-down-fill': comment.voted === false, 'icon-vote-down-stroke': comment.voted === true || comment.voted === null  }" @click="commentVote(comment.id, false)"></span>
             </div>
             <img :src="comment.author.avatar">
             <div class="comment-data">
@@ -80,6 +80,7 @@ export default {
     addComment () {
       this.form.article_id = this.lifeSchool.id
       this.$axios.post('/life_school_comments', this.form).then((response) => {
+        this.form.description = ''
         this.getLifeSchoolComments()
       })
     },
@@ -89,6 +90,7 @@ export default {
         rating: vote
       }
       this.$axios.post('/life_school_comments/rate', data).then((response) => {
+        console.log(response)
         this.getLifeSchoolComments()
       })
     }
@@ -282,16 +284,19 @@ body {
   padding: 0;
 }
 
-.comment-rate > .icon-up-vote, .comment-rate > .icon-down-vote {
+.comment-rate > .icon-vote-up-fill,
+.comment-rate > .icon-vote-up-stroke,
+.comment-rate > .icon-vote-down-fill,
+.comment-rate > .icon-vote-down-stroke {
   transition: 0.3s;
   font-size: 19px;
 }
 
-.comment-rate > .icon-up-vote:hover {
+.comment-rate > .icon-vote-up-fill:hover, .comment-rate > .icon-vote-up-stroke:hover {
   transform: scale(1.2);
 }
 
-.comment-rate > .icon-down-vote:hover {
+.comment-rate > .icon-vote-down-fill:hover, .comment-rate > .icon-vote-down -stroke:hover {
   transform: scale(0.8);
 }
 
