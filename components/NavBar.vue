@@ -74,6 +74,11 @@ export default {
           title: 'Mans reitings',
           icon: 'flame',
           link: '/profile'
+        },
+        {
+          title: 'Iestatījumi',
+          icon: 'dots',
+          link: '/settings'
         }
       ]
     }

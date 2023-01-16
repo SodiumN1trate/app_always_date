@@ -15,7 +15,7 @@
       </div>
     </div>
     <div id="profile-info-content">
-      <div id="about-me">
+      <div id="about-me" v-if="user.about_me">
         <h3>Par mani</h3>
         <p>{{ user.about_me }}</p>
       </div>
