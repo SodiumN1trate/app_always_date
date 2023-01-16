@@ -9,7 +9,7 @@
           <div class="user-info">
             <div>
               <h2>{{ user.firstname }} {{ user.lastname }}</h2>
-              <button class="send-message-buttom">
+              <button @click="openChat(user.id)" class="send-message-buttom">
                 Nosūtīt ziņu 12.00
                 <i class="icon-circle-money" />
               </button>
@@ -26,7 +26,7 @@
       </div>
     </div>
     <div id="profile-info-content">
-      <div id="about-me">
+      <div v-show="user.about_me" id="about-me">
         <h3>Par mani</h3>
         <p>{{ user.about_me }}</p>
       </div>
@@ -50,7 +50,7 @@ export default {
   data () {
     return {
       showPopup: false,
-      user: this.$auth.$state.user.data,
+      user: [],
       cards: [
         {
           id: 1,
@@ -104,7 +104,28 @@ export default {
       ]
     }
   },
+  mounted () {
+    this.getUser(parseInt(this.$route.params.id))
+  },
   methods: {
+    async getUser (userId) {
+      if (userId === this.$auth.$state.user.data.id) {
+        await this.$router.push('/profile')
+      }
+      await this.$axios.get('/users/' + userId).then((res) => {
+        this.user = res.data.data
+      }).catch((e) => {
+        return this.$nuxt.error({ statusCode: 404, message: 'Ups, Jūs tikāt neeksistējošā saitē!' })
+      })
+    },
+    async openChat (userId) {
+      await this.$axios.post('/chat_room', { user2_id: userId }).then((res) => {
+        console.log('REDIRECT')
+        this.$router.push('/chat?chatRoom=' + res.data.data.id)
+      }).catch((e) => {
+        console.log(e)
+      })
+    },
     showReportPopup () {
       this.showPopup = true
     }

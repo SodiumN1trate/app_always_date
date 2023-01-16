@@ -49,7 +49,7 @@ export default {
 
 .input-field-color-grey {
   border: solid 1px $color-grey-4;
-  color: $color-grey-4;
+  color: $color-black-2;
   background-color: $color-white-2;
 }
 
