@@ -45,7 +45,6 @@ export default {
   },
   methods: {
     scroll (e, key) {
-      console.log(this.$refs.slider.offsetHeight)
       if (
         (this.counter >= this.previews.length - 1 && (key || e.deltaY > 0)) ||
         (this.counter <= 0 && !key)

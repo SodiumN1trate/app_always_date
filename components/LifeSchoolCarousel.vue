@@ -110,7 +110,6 @@ export default {
   },
   methods: {
     mouseScroll (e) {
-      console.log(this.$refs.slider.offsetHeight)
       if (e.deltaY > 0) {
         this.$refs.slider.scrollLeft += 300
         this.counter += 1
@@ -124,7 +123,6 @@ export default {
       this.$refs.slider.children.forEach((element, index) => {
         const relativePos = element.offsetTop - pos + (element.offsetHeight / 2)
         if (relativePos >= 0 && relativePos < element.offsetHeight) {
-          // console.log(element)
           return 0
         }
       })

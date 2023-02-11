@@ -30,9 +30,6 @@
         </div>
       </div>
     </div>
-    <!--    <div class="error">-->
-    <!--      <p v-if="inputError !== undefined">{{ inputError }}</p>-->
-    <!--    </div>-->
   </div>
 </template>
 

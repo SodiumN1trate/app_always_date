@@ -28,7 +28,7 @@
       <SelectInput v-model="userData.language" :placeholder="'Valoda'" :options="['Latviešu', 'Krievu', 'Angļu']" tabindex="1" color="pink" />
       <hr class="form-lines">
       <h2>Dzimums</h2>
-      <SelectInput v-model="userData.gender" :placeholder="'Dzimums'" :options="['Sieviete', 'Vīrietis']" tabindex="0" color="pink" />
+      <SelectInputField v-model="userData.gender" :placeholder="'Dzimums'" :options="[{id: 0, name: 'Sieviete'}, {id: 1, name: 'Vīrietis'}]" tabindex="0" color="pink" />
       <hr class="form-lines">
       <div class="register-button-center">
         <button ref="button" class="register-button" type="submit" @blur="isButtonFocus = false">
@@ -67,23 +67,8 @@ export default {
   },
   methods: {
     async registerUser () {
-      if (this.userData.gender === 'Sieviete') {
-        this.userData.gender = '0'
-      } else if (this.userData.gender === 'Vīrietis') {
-        this.userData.gender = '1'
-      }
-      const fd = new FormData()
-      for (const [key, value] of Object.entries(this.userData)) {
-        if (this.userData[key]) {
-          fd.append(key, value)
-        }
-      }
-
-      await this.$axios.post('/users/' + this.user.id + '?_method=PUT', fd).then((res) => {
-        this.$auth.fetchUser(res.data.data)
-        setTimeout(() => {
-          window.location.href = '/profile?successRegistration=true'
-        }, 1000)
+      await this.$axios.put('/users/' + this.user.id, this.userData).then((res) => {
+        window.location.href = '/profile?successRegistration=true'
       }).catch((e) => {
         for (const error in e.response.data.errors) {
           this.$store.commit('setPopup', {

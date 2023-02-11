@@ -120,7 +120,6 @@ export default {
     },
     async openChat (userId) {
       await this.$axios.post('/chat_room', { user2_id: userId }).then((res) => {
-        console.log('REDIRECT')
         this.$router.push('/chat?chatRoom=' + res.data.data.id)
       }).catch((e) => {
         console.log(e)
