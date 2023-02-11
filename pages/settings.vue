@@ -20,7 +20,6 @@
             <label v-show="mobileUpload" class="upload-image mobile-upload">
               <input type="file" accept="image/*" @change="uploadImage">
             </label>
-            <!--              v-show="displayDropZone"-->
             <div
               class="drop-zone"
               :style="{ borderColor: dropZoneColor}"
@@ -48,7 +47,14 @@
             <div>
               <div class="settings-section-gender-select">
                 <h5>Dzimums</h5>
-                <SelectInput v-model="userData.gender" class="settings-select-gender" :placeholder="userData.gender ? 'Vīrietis' : 'Sieviete'" :options="['Vīrietis','Sieviete']" color="grey" />
+                <SelectInputField
+                  v-model="computedGender"
+                  class="settings-select-gender"
+                  :placeholder="userData.gender"
+                  :options="[{id: 0, name: 'Sieviete'}, {id: 1, name: 'Vīrietis'}]"
+                  :tabindex="0"
+                  color="grey"
+                />
               </div>
               <div>
                 <h5>Dzimšanas datums</h5>
@@ -60,7 +66,13 @@
         <div class="settings-section-about-user">
           <div>
             <h5>Reģions</h5>
-            <SelectInput class="select-input-region" placeholder="Reģions" :options="['Rīga, centrs', 'Jelgava', 'Bauska', 'Daugavpils']" color="grey" />
+            <SelectInputField
+              class="select-input-region"
+              placeholder="Reģions"
+              :options="[{id: 1, name: 'Rīga'}, {id: 1, name: 'centrs'}, {id: 1, name: 'Jelgava'}, {id: 1, name: 'Bauska'}, {id: 1, name: 'Daugavpils'}]"
+              color="grey"
+              :tabindex="1"
+            />
           </div>
           <div>
             <h5>Par mani</h5>
@@ -97,7 +109,7 @@ export default {
         lastname: this.$auth.state.user.data.lastname,
         language: this.$auth.state.user.data.language,
         birthday: this.$auth.state.user.data.birthday,
-        gender: this.$auth.state.user.data.gender,
+        gender: this.$auth.state.user.data.gender ? { id: 1, name: 'Vīrietis' } : { id: 0, name: 'Sieviete' },
         about_me: this.$auth.state.user.data.about_me
       },
       infoModal: {
@@ -108,6 +120,16 @@ export default {
       ImageCrop: {
         showModal: false,
         image: null
+      }
+    }
+  },
+  computed: {
+    computedGender: {
+      get () {
+        return this.userData.gender
+      },
+      set (value) {
+        this.userData.gender = value.toString()
       }
     }
   },
@@ -139,11 +161,7 @@ export default {
       }
     },
     async updateUser () {
-      if (this.userData.gender === 'Sieviete') {
-        this.userData.gender = '0'
-      } else if (this.userData.gender === 'Vīrietis') {
-        this.userData.gender = '1'
-      }
+      console.log(this.userData.gender)
       const fd = new FormData()
       for (const [key, value] of Object.entries(this.userData)) {
         if (this.userData[key]) {
@@ -165,7 +183,6 @@ export default {
           })
         }
       })
-      console.log(this.userData)
     }
   }
 }
@@ -324,8 +341,8 @@ export default {
   opacity: 0;
   transition: 1s;
   margin-bottom: 0;
-  width: 100%;
-  height: 100%;
+  width: 128px;
+  height: 128px;
   justify-content: center;
   align-items: center;
 }
