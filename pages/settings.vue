@@ -161,7 +161,6 @@ export default {
       }
     },
     async updateUser () {
-      console.log(this.userData.gender)
       const fd = new FormData()
       for (const [key, value] of Object.entries(this.userData)) {
         if (this.userData[key]) {

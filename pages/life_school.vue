@@ -90,7 +90,6 @@ export default {
         rating: vote
       }
       this.$axios.post('/life_school_comments/rate', data).then((response) => {
-        console.log(response)
         this.getLifeSchoolComments()
       })
     }

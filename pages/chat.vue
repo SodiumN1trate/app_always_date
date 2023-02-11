@@ -131,7 +131,6 @@ export default {
       } else if (!this.selectedChatRoom || chatRoom.user.id !== this.selectedChatRoom.user.id) {
         this.$echo.leave('chat.' + this.selectedChatRoom.id)
       }
-      console.log(1)
       this.selectedChatRoom = chatRoom
       this.listenChatChannel()
       await this.$axios.get('/chat_room_messages/' + chatRoom.id).then((res) => {

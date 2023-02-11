@@ -28,7 +28,6 @@ export default {
   },
   beforeMount () {
     this.content = this.date
-    console.log(this.content)
   },
   methods: {
     changeDateBorder () {
