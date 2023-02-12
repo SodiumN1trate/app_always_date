@@ -9,22 +9,16 @@
       </h1>
       <div class="full-name">
         <div>
-          <h3 class="input-title">
-            Vārds
-          </h3>
+          <h4 class="input-title">Vārds</h4>
           <InputField v-model="userData.firstname" placeholder="Vārds" />
         </div>
         <div>
-          <h3 class="input-title">
-            Uzvārds
-          </h3>
+          <h4 class="input-title">Uzvārds</h4>
           <InputField v-model="userData.lastname" placeholder="Uzvārds" />
         </div>
       </div>
       <div>
-        <h3 class="input-title">
-          Dzimšanas datums
-        </h3>
+        <h4 class="input-title">Dzimšanas datums</h4>
         <date-pick
           v-model="userData.birthday"
           :input-attributes="{class: 'date-picker', readonly: true}"
@@ -35,9 +29,7 @@
         />
       </div>
       <div>
-        <h3 class="input-title">
-          Dzimums
-        </h3>
+        <h4 class="input-title">Dzimums</h4>
         <SelectGender v-model="userData.gender" />
       </div>
       <div class="register-button-center">
@@ -83,7 +75,6 @@ export default {
   },
   mounted () {
     document.body.style.backgroundColor = '#FFF3F3'
-    // document.body.style.backgroundImage = "url('images/RegisterPageBackground.png')"
     this.userData.firstname = this.user.firstname
     this.userData.lastname = this.user.lastname
   },

@@ -1,12 +1,12 @@
 <template>
   <div class="checklist">
     <div class="checkboxes">
-      <label :class="{ 'checked-man': displayMan }" @click="checkedBox(0)">
-        <input type="radio" :style="{ display: 'none' }" name="gender" @click="console">
+      <label class="radio-man" :class="{ 'checked-man': displayMan }" @click="checkedBox(0)">
+        <input type="radio" name="gender">
         <img src="../static/svg/Man.svg">
       </label>
-      <label :class="{ 'checked-woman': displayWoman }" @click="checkedBox(1)">
-        <input type="radio" name="gender" @click="console">
+      <label class="radio-woman" :class="{ 'checked-woman': displayWoman }" @click="checkedBox(1)">
+        <input type="radio" name="gender">
         <img src="../static/svg/Woman.svg">
       </label>
     </div>
@@ -35,9 +35,6 @@ export default {
         this.displayMan = false
       }
       this.$emit('input', this.content)
-    },
-    console () {
-      console.log(true)
     }
   }
 }
@@ -47,20 +44,18 @@ export default {
 div {
   text-align: center;
 }
+
 .checklist {
   display: flex;
   justify-content: center;
 }
-.checklist > input{
-  border: 0;
-  width: 15px;
-  height: 15px;
-}
+
 .checkboxes {
   display: flex;
-  justify-content: flex-start;
+  justify-content: center;
   gap: 10px;
 }
+
 .checkboxes > label {
   border: 2px solid #E8E8E8;
   width: 50px;
@@ -73,24 +68,31 @@ div {
   display: flex;
   justify-content: center;
   cursor: pointer;
+  transition: 0.1s;
 }
-.checkboxes > label:hover {
-  background-color: #eeeeee;
-}
+
 .checkboxes > label > input {
   width: 100%;
   display: none;
 }
+
 .checkboxes > label > img {
   margin: auto;
 }
+
 .checked-man {
-  border-color: #099EE3 !important;
+  border-color: #099EE3  !important;
 }
+
+.radio-man:hover {
+  border-color: #099EE3;
+}
+
 .checked-woman {
   border-color: #E67FB0 !important;
 }
-.checked:hover {
-  background-color: white !important;
+
+.radio-woman:hover {
+  border-color: #E67FB0;
 }
 </style>
