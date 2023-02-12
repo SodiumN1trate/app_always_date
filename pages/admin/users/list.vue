@@ -153,7 +153,6 @@ export default {
     async onFilter () {
       this.currentPage = 1
       this.filter = ''
-      console.log(this.filters)
       for (const prop in this.filters) {
         if (!this.filters[prop]) { continue }
         let value = this.filters[prop]
@@ -170,8 +169,6 @@ export default {
         this.filter += `${prop}=${value}&`
       }
       if (this.filter.slice(-1) === '&') { this.filter = this.filter.slice(0, -1) }
-
-      console.log(this.filter)
 
       await this.$axios.get('/users?page=1' + '&' + this.filter).then((response) => {
         this.data = response.data.data
