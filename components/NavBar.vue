@@ -2,8 +2,8 @@
   <div id="navigation" :class="{'navigation-blur': sidebarOpenState}">
     <transition name="slide-fade">
       <div v-show="sidebarOpenState" class="vertical">
-        <div v-for="(button, index) in buttons" :key="index">
-          <NuxtLink :to="button.link">
+        <div v-for="(button, index) in buttons" :key="index" v-can-permission="button.permission" v-can-role="button.role">
+          <NuxtLink :to="button.link" >
             <div @mouseover="onButtonHover" @mouseleave="leaveButtonHover" @click="onButtonClick">
               <i :class="`icon-${button.icon}`" />
               <span>{{ button.title }}</span>
@@ -63,7 +63,8 @@ export default {
         {
           title: 'Dzīves skola',
           icon: 'book',
-          link: '/life_school'
+          link: '/life_school',
+          permission: 'view.life_school'
         },
         {
           title: 'Vērtēšanas',
@@ -79,6 +80,12 @@ export default {
           title: 'Iestatījumi',
           icon: 'dots',
           link: '/settings'
+        },
+        {
+          title: 'Administrācija',
+          icon: 'edit',
+          link: '/admin/users/list',
+          role: 'Administrators'
         }
       ]
     }
