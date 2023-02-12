@@ -1,11 +1,11 @@
 <template>
   <div class="checklist">
     <div class="checkboxes">
-      <label class="radio-man" :class="{ 'checked-man': displayMan }" @click="checkedBox(0)">
+      <label class="radio-man" :class="{ 'checked-man': gender === 1 }" @click="checkedBox(1)">
         <input type="radio" name="gender">
         <img src="../static/svg/Man.svg">
       </label>
-      <label class="radio-woman" :class="{ 'checked-woman': displayWoman }" @click="checkedBox(1)">
+      <label class="radio-woman" :class="{ 'checked-woman': gender === 0 }" @click="checkedBox(0)">
         <input type="radio" name="gender">
         <img src="../static/svg/Woman.svg">
       </label>
@@ -18,23 +18,14 @@ export default {
   name: 'GenderCheckbox',
   data () {
     return {
-      content: '',
-      displayMan: false,
-      displayWoman: false,
+      gender: '',
       checked: false
     }
   },
   methods: {
     checkedBox (gender) {
-      this.content = gender
-      if (this.content === 0) {
-        this.displayMan = true
-        this.displayWoman = false
-      } else {
-        this.displayWoman = true
-        this.displayMan = false
-      }
-      this.$emit('input', this.content)
+      this.gender = gender
+      this.$emit('input', this.gender)
     }
   }
 }
