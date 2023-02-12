@@ -62,7 +62,7 @@ export const actions = {
   },
   async match (context, payload) {
     // type = 1 -> like, type = 0 -> dislike
-    await this.$axios.post('/match', payload).then((response) => {
+    await this.$axios.post('/matches', payload).then((response) => {
       if (response.data.data.is_match) {
         context.commit('setPopup', {
           type: 'success',

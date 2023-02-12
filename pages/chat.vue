@@ -153,6 +153,7 @@ export default {
       this.selectedChatRoom = ''
     },
     async sendMessage () {
+      if (!this.chatInput) { return 0 }
       await this.$axios.post('/message', {
         chat_room_id: this.selectedChatRoom.id,
         message: this.chatInput
