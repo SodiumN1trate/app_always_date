@@ -64,9 +64,9 @@
             {{ data.item.roles.toString() }}
           </template>
 
-          <template #cell(operations)="">
+          <template #cell(operations)="data">
             <span class="icon-trash"></span>
-            <span class="icon-edit"></span>
+            <NuxtLink :to="`/admin/users/edit/${data.item.id}`"><span class="icon-edit"></span></NuxtLink>
           </template>
 
         </b-table>

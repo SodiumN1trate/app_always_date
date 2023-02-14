@@ -1,12 +1,10 @@
 <template>
-  <div class="container">
-    <tiptap-vuetify
-      :value="value"
-      :extensions="extensions"
-      placeholder="Rakstīt šeit..."
-      @input="input($event)"
-    />
-  </div>
+  <tiptap-vuetify
+    :value="value"
+    :extensions="extensions"
+    placeholder="Rakstīt šeit..."
+    @input="input($event)"
+  />
 </template>
 
 <script>
@@ -70,12 +68,9 @@ export default {
 }
 </script>
 
-<style>
-.tiptap-vuetify-editor__content {
+<style scoped>
+p {
   margin: 0;
   padding: 0;
-  min-height: 400px;
-  max-height: 400px;
-  width: 100%;
 }
 </style>
