@@ -4,16 +4,14 @@
       <div>
         <div id="photo-side">
           <img id="match-photo" :src="$store.state.targetUser.avatar">
-
-<!--          <img id="match-photo" :src="$store.state.targetUser.avatar">-->
           <div id="buttons">
-            <div class="small-button">
+            <div class="small-button" @click="$store.commit('setTargetUser', previousUser)">
               <span class="icon-previous"></span>
             </div>
-            <div class="large-button" @click="$store.dispatch('match', { user_2: $store.state.targetUser.id, user_1_rating: false , filter: filter})">
+            <div class="large-button" @click="match(true)">
               <span class="icon-refuse"></span>
             </div>
-            <div class="large-button" @click="$store.dispatch('match', { user_2: $store.state.targetUser.id, user_1_rating: true, filter: filter })">
+            <div class="large-button" @click="match(false)">
               <span class="icon-heart-filled"></span>
             </div>
             <div class="small-button">
@@ -53,6 +51,7 @@ export default {
   data () {
     return {
       user: this.$auth.$state.user.data,
+      previousUser: null,
       filter: null
     }
   },
@@ -60,6 +59,10 @@ export default {
     this.$store.dispatch('getRandomUser', this.filter)
   },
   methods: {
+    match (matchType) {
+      this.previousUser = this.$store.state.targetUser
+      this.$store.dispatch('match', { user_2: this.$store.state.targetUser.id, user_1_rating: matchType, filter: this.filter })
+    },
     filterSubmit (form) {
       try {
         this.filter = form
