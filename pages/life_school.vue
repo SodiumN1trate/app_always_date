@@ -2,7 +2,7 @@
   <div id="content">
     <div id="box">
       <h2>Dzīves skola</h2>
-      <LifeSchoolCarousel2 :previews="lifeSchools" @change="changeLifeSchool"/>
+      <LifeSchoolCarousel2 :previews="lifeSchools" :index="lifeSchoolIndex" @change="changeLifeSchool"/>
       <div class="article" v-if="lifeSchool">
         <div class="text-content">
           <h2>{{ lifeSchool.title }}</h2>
@@ -12,6 +12,7 @@
           {{ lifeSchool.description }}
         </div>
       </div>
+      <button @click="addLifeSchoolExp" v-if="lifeSchools.length - 1 === lifeSchoolIndex">Nakamais</button>
       <div class="comments-container">
         <h1>Komentāri</h1>
         <div class="add-comment-form">
@@ -44,10 +45,20 @@
         </div>
       </div>
     </div>
+    <div class="popups">
+      <PopUp
+        v-for="(pop, index) in $store.state.popups"
+        :key="index"
+        :popupType="pop.popupType"
+        :popupText="pop.popupText"
+        :popupShowTime="pop.popupShowTime + index / 2"
+      />
+    </div>
   </div>
 </template>
 
 <script>
+
 export default {
   name: 'LifeSchool',
   layout: 'NavigationLayout',
@@ -56,25 +67,43 @@ export default {
       form: {
         description: ''
       },
+      lifeSchoolIndex: null,
       lifeSchool: null,
       lifeSchools: [],
       comments: []
     }
   },
   async beforeMount () {
-    await this.$axios.get('/life_schools').then((e) => {
-      this.lifeSchools = e.data.data
-    })
-    this.changeLifeSchool(0)
+    await this.getLifeSchools()
+    this.changeLifeSchool(this.lifeSchools.length - 1)
   },
   methods: {
+    async getLifeSchools () {
+      await this.$axios.get('/life_schools').then((e) => {
+        this.lifeSchools = e.data.data
+      })
+    },
     changeLifeSchool (index) {
+      this.getLifeSchools()
       this.lifeSchool = this.lifeSchools[index]
+      this.lifeSchoolIndex = index
       this.getLifeSchoolComments()
     },
     getLifeSchoolComments () {
       this.$axios.get(`/life_school_comments?article_id=${this.lifeSchool.id}`).then((response) => {
         this.comments = response.data.data
+      })
+    },
+    addLifeSchoolExp () {
+      this.$axios.get('/life_school_experience').then((response) => {
+        this.changeLifeSchool(this.lifeSchoolIndex + 1)
+        console.log('success')
+      }).catch((e) => {
+        this.$store.commit('setPopup', {
+          text: e.response.data.message,
+          type: 'danger',
+          seconds: 5
+        })
       })
     },
     addComment () {
@@ -125,6 +154,29 @@ body {
   justify-content: space-between;
   width: 100%;
   gap: 15px;
+}
+
+#box > button {
+  background: #FFD2D2;
+  box-shadow: 0px 2.43px 10.53px rgba(0, 0, 0, 0.06);
+  border-radius: 10.53px;
+  border: none;
+  outline: none;
+  color: white;
+  align-self: flex-end;
+  padding: 5px 20px 5px 20px;
+  transition: .7s;
+}
+
+#box > button:hover {
+  background: #FFB9B9;
+  box-shadow: 0px 2.43px 10.53px rgba(0, 0, 0, 0.06);
+  border-radius: 10.53px;
+  border: none;
+  outline: none;
+  color: white;
+  align-self: flex-end;
+  padding: 5px 20px 5px 20px;
 }
 
 .text-content {

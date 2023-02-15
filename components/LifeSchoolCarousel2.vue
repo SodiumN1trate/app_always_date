@@ -23,14 +23,14 @@
         </div>
       </div>
     </div>
-    <span class="icon-arrow-down" style="transform: rotate(-90deg)" @click="scroll($event, true)"></span>
+    <span ref="arrowRight" class="icon-arrow-down" style="transform: rotate(-90deg)" @click="scroll($event, true)" ></span>
   </div>
 </template>
 
 <script>
 export default {
   name: 'LifeSchoolCarousel',
-  props: ['previews'],
+  props: ['previews', 'index'],
   data () {
     return {
       pos: {
@@ -41,6 +41,17 @@ export default {
       isDown: false,
       counter: 0,
       currentPage: null
+    }
+  },
+  updated () {
+    if (this.counter === this.previews.length - 1) {
+      this.$refs.arrowRight.style.display = 'none'
+    } else {
+      this.$refs.arrowRight.style.display = 'initial'
+    }
+
+    if (this.index && this.index > this.counter) {
+      this.scroll(this.$refs.slider, true)
     }
   },
   methods: {
@@ -59,6 +70,11 @@ export default {
       } else {
         this.$refs.slider.scrollLeft -= this.$refs.slider.getBoundingClientRect().width
         this.counter -= 1
+      }
+      if (this.counter === this.previews.length - 1) {
+        this.$refs.arrowRight.style.display = 'none'
+      } else {
+        this.$refs.arrowRight.style.display = 'initial'
       }
       this.$emit('change', this.counter)
     }
