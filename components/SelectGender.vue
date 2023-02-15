@@ -1,11 +1,11 @@
 <template>
   <div class="checklist">
     <div class="checkboxes">
-      <label class="radio-man" :class="{ 'checked-man': gender === 1 }" @click="checkedBox(1)">
+      <label class="radio-man" :class="{ 'checked-man': value === null ? false : value }" @click="checkedBox(true)">
         <input type="radio" name="gender">
         <img src="../static/svg/Man.svg">
       </label>
-      <label class="radio-woman" :class="{ 'checked-woman': gender === 0 }" @click="checkedBox(0)">
+      <label class="radio-woman" :class="{ 'checked-woman': value === null ? false : !value }" @click="checkedBox(false)">
         <input type="radio" name="gender">
         <img src="../static/svg/Woman.svg">
       </label>
@@ -16,9 +16,10 @@
 <script>
 export default {
   name: 'GenderCheckbox',
+  props: ['value'],
   data () {
     return {
-      gender: '',
+      gender: this.value,
       checked: false
     }
   },
