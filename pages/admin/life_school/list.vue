@@ -13,7 +13,7 @@
               <InputField
                 v-model="filters.number"
                 type="number"
-                placeholder="Numurs"
+                placeholder="Ieraksti numuru"
                 color="grey"
                 @input="onFilter"
               />
@@ -21,18 +21,19 @@
             <label>Nosaukums
               <InputField
                 v-model="filters.title"
-                placeholder="Nosaukums"
+                placeholder="Ieraksti nosaukumu"
                 color="grey"
                 @input="onFilter"
               />
             </label>
             <label>Dzimums
-<!--              TODO change to SelectInputField -->
-              <SelectInput
+              <SelectInputField
                 v-model="filters.gender"
-                :options="['Vīrietis','Sieviete']"
+                placeholder="Izvēlieties dzimumu"
+                :options="[{id: 0, name: 'Sieviete'}, {id: 1, name: 'Vīrietis'}]"
+                :tabindex="0"
                 color="grey"
-                style="width: 250px"
+                style="width: 260px"
                 @input="onFilter"
               />
             </label>
@@ -42,9 +43,9 @@
           <template #cell(gender)="data">
             {{ data.item.gender ? 'Vīriešu' : 'Sieviešu' }}
           </template>
-          <template #cell(operations)="">
+          <template #cell(operations)="data">
             <span class="icon-trash"></span>
-            <span class="icon-edit"></span>
+            <NuxtLink :to="`/admin/life_school/edit/${data.item.id}`"><span class="icon-edit"></span></NuxtLink>
           </template>
         </b-table>
         <template v-if="isBusy">
@@ -114,19 +115,8 @@ export default {
       this.currentPage = 1
       this.filter = ''
       for (const prop in this.filters) {
-        if (!this.filters[prop]) { continue }
-        let value = this.filters[prop]
-
-        // TODO fix after pull request
-        if (prop === 'gender') {
-          if (this.filters[prop] === 'Vīrietis') {
-            value = 1
-          } else {
-            value = 0
-          }
-        }
-
-        this.filter += `${prop}=${value}&`
+        if (this.filters[prop] === null) { continue }
+        this.filter += `${prop}=${this.filters[prop]}&`
       }
       if (this.filter.slice(-1) === '&') { this.filter = this.filter.slice(0, -1) }
 

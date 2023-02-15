@@ -24,7 +24,8 @@ export default {
   // Plugins to run before rendering page: https://go.nuxtjs.dev/config-plugins
   plugins: [
     { src: '~/plugins/echo.js' },
-    { src: '~/plugins/permissions.js' }
+    { src: '~/plugins/permissions.js' },
+    { src: '~/plugins/TiptapVuetify.js' }
   ],
 
   // Auto import components: https://go.nuxtjs.dev/config-components
@@ -33,7 +34,8 @@ export default {
   // Modules for dev and build (recommended): https://go.nuxtjs.dev/config-modules
   buildModules: [
     // https://go.nuxtjs.dev/eslint
-    '@nuxtjs/eslint-module'
+    '@nuxtjs/eslint-module',
+    '@nuxtjs/vuetify'
   ],
 
   // Modules: https://go.nuxtjs.dev/config-modules
@@ -44,7 +46,8 @@ export default {
     '@nuxtjs/axios',
     // https://go.nuxtjs.dev/pwa
     '@nuxtjs/pwa',
-    '@nuxtjs/auth-next'
+    '@nuxtjs/auth-next',
+    '@nuxtjs/vuetify'
   ],
   env: {
     API_ADDRESS: process.env.API_ADDRESS
