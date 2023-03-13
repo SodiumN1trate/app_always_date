@@ -15,12 +15,6 @@
               <h2 style="text-align: center">Vēl neviens lietotajs nav novērtējis nevienu lietotāju :(</h2>
             </div>
           </div>
-          <div class="load-more-content">
-            <div class="load-more">
-              <i class="icon-load" />
-              <p>Lādē vēl</p>
-            </div>
-          </div>
         </div>
       </div>
     </div>
@@ -42,11 +36,7 @@ export default {
     }
   },
   mounted () {
-    window.addEventListener('scroll', () => {
-      if ((window.innerHeight + window.scrollY) >= document.body.scrollHeight && this.lastPage !== this.currentPage && this.debounce) {
-        this.nextPage()
-      }
-    })
+    window.addEventListener('scroll', this.scrollEvent)
   },
   beforeMount () {
     this.$axios.get('/leaderboard').then((response) => {
@@ -57,7 +47,15 @@ export default {
       this.topUsers.splice(0, 3)
     })
   },
+  beforeDestroy () {
+    window.removeEventListener('scroll', this.scrollEvent)
+  },
   methods: {
+    scrollEvent () {
+      if ((window.innerHeight + window.scrollY) >= document.body.scrollHeight && this.lastPage !== this.currentPage && this.debounce) {
+        this.nextPage()
+      }
+    },
     async nextPage () {
       this.debounce = false
       const nextPage = this.currentPage + 1
@@ -128,55 +126,6 @@ export default {
   box-shadow: 0px 4px 17px rgba(0, 0, 0, 0.03);
   border: solid 1px $color-grey-0;
   border-radius: 13px;
-}
-
-.load-more-content {
-  display: flex;
-  justify-content: center;
-  margin: auto;
-}
-
-.load-more {
-  display: flex;
-  justify-content: center;
-  gap: 5px;
-  margin-top: 10%;
-  color: $color-black-1;
-  cursor: pointer;
-}
-
-.load-more> i::before {
-  animation: back-to-start 1s;
-}
-
-.load-more:hover > i::before {
-  animation: rotating 1s linear infinite;
-}
-
-.load-more > i {
-  margin: auto;
-}
-
-.load-more > p {
-  margin: auto;
-}
-
-@keyframes back-to-start {
-  from {
-    transform: rotate(720deg)
-  }
-  to {
-    transform: rotate(0deg);
-  }
-}
-
-@keyframes rotating {
-  from {
-    transform: rotate(360deg);
-  }
-  to {
-    transform: rotate(0deg);
-  }
 }
 
 @media only screen and (max-width: 1600px) {

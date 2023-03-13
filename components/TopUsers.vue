@@ -3,21 +3,21 @@
     <div v-if="users[1]" class="pedestal-container">
       <img class="pedestal" src="../static/svg/SecondPlacePedestal.svg">
       <div class="pedestal-user-data">
-        <img :src="users[1].avatar">
+        <img :src="users[1].avatar" @click="toProfile(users[1].id)">
         <div>
-          <p class="user-name">{{ users[1].firstname }} {{ users[1].age }}</p>
-          <h3>{{ users[1].rating }} no 10</h3>
+          <p class="user-name" @click="toProfile(users[1].id)">{{ users[1].firstname }} {{ users[1].age }}</p>
+          <h3>{{ users[1].rating }}</h3>
           <p class="rating-count">{{ users[1].rate_count }} vērtējumi</p>
         </div>
       </div>
     </div>
-    <div v-if="users[0]" class="pedestal-container">
-      <img class="pedestal" style="margin-top: -45px" src="../static/svg/FirstPlacePedestal.svg">
-      <div class="pedestal-user-data" style="margin-top: -46px;">
+    <div v-if="users[0]" class="pedestal-container" style="margin-top: -45px">
+      <img class="pedestal first-place-pedestal" src="../static/svg/FirstPlacePedestal.svg">
+      <div class="pedestal-user-data first-place-pedestal-user">
         <img :src="users[0].avatar">
         <div>
-          <p class="user-name">{{ users[0].firstname }} {{ users[0].age }}</p>
-          <h3>{{ users[0].rating }} no 10</h3>
+          <p class="user-name" @click="toProfile(users[0].id)">{{ users[0].firstname }} {{ users[0].age }}</p>
+          <h3>{{ users[0].rating }}</h3>
           <p class="rating-count">{{ users[0].rate_count }} vērtējumi</p>
         </div>
       </div>
@@ -25,10 +25,10 @@
     <div v-if="users[2]" class="pedestal-container">
       <img class="pedestal" src="../static/svg/ThirdPlacePedestal.svg">
       <div class="pedestal-user-data">
-        <img :src="users[2].avatar">
+        <img :src="users[2].avatar" @click="toProfile(users[2].id)">
         <div>
-          <p class="user-name">{{ users[2].firstname }} {{ users[2].age }}</p>
-          <h3>{{ users[2].rating }} no 10</h3>
+          <p class="user-name" @click="toProfile(users[2].id)">{{ users[2].firstname }} {{ users[2].age }}</p>
+          <h3>{{ users[2].rating }}</h3>
           <p class="rating-count">{{ users[2].rate_count }} vērtējumi</p>
         </div>
       </div>
@@ -39,7 +39,12 @@
 <script>
 export default {
   name: 'TopUsers',
-  props: ['users']
+  props: ['users'],
+  methods: {
+    toProfile (id) {
+      this.$router.push('/users/' + id)
+    }
+  }
 }
 </script>
 
@@ -65,6 +70,11 @@ body {
   position: relative;
 }
 
+.first-place-pedestal {
+  width: 175px;
+  height: 310px;
+}
+
 .pedestal-user-data {
   position: absolute;
   top: 10px;
@@ -87,6 +97,7 @@ body {
 
 .user-name {
   font-size: 19px;
+  cursor: pointer;
 }
 
 .pedestal-user-data > div {
@@ -99,6 +110,17 @@ body {
   width: 140px;
   height: 140px;
   border-radius: 100%;
+  cursor: pointer;
+  flex-shrink: 0;
+}
+
+.first-place-pedestal-user > img {
+  width: 155px;
+  height: 155px;
+}
+
+.first-place-pedestal-user > div > .user-name {
+  font-size: 22px;
 }
 
 @media only screen and (max-width: 1300px) {

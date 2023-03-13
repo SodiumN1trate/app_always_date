@@ -1,9 +1,9 @@
 <template>
   <div class="user-list-container">
-    <img class="profile-image" :class="{ 'topUsers': showTop }" :src="user.avatar">
+    <img class="profile-image" :class="{ 'topUsers': showTop }" :src="user.avatar" @click="toProfile()">
     <div class="user-info">
       <div class="user-data">
-        <h3>{{ user.firstname }} {{ user.lastname }}</h3>
+        <h3 @click="toProfile()">{{ user.firstname }} {{ user.lastname }}</h3>
         <p>{{ user.about_me }}</p>
       </div>
       <div class="statistic">
@@ -34,6 +34,14 @@ export default {
       user: this.propUser,
       isHover: false
     }
+  },
+  mounted () {
+    this.user.about_me = this.user.about_me.slice(0, 100) + '...'
+  },
+  methods: {
+    toProfile () {
+      this.$router.push('/users/' + this.user.id)
+    }
   }
 }
 </script>
@@ -53,9 +61,10 @@ export default {
   height: 110px;
   width: 110px;
   margin-left: 5px;
-  //background-image: conic-gradient(from 0deg at 50% 50%, #7C8EB0, #E9BAFF, #7C8EB0);
   box-shadow: 0px 4px 17px rgba(0, 0, 0, 0.1);
   user-select: none;
+  flex-shrink: 0;
+  cursor: pointer;
 }
 
 .user-info {
@@ -73,6 +82,7 @@ export default {
 
 .user-data > h3 {
   color: $color-black-2;
+  cursor: pointer;
 }
 
 .user-data > p {

@@ -1,6 +1,6 @@
 <template>
   <div id="messages-container">
-    <div v-show="showChatsNavigation" class="messages-navigation">
+    <div v-show="chatRooms.length > 0 && showChatsNavigation" class="messages-navigation">
       <div class="messages-search">
         <input placeholder="Search...">
         <span class="icon-search" />
@@ -15,9 +15,12 @@
         </div>
       </div>
     </div>
-    <div v-show="!selectedChatRoom && showNotSelectedUser" id="not-selected-user">
-      <div>
-        <h1>Lai sāktu saraksti, izvēlaties kādu no lietotājiem!</h1>
+    <div v-show="!selectedChatRoom && showNotSelectedUser" id="not-selected-user" :class="{ 'not-created-chats': chatRooms.length <= 0 }">
+      <div v-if="chatRooms.length <= 0">
+        <h2>Nav izveidota neviena sarakste!</h2>
+      </div>
+      <div v-else>
+        <h2>Lai sāktu saraksti, izvēlaties kādu no lietotājiem!</h2>
       </div>
     </div>
     <div v-show="selectedChatRoom || showChat" class="messages-chat">
@@ -253,14 +256,22 @@ export default {
   width: 70%;
   min-height: 700px;
   min-width: 354px;
+  box-shadow: 0px 4px 17px rgba(0, 0, 0, 0.03);
+}
+
+.not-created-chats {
+  border-radius: 16px;
+  margin-inline: auto;
 }
 
 #not-selected-user > div {
   width: fit-content;
+  margin-bottom: 150px;
 }
 
-#not-selected-user > div > h1 {
+#not-selected-user > div > h2 {
   text-align: center;
+  color: rgba(0, 0, 0, 0.71);
 }
 
 .messages-chat {

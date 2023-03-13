@@ -10,12 +10,6 @@
           <h2 style="text-align: center">Jūs vēl nevienu nenovērtējāt :(</h2>
         </div>
       </div>
-      <div class="load-more-content">
-        <div class="load-more">
-          <i class="icon-load" />
-          <p>Lādē vēl</p>
-        </div>
-      </div>
     </div>
   </div>
 </template>
@@ -105,54 +99,6 @@ body {
   border-radius: 13px;
 }
 
-.load-more-content {
-  display: flex;
-  justify-content: center;
-  margin: auto;
-}
-
-.load-more {
-  display: flex;
-  justify-content: center;
-  gap: 5px;
-  margin-top: 10%;
-  color: $color-black-1;
-  cursor: pointer;
-}
-
-.load-more > i {
-  margin: auto;
-}
-
-.load-more > p {
-  margin: auto;
-}
-
-.load-more> i::before {
-  animation: back-to-start 1s;
-}
-
-.load-more:hover > i::before {
-  animation: rotating 1s linear infinite;
-}
-
-@keyframes back-to-start {
-  from {
-    transform: rotate(720deg)
-  }
-  to {
-    transform: rotate(0deg);
-  }
-}
-
-@keyframes rotating {
-  from {
-    transform: rotate(360deg);
-  }
-  to {
-    transform: rotate(0deg);
-  }
-}
 @media only screen and (max-width: 780px) {
   .box {
     width: 90%;
