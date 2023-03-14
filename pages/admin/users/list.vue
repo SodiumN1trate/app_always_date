@@ -73,7 +73,7 @@
         <template v-if="isBusy">
           <div class="my-2 align-items-center justify-content-center">
             <b-spinner class="align-middle"></b-spinner>
-            <strong>Lādē...</strong>
+            <strong>Lādē... </strong>
           </div>
         </template>
         </div>
