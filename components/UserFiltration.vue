@@ -66,18 +66,18 @@ export default {
 
 button {
   cursor: pointer;
-  border: 1.89px solid #FFCBCB;
-  border-radius: 5.67px;
-  font-style: normal;
-  font-weight: 500;
-  font-size: 15.12px;
-  line-height: 21px;
-  display: flex;
-  align-items: center;
+  border: 2px solid #FFCBCB;
+  border-radius: 6px;
+  font-size: 15px;
   text-align: center;
-  background-color: transparent;
   color: #FFBBBB;
   margin-top: 20px;
+  padding: 5px 15px;
+  transition: 0.2s;
+}
+
+button:hover {
+  box-shadow: 0px 4px 17px rgba(0, 0, 0, 0.07);
 }
 
 @media only screen and (max-width: 1000px) {
