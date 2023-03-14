@@ -4,7 +4,7 @@
     <div class="user-info">
       <div class="user-data">
         <h3 @click="toProfile()">{{ user.firstname }} {{ user.lastname }}</h3>
-        <p>{{ user.about_me }}</p>
+        <p>{{ user.about_me.slice(0, 100) + '...' }}</p>
       </div>
       <div class="statistic">
         <div class="stars" @mouseover="isHover = true" @mouseleave="isHover = false">
@@ -34,9 +34,6 @@ export default {
       user: this.propUser,
       isHover: false
     }
-  },
-  mounted () {
-    this.user.about_me = this.user.about_me.slice(0, 100) + '...'
   },
   methods: {
     toProfile () {

@@ -3,10 +3,10 @@ import Echo from 'laravel-echo'
 window.Pusher = require('pusher-js')
 export default (_, inject) => {
   console.log(process.env.API_ADDRESS)
-  console.log(localStorage.getItem('auth._token.local'))
+  console.log(localStorage.getItem('auth._toke  n.local'))
   const echo = new Echo({
     broadcaster: 'pusher',
-    key: 'local123', // .env
+    key: 'local1', // .env
     wsHost: 'localhost',
     wsPort: 6001,
     disableStats: true,
