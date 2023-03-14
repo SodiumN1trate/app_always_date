@@ -8,10 +8,10 @@
             <div class="small-button" @click="$store.commit('setTargetUser', previousUser)">
               <span class="icon-previous"></span>
             </div>
-            <div class="large-button" @click="match(true)">
+            <div class="large-button" @click="match(false)">
               <span class="icon-refuse"></span>
             </div>
-            <div class="large-button" @click="match(false)">
+            <div class="large-button" @click="match(true)">
               <span class="icon-heart-filled"></span>
             </div>
             <div class="small-button">

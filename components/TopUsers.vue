@@ -1,35 +1,13 @@
 <template>
-  <div v-if="users.length > 0" class="pedestals">
-    <div v-if="users[1]" class="pedestal-container">
-      <img class="pedestal" src="../static/svg/SecondPlacePedestal.svg">
+  <div v-if="users.length > 0" class="pedestals d-flex">
+    <div v-for="(user, index) in users" :key="index" class="pedestal-container" :style="{ marginTop: index === 0 ? '-45px' : '0', order: index === 0 ? 2 : index }">
+      <img class="pedestal" :src="require(`@/assets/vectors/${ pedestals[index] }`)" >
       <div class="pedestal-user-data">
-        <img :src="users[1].avatar">
+        <img :src="user.avatar" @click="toProfile(user.id)">
         <div>
-          <p class="user-name">{{ users[1].firstname }} {{ users[1].age }}</p>
-          <h3>{{ users[1].rating }} no 10</h3>
-          <p class="rating-count">{{ users[1].rate_count }} vērtējumi</p>
-        </div>
-      </div>
-    </div>
-    <div v-if="users[0]" class="pedestal-container">
-      <img class="pedestal" style="margin-top: -45px" src="../static/svg/FirstPlacePedestal.svg">
-      <div class="pedestal-user-data" style="margin-top: -46px;">
-        <img :src="users[0].avatar">
-        <div>
-          <p class="user-name">{{ users[0].firstname }} {{ users[0].age }}</p>
-          <h3>{{ users[0].rating }} no 10</h3>
-          <p class="rating-count">{{ users[0].rate_count }} vērtējumi</p>
-        </div>
-      </div>
-    </div>
-    <div v-if="users[2]" class="pedestal-container">
-      <img class="pedestal" src="../static/svg/ThirdPlacePedestal.svg">
-      <div class="pedestal-user-data">
-        <img :src="users[2].avatar">
-        <div>
-          <p class="user-name">{{ users[2].firstname }} {{ users[2].age }}</p>
-          <h3>{{ users[2].rating }} no 10</h3>
-          <p class="rating-count">{{ users[2].rate_count }} vērtējumi</p>
+          <p class="user-name" @click="toProfile(user.id)">{{ user.firstname }} {{ user.age }}</p>
+          <h3>{{ user.rating }}</h3>
+          <p class="rating-count">{{ user.rate_count }} vērtējumi</p>
         </div>
       </div>
     </div>
@@ -39,7 +17,21 @@
 <script>
 export default {
   name: 'TopUsers',
-  props: ['users']
+  props: ['users'],
+  data () {
+    return {
+      pedestals: [
+        'FirstPlacePedestal.svg',
+        'SecondPlacePedestal.svg',
+        'ThirdPlacePedestal.svg'
+      ]
+    }
+  },
+  methods: {
+    toProfile (id) {
+      this.$router.push('/users/' + id)
+    }
+  }
 }
 </script>
 
@@ -65,6 +57,11 @@ body {
   position: relative;
 }
 
+.first-place-pedestal {
+  width: 175px;
+  height: 310px;
+}
+
 .pedestal-user-data {
   position: absolute;
   top: 10px;
@@ -87,6 +84,7 @@ body {
 
 .user-name {
   font-size: 19px;
+  cursor: pointer;
 }
 
 .pedestal-user-data > div {
@@ -99,6 +97,17 @@ body {
   width: 140px;
   height: 140px;
   border-radius: 100%;
+  cursor: pointer;
+  flex-shrink: 0;
+}
+
+.first-place-pedestal-user > img {
+  width: 155px;
+  height: 155px;
+}
+
+.first-place-pedestal-user > div > .user-name {
+  font-size: 22px;
 }
 
 @media only screen and (max-width: 1300px) {
