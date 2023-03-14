@@ -27,9 +27,6 @@ export default {
       ]
     }
   },
-  mounted () {
-    console.log(this.users)
-  },
   methods: {
     toProfile (id) {
       this.$router.push('/users/' + id)
