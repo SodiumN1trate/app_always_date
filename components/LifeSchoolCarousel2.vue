@@ -44,12 +44,7 @@ export default {
     }
   },
   updated () {
-    if (this.counter === this.previews.length - 1) {
-      this.$refs.arrowRight.style.display = 'none'
-    } else {
-      this.$refs.arrowRight.style.display = 'initial'
-    }
-
+    this.hideArrowRight()
     if (this.index && this.index > this.counter) {
       this.scroll(this.$refs.slider, true)
     }
@@ -71,12 +66,15 @@ export default {
         this.$refs.slider.scrollLeft -= this.$refs.slider.getBoundingClientRect().width
         this.counter -= 1
       }
+      this.hideArrowRight()
+      this.$emit('change', this.counter)
+    },
+    hideArrowRight () {
       if (this.counter === this.previews.length - 1) {
         this.$refs.arrowRight.style.display = 'none'
       } else {
         this.$refs.arrowRight.style.display = 'initial'
       }
-      this.$emit('change', this.counter)
     }
   }
 }
