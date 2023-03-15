@@ -49,7 +49,7 @@
           </template>
         </b-table>
         <template v-if="isBusy">
-          <div class="text-center text-danger my-2">
+          <div class="my-2 align-items-center justify-content-center">
             <b-spinner class="align-middle"></b-spinner>
             <strong>Lādē...</strong>
           </div>

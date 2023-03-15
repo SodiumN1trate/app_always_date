@@ -2,7 +2,7 @@
   <div id="content">
     <div id="box">
       <h1>Dzīves skolas labošana</h1>
-      <form @submit.prevent="submit()">
+      <form>
         <label>Nosaukums
           <InputField
             v-model="form.title"
@@ -30,7 +30,10 @@
             />
           </label>
         </div>
-        <button type="submit" class="setting-save-button">Saglabāt</button>
+        <div>
+          <button class="btn btn-primary" @click="submit()">Saglabāt</button>
+          <button class="btn btn-secondary" @click="$router.push('/admin/life_school/list')">Atpakaļ</button>
+        </div>
       </form>
     </div>
   </div>
