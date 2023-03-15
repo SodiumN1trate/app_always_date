@@ -23,7 +23,7 @@
         </div>
       </div>
     </div>
-    <span ref="arrowRight" class="icon-arrow-down" style="transform: rotate(-90deg)" @click="scroll($event, true)" ></span>
+    <span ref="arrowRight" class="icon-arrow-down" style="transform: rotate(-90deg)" @click="scroll($event, true)"></span>
   </div>
 </template>
 
