@@ -97,7 +97,6 @@ export default {
     addLifeSchoolExp () {
       this.$axios.get('/life_school_experience').then((response) => {
         this.changeLifeSchool(this.lifeSchoolIndex + 1)
-        console.log('success')
       }).catch((e) => {
         this.$store.commit('setPopup', {
           text: e.response.data.message,
