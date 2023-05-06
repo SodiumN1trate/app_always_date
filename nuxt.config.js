@@ -50,7 +50,8 @@ export default {
     '@nuxtjs/vuetify'
   ],
   env: {
-    API_ADDRESS: process.env.API_ADDRESS
+    API_ADDRESS: process.env.API_ADDRESS,
+    PRODUCTION:  process.env.PRODUCTION
   },
 
   // Axios module configuration: https://go.nuxtjs.dev/config-axios

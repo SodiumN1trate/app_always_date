@@ -100,7 +100,7 @@ export default {
   },
   mounted () {
     this.isBusy = true
-    this.$axios.get('/life_schools?page=' + this.currentPage).then((response) => {
+    this.$axios.get('/get_life_schools?page=' + this.currentPage).then((response) => {
       this.data = response.data.data
       this.isBusy = false
     })

@@ -3,7 +3,7 @@
     <div id="profile-upper">
       <div id="profile-info">
         <div class="profile-picture">
-          <img :src="user.avatar" alt="ProfilePicture">
+          <img :src="user.avatar" alt="ProfilePicture" class="profile-picture-image">
         </div>
         <div class="user">
           <div class="user-info">
@@ -109,6 +109,11 @@ export default {
 
 body {
   background-color: $color-white-1;
+}
+
+.profile-picture-image {
+  background: url("https://aquamarineexotic.com/adminpanel/assets/images/ajax-spinner.gif") no-repeat;
+  background-size: cover;
 }
 
 #profile-content {
