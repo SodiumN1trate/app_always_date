@@ -23,8 +23,10 @@ export default {
   },
   mounted () {
     this.show = true
+    console.log(this.popupShowTime)
     setInterval(() => {
       this.show = false
+      this.$store.commit('removePopup', this.index)
     }, this.popupShowTime * 1000)
   }
 }

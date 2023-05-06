@@ -45,15 +45,6 @@
         </div>
       </div>
     </div>
-    <div class="popups">
-      <PopUp
-        v-for="(pop, index) in $store.state.popups"
-        :key="index"
-        :popupType="pop.popupType"
-        :popupText="pop.popupText"
-        :popupShowTime="pop.popupShowTime + index / 2"
-      />
-    </div>
   </div>
 </template>
 
