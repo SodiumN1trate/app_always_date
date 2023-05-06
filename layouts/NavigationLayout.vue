@@ -7,6 +7,7 @@
         :popupType="pop.popupType"
         :popupText="pop.popupText"
         :popupShowTime="pop.popupShowTime + index / 2"
+        :index="index"
       />
     </div>
     <div v-else class="popups">
@@ -16,6 +17,7 @@
         :popupType="pop.popupType"
         :popupText="pop.popupText"
         :popupShowTime="pop.popupShowTime + index / 2"
+        :index="index"
       />
     </div>
     <NavBar />

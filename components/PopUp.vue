@@ -23,8 +23,9 @@ export default {
   },
   mounted () {
     this.show = true
-    setInterval(() => {
+    setTimeout(() => {
       this.show = false
+      this.$store.commit('removePopup', this.index)
     }, this.popupShowTime * 1000)
   }
 }

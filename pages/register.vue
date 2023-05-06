@@ -24,6 +24,7 @@
           :input-attributes="{class: 'date-picker', readonly: true}"
           next-month-caption="Nākošais mēnesis"
           prev-month-caption="Iepriekšējais mēneis"
+          :displayFormat="'YYYY-MM-DD'"
           :weekdays="['P', 'O', 'T', 'C', 'P', 'S', 'Sv']"
           :months="['Janvāris', 'Februāris', 'Marts', 'Aprīlis','Maijs', 'Jūnijs', 'Jūlijs', 'Augusts','Septembris', 'Oktobris', 'Novembris', 'Decembris']"
         />
@@ -68,7 +69,7 @@ export default {
       userData: {
         firstname: null,
         lastname: null,
-        birthday: new Date().toLocaleDateString(),
+        birthday: `${(new Date()).getFullYear()}-${(new Date()).getMonth()}-${(new Date()).getDate()}`,
         gender: null
       }
     }

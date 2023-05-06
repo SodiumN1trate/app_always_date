@@ -29,6 +29,7 @@
           :input-attributes="{class: 'date-picker', readonly: true}"
           next-month-caption="Nākošais mēnesis"
           prev-month-caption="Iepriekšējais mēneis"
+          :displayFormat="'YYYY-MM-DD'"
           :weekdays="['P', 'O', 'T', 'C', 'P', 'S', 'Sv']"
           :months="['Janvāris', 'Februāris', 'Marts', 'Aprīlis','Maijs', 'Jūnijs', 'Jūlijs', 'Augusts','Septembris', 'Oktobris', 'Novembris', 'Decembris']"
         />
@@ -71,7 +72,7 @@ export default {
       this.form.lastname = data.lastname
       this.form.email = data.email
       this.form.gender = data.gender
-      this.form.birthday = data.birthday
+      this.form.birthday = data.birthday || `${(new Date()).getFullYear()}-${(new Date()).getMonth()}-${(new Date()).getDate()}`
     })
   },
   methods: {
