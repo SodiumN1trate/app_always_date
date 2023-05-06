@@ -26,7 +26,6 @@ export const mutations = {
   },
   removePopup (state, index) {
     state.popups.splice(index)
-    console.log(state.popups)
   },
   setTimeout (state, status) {
     state.timeout = status
