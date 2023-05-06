@@ -27,11 +27,6 @@
 </template>
 
 <script>
-// import Vue from 'vue'
-//
-// import profileImage from '~/mixins/profile_image'
-//
-// Vue.mixin(profileImage)
 export default {
   name: 'NavigationLayout'
 }
