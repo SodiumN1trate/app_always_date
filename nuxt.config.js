@@ -1,7 +1,6 @@
 export default {
   // Disable server-side rendering: https://go.nuxtjs.dev/ssr-mode
   ssr: false,
-
   // Global page headers: https://go.nuxtjs.dev/config-head
   head: {
     title: 'always_date',
@@ -51,7 +50,8 @@ export default {
   ],
   env: {
     API_ADDRESS: process.env.API_ADDRESS,
-    PRODUCTION:  process.env.PRODUCTION
+    PRODUCTION: process.env.PRODUCTION,
+    PUSHER_KEY: process.env.PUSHER_KEY
   },
 
   // Axios module configuration: https://go.nuxtjs.dev/config-axios
