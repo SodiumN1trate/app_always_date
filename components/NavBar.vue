@@ -19,9 +19,11 @@
       </div>
       <div class="navbar-button">
         <nuxt-link to="/profile" class="wallet-block">
-          <span style="font-size: 15px; color: #FD9A9A">{{user.firstname}}</span>
-          <span class="icon-circle-money" style="font-size: 16px; font-weight: bold; color: #FD9A9A"></span>
-          <span style="font-size: 15px; color: #FD9A9A">{{user.wallet}}</span>
+          <span>{{user.firstname}}</span>
+          <div class="wallet d-flex justify-content-center align-items-center" style="gap: 5px">
+            <span class="icon-circle-money"></span>
+            <span>{{user.wallet}}</span>
+          </div>
         </nuxt-link>
         <button @click="logout()" class="logout-button">
           <span class="icon-logout" ></span>
@@ -382,43 +384,37 @@ a:link {
 }
 .navbar-button{
   display: flex;
-  justify-content: center;
   align-items: center;
   gap: 10px;
+  color: #FD9A9A
 }
 
 .wallet-block{
   display: flex;
-  text-align: center;
   align-items: center;
-  vertical-align: middle;
-  width: fit-content;
-  height: fit-content;
   gap: 10px;
   padding: 5px 10px;
-  border: 2.5px solid #FD9A9A;
+  border: 2px solid #FD9A9A;
   border-radius: 22px;
   color: #FD9A9A;
   font-family: Alata;
+  font-size: 15px;
+}
+
+.icon-circle-money{
   font-size: 16px;
+  font-weight: bold;
 }
 
 .logout-button{
   display: flex;
   justify-content: center;
   align-items: center;
-  background-color: transparent;
-  border: 2.5px solid #FD9A9A;
+  border: 2px solid #FD9A9A;
   padding: 2px;
   width: 32px;
   height: 32px;
   border-radius: 22px;
   margin-right: 50px;
-}
-
-.logout-button > span{
-  font-size: 16px;
-  font-weight: bold;
-  color: #FD9A9A;
 }
 </style>
