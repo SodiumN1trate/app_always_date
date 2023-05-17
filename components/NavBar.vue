@@ -14,9 +14,18 @@
     </transition>
     <div class="horizontal">
       <span class="icon-statistic menu" @click="sidebarOpenState = !sidebarOpenState"></span>
-
       <div id="logo-block">
         <img src="@/static/images/AlwaysDateLogo.png" id="logo">
+      </div>
+      <div class="navbar-button">
+        <nuxt-link to="/profile" class="wallet-block">
+          <span style="font-size: 15px; color: #FD9A9A">{{user.firstname}}</span>
+          <span class="icon-circle-money" style="font-size: 16px; font-weight: bold; color: #FD9A9A"></span>
+          <span style="font-size: 15px; color: #FD9A9A">{{user.wallet}}</span>
+        </nuxt-link>
+        <button @click="logout()" class="logout-button">
+          <span class="icon-logout" ></span>
+        </button>
       </div>
     </div>
   </div>
@@ -27,6 +36,7 @@ export default {
   name: 'NavBar',
   data () {
     return {
+      user: this.$auth.$state.user.data,
       sidebarOpenState: true,
       width: 0,
       buttons: [
@@ -114,6 +124,9 @@ export default {
     },
     onButtonClick () {
       this.sidebarOpenState = this.width > 900
+    },
+    async logout () {
+      await this.$auth.logout()
     }
   }
 }
@@ -149,7 +162,8 @@ a:link {
   position: absolute;
   background-image: linear-gradient(to right, #F1F6FF, #FFF8F9);
   display: flex;
-  justify-content: flex-start;
+  justify-content: space-between;
+  align-items: center;
   height: 50px;
   width: 100vw;
   left: 0;
@@ -366,5 +380,45 @@ a:link {
     width: 250px;
   }
 }
+.navbar-button{
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 10px;
+}
 
+.wallet-block{
+  display: flex;
+  text-align: center;
+  align-items: center;
+  vertical-align: middle;
+  width: fit-content;
+  height: fit-content;
+  gap: 10px;
+  padding: 5px 10px;
+  border: 2.5px solid #FD9A9A;
+  border-radius: 22px;
+  color: #FD9A9A;
+  font-family: Alata;
+  font-size: 16px;
+}
+
+.logout-button{
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background-color: transparent;
+  border: 2.5px solid #FD9A9A;
+  padding: 2px;
+  width: 32px;
+  height: 32px;
+  border-radius: 22px;
+  margin-right: 50px;
+}
+
+.logout-button > span{
+  font-size: 16px;
+  font-weight: bold;
+  color: #FD9A9A;
+}
 </style>
