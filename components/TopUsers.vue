@@ -3,7 +3,9 @@
     <div v-for="(user, index) in users" :key="index" class="pedestal-container" :style="{ marginTop: index === 0 ? '-45px' : '0', order: index === 0 ? 2 : index }">
       <img class="pedestal" :src="require(`@/assets/vectors/${ pedestals[index] }`)" >
       <div class="pedestal-user-data">
-        <img :src="user.avatar" @click="toProfile(user.id)">
+        <span class="profile-image-container">
+          <img :src="user.avatar" @click="toProfile(user.id)">
+        </span>
         <div>
           <p class="user-name" @click="toProfile(user.id)">{{ user.firstname }} {{ user.age }}</p>
           <h3>{{ user.rating }}</h3>
@@ -38,6 +40,11 @@ export default {
 <style scoped>
 body {
   text-align: center !important;
+}
+
+.profile-image-container {
+  background: url("../static/gifs/Spinner-gray.gif") no-repeat;
+  background-size: cover;
 }
 
 .pedestals {
@@ -92,7 +99,7 @@ body {
   margin-top: 15px;
 }
 
-.pedestal-user-data > img {
+.pedestal-user-data > span:first-child > img {
   object-fit: cover;
   width: 140px;
   height: 140px;
