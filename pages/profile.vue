@@ -8,7 +8,6 @@
         <div class="user">
           <div class="user-info">
             <h2>{{ user.firstname }} {{ user.lastname }}</h2>
-            <p>{{ user.about_me }}</p>
           </div>
           <userData location="Latvija, Rīga" :date="user.birthday" :star="user.rating" :exp="user.read_school_exp"/>
         </div>

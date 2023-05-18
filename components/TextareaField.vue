@@ -45,10 +45,9 @@ export default {
 textarea {
   border-radius: 8px;
   padding: 2%;
-  margin-left: 4%;
   height: 200px;
   resize: none;
-  font-size: 20px;
+  font-size: 18px;
   width: 92.5%;
   outline: none;
   line-height: 1.1 !important;

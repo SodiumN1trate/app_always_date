@@ -89,7 +89,6 @@ export default {
   line-height: 1 !important;
   border: 1px solid #BDBDBD;
   width: 93%;
-  margin-left: 4%;
 }
 
 .input-dropdown > span {
