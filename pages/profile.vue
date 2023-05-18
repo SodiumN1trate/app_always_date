@@ -112,7 +112,7 @@ body {
 }
 
 .profile-picture-image {
-  background: url("https://aquamarineexotic.com/adminpanel/assets/images/ajax-spinner.gif") no-repeat;
+  background: url("../static/gifs/Spinner-gray.gif") no-repeat;
   background-size: cover;
 }
 
