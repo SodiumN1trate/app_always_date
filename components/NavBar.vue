@@ -17,10 +17,10 @@
       <div id="logo-block">
         <img src="@/static/images/AlwaysDateLogo.png" id="logo">
       </div>
-      <div class="navbar-button">
+      <div class="navbar-buttons-container">
         <nuxt-link to="/profile" class="wallet-block">
           <span>{{user.firstname}}</span>
-          <div class="wallet d-flex justify-content-center align-items-center" style="gap: 5px">
+          <div class="d-flex justify-content-center align-items-center" style="gap: 5px">
             <span class="icon-circle-money"></span>
             <span>{{user.wallet}}</span>
           </div>
@@ -382,14 +382,14 @@ a:link {
     width: 250px;
   }
 }
-.navbar-button{
+.navbar-buttons-container {
   display: flex;
   align-items: center;
   gap: 10px;
   color: #FD9A9A
 }
 
-.wallet-block{
+.wallet-block {
   display: flex;
   align-items: center;
   gap: 10px;
@@ -401,19 +401,19 @@ a:link {
   font-size: 15px;
 }
 
-.icon-circle-money{
+.icon-circle-money {
   font-size: 16px;
   font-weight: bold;
 }
 
-.logout-button{
+.logout-button {
   display: flex;
   justify-content: center;
   align-items: center;
   border: 2px solid #FD9A9A;
   padding: 2px;
-  width: 32px;
-  height: 32px;
+  width: 33px;
+  height: 33px;
   border-radius: 22px;
   margin-right: 50px;
 }
