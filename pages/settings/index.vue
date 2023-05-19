@@ -63,7 +63,6 @@
             <div>
               <SelectGender class="gender"  v-model="userData.gender" />
             </div>
-
           </div>
         </div>
       </div>
@@ -441,7 +440,7 @@ h5 {
   font-family: 'Noto Sans', sans-serif;
   font-style: normal;
   font-weight: 400;
-  color: $color-grey-6;
+  color: #A8A8A8;
 }
 
 .settings-text-area-container{
@@ -484,16 +483,16 @@ h5 {
 
 .setting-cancel-button {
   background-color: rgba(0, 0, 0, 0);
-  border: solid 2px $color-grey-12;
+  border: solid 2px $color-grey-3;
   border-radius: 12px;
-  color: $color-grey-12;
+  color: $color-grey-3;
   transition: 0.2s;
 }
 
 .setting-cancel-button:hover {
-  color: $color-grey-3;
-  border-color: $color-grey-3;
-  box-shadow: 0px 4px 11px $color-grey-12;
+  color: $color-grey-4;
+  border-color: $color-grey-4;
+  box-shadow: 0px 4px 11px $color-grey-4;
 }
 
 .setting-cancel-button:active {
@@ -501,8 +500,8 @@ h5 {
 }
 
 .setting-save-button {
-  background-color: $color-pink-01;
-  border: solid 2px $color-pink-01;
+  background-color: $color-pink-1;
+  border: solid 2px $color-pink-1;
   border-radius: 12px;
   color: white;
   transition: 0.2s;
@@ -511,7 +510,7 @@ h5 {
 .setting-save-button:hover {
   background-color: $color-pink-1;
   border: solid 2px $color-pink-1;
-  box-shadow: 0px 4px 11px $color-pink-01;
+  box-shadow: 0px 4px 11px $color-pink-1;
 }
 .setting-save-button:active {
   box-shadow: 0px 4px 11px rgba(0, 0, 0, 0.1);

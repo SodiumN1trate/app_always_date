@@ -1,4 +1,4 @@
-., <template>
+<template>
   <div class="body-container">
     <div v-if="$nuxt.$route.name === 'profile'" class="popups-profile">
       <PopUp
@@ -102,8 +102,6 @@ body, html {
   opacity: 0;
 }
 
-////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-
 #settings-container {
   display: flex;
   justify-content: center;
@@ -169,6 +167,4 @@ body, html {
   color: $color-grey-3;
   transition: .2s;
 }
-
-////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 </style>
