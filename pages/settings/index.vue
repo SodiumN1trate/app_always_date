@@ -49,7 +49,14 @@
         <div class="settings-sections-birthday-gander-box">
           <div>
             <h5>Dzimšanas diena</h5>
-            <SelectDate v-model="userData.birthday" :date="userData.birthday" class="settings-sections-date" color="grey" />
+            <date-pick
+              v-model="userData.birthday"
+              :input-attributes="{class: 'date-picker', readonly: true}"
+              next-month-caption="Nākošais mēnesis"
+              prev-month-caption="Iepriekšējais mēneis"
+              :weekdays="['P', 'O', 'T', 'C', 'P', 'S', 'Sv']"
+              :months="['Janvāris', 'Februāris', 'Marts', 'Aprīlis','Maijs', 'Jūnijs', 'Jūlijs', 'Augusts','Septembris', 'Oktobris', 'Novembris', 'Decembris']"
+            />
           </div>
           <div class="settings-section-gender-select">
             <h5>Dzimums</h5>
@@ -87,8 +94,11 @@
 </template>
 
 <script>
+import DatePick from 'vue-date-pick'
+import 'vue-date-pick/dist/vueDatePick.css'
 export default {
   name: 'SettingsPage',
+  components: { DatePick },
   layout: 'SettingsLayout',
   data () {
     return {
@@ -188,10 +198,31 @@ export default {
 <style lang="scss">
 @use '../../assets/sass/abstract/index' as *;
 
+.date-picker {
+  margin-left: 5px;
+  border: solid 1px $color-grey-4;
+  color: $color-black-2;
+  background-color: $color-white-2;
+  font-family: NotoSans;
+  border-radius: 8px;
+  height: 40px;
+  font-size: 16px;
+  padding: 15px 10px 15px 15px !important;
+}
+
+.date-picker::placeholder {
+  color: $color-grey-4;
+}
+
+.date-picker:focus {
+  outline: solid 1px $color-grey-4;
+}
+
 .gender{
   width: fit-content;
   margin-right: auto;
 }
+
 .settings-sections {
   display: flex;
   flex-direction: column;
@@ -210,6 +241,7 @@ export default {
   filter: blur(4px);
   border-radius: 100%;
 }
+
 .settings-sections-profile-background{
   position: relative;
   display: flex;
@@ -228,6 +260,7 @@ export default {
 .mobile-upload {
   display: none;
 }
+
 .background-drop-zone{
   background: midnightblue;
   position: relative;
@@ -456,6 +489,7 @@ h5 {
   color: $color-grey-12;
   transition: 0.2s;
 }
+
 .setting-cancel-button:hover {
   color: $color-grey-3;
   border-color: $color-grey-3;
@@ -473,6 +507,7 @@ h5 {
   color: white;
   transition: 0.2s;
 }
+
 .setting-save-button:hover {
   background-color: $color-pink-1;
   border: solid 2px $color-pink-1;

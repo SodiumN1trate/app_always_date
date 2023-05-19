@@ -26,8 +26,7 @@
           <div class="settings-navigation">
             <div class="settings-navigation-buttons">
               <nuxt-link class="settings-navigation-button" to="/settings/">Profila iestatījumi</nuxt-link>
-              <nuxt-link class="settings-navigation-button" to="/settings/notifications">Paziņojumi</nuxt-link>
-              <nuxt-link class="settings-navigation-button" to="/settings/privacy">Drošība un Privātums</nuxt-link>
+              <nuxt-link class="settings-navigation-button" to="/settings/add_funds">Papildināt maciņu</nuxt-link>
             </div>
           </div>
           <Nuxt />
@@ -43,7 +42,7 @@ export default {
 }
 </script>
 
-<style lang="scss">
+<style lang="scss" scoped>
 @use 'assets/sass/abstract' as *;
 
 body, html {
