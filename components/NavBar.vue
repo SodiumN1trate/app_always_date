@@ -14,9 +14,20 @@
     </transition>
     <div class="horizontal">
       <span class="icon-statistic menu" @click="sidebarOpenState = !sidebarOpenState"></span>
-
       <div id="logo-block">
         <img src="@/static/images/AlwaysDateLogo.png" id="logo">
+      </div>
+      <div class="navbar-buttons-container">
+        <nuxt-link to="/profile" class="wallet-block">
+          <span>{{user.firstname}}</span>
+          <div class="d-flex justify-content-center align-items-center" style="gap: 5px">
+            <span class="icon-circle-money"></span>
+            <span>{{user.wallet}}</span>
+          </div>
+        </nuxt-link>
+        <button @click="logout()" class="logout-button">
+          <span class="icon-logout" ></span>
+        </button>
       </div>
     </div>
   </div>
@@ -27,6 +38,7 @@ export default {
   name: 'NavBar',
   data () {
     return {
+      user: this.$auth.$state.user.data,
       sidebarOpenState: true,
       width: 0,
       buttons: [
@@ -114,6 +126,9 @@ export default {
     },
     onButtonClick () {
       this.sidebarOpenState = this.width > 900
+    },
+    async logout () {
+      await this.$auth.logout()
     }
   }
 }
@@ -149,7 +164,8 @@ a:link {
   position: absolute;
   background-image: linear-gradient(to right, #F1F6FF, #FFF8F9);
   display: flex;
-  justify-content: flex-start;
+  justify-content: space-between;
+  align-items: center;
   height: 50px;
   width: 100vw;
   left: 0;
@@ -366,5 +382,39 @@ a:link {
     width: 250px;
   }
 }
+.navbar-buttons-container {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  color: #FD9A9A
+}
 
+.wallet-block {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 5px 10px;
+  border: 2px solid #FD9A9A;
+  border-radius: 22px;
+  color: #FD9A9A;
+  font-family: Alata;
+  font-size: 15px;
+}
+
+.icon-circle-money {
+  font-size: 16px;
+  font-weight: bold;
+}
+
+.logout-button {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  border: 2px solid #FD9A9A;
+  padding: 2px;
+  width: 33px;
+  height: 33px;
+  border-radius: 22px;
+  margin-right: 50px;
+}
 </style>
