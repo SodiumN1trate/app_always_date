@@ -24,19 +24,15 @@
             color="grey"
           />
         </label>
-        <date-pick
-          v-model="form.birthday"
-          :input-attributes="{class: 'date-picker', readonly: true}"
-          next-month-caption="Nākošais mēnesis"
-          prev-month-caption="Iepriekšējais mēneis"
-          :weekdays="['P', 'O', 'T', 'C', 'P', 'S', 'Sv']"
-          :months="['Janvāris', 'Februāris', 'Marts', 'Aprīlis','Maijs', 'Jūnijs', 'Jūlijs', 'Augusts','Septembris', 'Oktobris', 'Novembris', 'Decembris']"
-        />
+        <label>Dzimšanas diena
+          <p>{{form.birthday}}</p>
+          <DateInput v-model="form.birthday" />
+        </label>
         <label>Dzimums
-            <SelectGender
-              v-model="form.gender"
-            />
-          </label>
+          <SelectGender
+            v-model="form.gender"
+          />
+        </label>
         <div>
           <button class="btn btn-primary" @click="submit()">Saglabāt</button>
           <button class="btn btn-secondary" @click="$router.push('/admin/users/list')">Atpakaļ</button>
@@ -47,12 +43,8 @@
 </template>
 
 <script>
-import DatePick from 'vue-date-pick'
-import 'vue-date-pick/dist/vueDatePick.css'
-
 export default {
   layout: 'NavigationLayout',
-  components: { DatePick },
   data () {
     return {
       form: {
@@ -64,18 +56,20 @@ export default {
       }
     }
   },
-  mounted () {
+  created () {
     this.$axios.get('/users/' + this.$route.params.id).then((response) => {
       const data = response.data.data
+      console.log(data)
       this.form.firstname = data.firstname
       this.form.lastname = data.lastname
       this.form.email = data.email
       this.form.gender = data.gender
       this.form.birthday = data.birthday
     })
+    // console.log(this.$auth.state.user.data)
+    // console.log(this.form)
   },
   methods: {
-
     async submit () {
       await this.$axios.put('/users/' + this.$route.params.id, this.form).then(() => {
         this.$store.commit('setPopup', {
@@ -103,6 +97,7 @@ export default {
 #box {
   flex-direction: column;
 }
+
 .setting-save-button {
   background-color: $color-pink-3;
   border: solid 2px $color-pink-3;
@@ -111,35 +106,24 @@ export default {
   transition: 0.2s;
   padding: 8px;
 }
+
 .setting-save-button:hover {
   background-color: $color-pink-4;
   border: solid 2px $color-pink-4;
 }
+
 .setting-save-button:active {
   box-shadow: 0px 4px 11px rgba(0, 0, 0, 0.1);
 }
+
 form {
   display: flex;
   flex-direction: column;
   align-items: flex-start;
   gap: 20px;
 }
+
 .date-picker {
-  border: solid 1px $color-grey-4;
-  color: $color-black-2;
-  background-color: $color-white-2;
-  font-family: NotoSans;
-  border-radius: 8px;
-  height: 40px;
-  font-size: 16px;
-  padding: 15px 10px 15px 15px !important;
-}
-
-.date-picker::placeholder {
-  color: $color-grey-4;
-}
-
-.date-picker:focus {
-  outline: solid 1px $color-grey-4;
+  margin-left: 0 !important;
 }
 </style>

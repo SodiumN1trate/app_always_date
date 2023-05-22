@@ -48,7 +48,7 @@
         </div>
         <div class="settings-sections-birthday-gander-box">
           <h5>Dzimšanas diena</h5>
-          <DateInput v-model="userData.birthday"/>
+          <DateInput v-model="userData.birthday" />
         </div>
       </div>
     </div>
@@ -345,6 +345,7 @@ export default {
 }
 
 .settings-sections-basic-info {
+  width: 100%;
   display: flex;
   flex-direction: column;
   gap: 25px;

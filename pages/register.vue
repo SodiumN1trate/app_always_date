@@ -19,14 +19,7 @@
       </div>
       <div>
         <h4 class="input-title">Dzimšanas datums</h4>
-        <date-pick
-          v-model="userData.birthday"
-          :input-attributes="{class: 'date-picker', readonly: true}"
-          next-month-caption="Nākošais mēnesis"
-          prev-month-caption="Iepriekšējais mēneis"
-          :weekdays="['P', 'O', 'T', 'C', 'P', 'S', 'Sv']"
-          :months="['Janvāris', 'Februāris', 'Marts', 'Aprīlis','Maijs', 'Jūnijs', 'Jūlijs', 'Augusts','Septembris', 'Oktobris', 'Novembris', 'Decembris']"
-        />
+        <DateInput v-model="userData.birthday" />
       </div>
       <div>
         <h4 class="input-title">Dzimums</h4>
@@ -56,11 +49,8 @@
 </template>
 
 <script>
-import DatePick from 'vue-date-pick'
-import 'vue-date-pick/dist/vueDatePick.css'
 export default {
   name: 'RegisterPage',
-  components: { DatePick },
   data () {
     return {
       isButtonFocus: false,
@@ -214,21 +204,6 @@ body::-webkit-scrollbar {
 }
 
 .date-picker {
-  border: solid 1px $color-grey-4;
-  color: $color-black-2;
-  background-color: $color-white-2;
-  font-family: NotoSans;
-  border-radius: 8px;
-  height: 40px;
-  font-size: 16px;
-  padding: 15px 10px 15px 15px !important;
-}
-
-.date-picker::placeholder {
-  color: $color-grey-4;
-}
-
-.date-picker:focus {
-  outline: solid 1px $color-grey-4;
+  margin-left: 0 !important;
 }
 </style>
