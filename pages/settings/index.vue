@@ -39,31 +39,16 @@
         <div class="settings-sections-full-name">
           <div>
             <h5>Vārds</h5>
-            <InputField v-model="userData.firstname" class="settings-sections-first-name" placeholder="Vārds" color="grey" />
+            <InputField v-model="userData.firstname" class="settings-sections-name" placeholder="Vārds" color="grey" />
           </div>
           <div>
             <h5>Uzvārds</h5>
-            <InputField v-model="userData.lastname" class="settings-sections-last-name" placeholder="Uzvārds" color="grey" />
+            <InputField v-model="userData.lastname" class="settings-sections-name" placeholder="Uzvārds" color="grey" />
           </div>
         </div>
         <div class="settings-sections-birthday-gander-box">
-          <div>
-            <h5>Dzimšanas diena</h5>
-            <date-pick
-              v-model="userData.birthday"
-              :input-attributes="{class: 'date-picker', readonly: true}"
-              next-month-caption="Nākošais mēnesis"
-              prev-month-caption="Iepriekšējais mēneis"
-              :weekdays="['P', 'O', 'T', 'C', 'P', 'S', 'Sv']"
-              :months="['Janvāris', 'Februāris', 'Marts', 'Aprīlis','Maijs', 'Jūnijs', 'Jūlijs', 'Augusts','Septembris', 'Oktobris', 'Novembris', 'Decembris']"
-            />
-          </div>
-          <div class="settings-section-gender-select">
-            <h5>Dzimums</h5>
-            <div>
-              <SelectGender class="gender"  v-model="userData.gender" />
-            </div>
-          </div>
+          <h5>Dzimšanas diena</h5>
+          <DateInput v-model="userData.birthday"/>
         </div>
       </div>
     </div>
@@ -93,11 +78,8 @@
 </template>
 
 <script>
-import DatePick from 'vue-date-pick'
-import 'vue-date-pick/dist/vueDatePick.css'
 export default {
   name: 'SettingsPage',
-  components: { DatePick },
   layout: 'SettingsLayout',
   data () {
     return {
@@ -194,28 +176,8 @@ export default {
 }
 </script>
 
-<style lang="scss">
+<style lang="scss" scoped>
 @use '../../assets/sass/abstract/index' as *;
-
-.date-picker {
-  margin-left: 5px;
-  border: solid 1px $color-grey-4;
-  color: $color-black-2;
-  background-color: $color-white-2;
-  font-family: NotoSans;
-  border-radius: 8px;
-  height: 40px;
-  font-size: 16px;
-  padding: 15px 10px 15px 15px !important;
-}
-
-.date-picker::placeholder {
-  color: $color-grey-4;
-}
-
-.date-picker:focus {
-  outline: solid 1px $color-grey-4;
-}
 
 .gender{
   width: fit-content;
@@ -413,14 +375,9 @@ export default {
   min-width: 40%;
 }
 
-.settings-sections-first-name {
+.settings-sections-name {
   min-width: 40%;
-  margin-left: 1%;
-}
-
-.settings-sections-last-name {
-  margin-left: 1%;
-  width: 40%;
+  margin-left: 4%;
 }
 
 .settings-section-gender-select {
@@ -448,10 +405,8 @@ h5 {
 }
 
 .text-area {
-  width: 50%;
-  margin-left: 0.5%;
+  margin-left: 1.5%;
   max-height: 180px;
-  font-size: 10px;
 }
 
 .settings-section-about-user {
@@ -461,8 +416,7 @@ h5 {
 }
 
 .select-input-region {
-  margin-left: 0.5%;
-  width: 40%;
+  width: 33%;
 }
 
 .settings-form-buttons {
