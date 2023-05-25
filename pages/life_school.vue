@@ -33,7 +33,9 @@
               <p>{{ comment.votes }}</p>
               <span :class="{ 'icon-vote-down-fill': comment.voted === false, 'icon-vote-down-stroke': comment.voted === true || comment.voted === null  }" @click="commentVote(comment.id, false)"></span>
             </div>
-            <img :src="comment.author.avatar">
+            <div class="profile-image-container">
+              <img :src="comment.author.avatar">
+            </div>
             <div class="comment-data">
               <div>
                 <h4>{{ comment.author.firstname }} {{ comment.author.lastname }}</h4>
@@ -44,15 +46,6 @@
           </div>
         </div>
       </div>
-    </div>
-    <div class="popups">
-      <PopUp
-        v-for="(pop, index) in $store.state.popups"
-        :key="index"
-        :popupType="pop.popupType"
-        :popupText="pop.popupText"
-        :popupShowTime="pop.popupShowTime + index / 2"
-      />
     </div>
   </div>
 </template>
@@ -314,7 +307,12 @@ body {
   gap: 5px;
 }
 
-.comment > img {
+.profile-image-container {
+  background: url("../static/gifs/Spinner-gray.gif") no-repeat;
+  background-size: cover;
+}
+
+.comment > .profile-image-container > img {
   border-radius: 50%;
   width: 70px;
   height: 70px;

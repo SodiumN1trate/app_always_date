@@ -64,7 +64,7 @@ export default {
       this.form.lastname = data.lastname
       this.form.email = data.email
       this.form.gender = data.gender
-      this.form.birthday = data.birthday
+      this.form.birthday = data.birthday || `${(new Date()).getFullYear()}-${(new Date()).getMonth()}-${(new Date()).getDate()}`
     })
     // console.log(this.$auth.state.user.data)
     // console.log(this.form)

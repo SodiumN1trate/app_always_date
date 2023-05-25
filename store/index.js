@@ -24,6 +24,9 @@ export const mutations = {
       popupShowTime: popup.seconds || 2
     })
   },
+  removePopup (state, index) {
+    state.popups.splice(index)
+  },
   setTimeout (state, status) {
     state.timeout = status
   },

@@ -58,7 +58,7 @@ export default {
       userData: {
         firstname: null,
         lastname: null,
-        birthday: new Date().toLocaleDateString(),
+        birthday: `${(new Date()).getFullYear()}-${(new Date()).getMonth()}-${(new Date()).getDate()}`,
         gender: null
       }
     }

@@ -1,6 +1,8 @@
 <template>
   <div class="user-list-container">
-    <img class="profile-image" :class="{ 'topUsers': showTop }" :src="user.avatar" @click="toProfile()">
+    <div class="profile-image-container">
+      <img class="profile-image" :class="{ 'topUsers': showTop }" :src="user.avatar" @click="toProfile()">
+    </div>
     <div class="user-info">
       <div class="user-data">
         <h3 @click="toProfile()">{{ user.firstname }} {{ user.lastname }}</h3>
@@ -50,6 +52,11 @@ export default {
   display: flex;
   gap: 10px;
   align-items: center;
+}
+
+.profile-image-container {
+  background: url("../static/gifs/Spinner-gray.gif") no-repeat;
+  background-size: cover;
 }
 
 .profile-image {
