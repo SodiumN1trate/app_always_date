@@ -1,97 +1,86 @@
 <template>
-  <div id="settings-container">
-    <div id="settings-box">
-      <div class="settings-navigation">
-        <div>
-          <div class="settings-navigation-profile">
-            <img class="settings-navigation-profile-picture" :src="userNavBarData.avatar">
-            <h3>{{ userNavBarData.firstname + ' ' + userNavBarData.lastname }}</h3>
-          </div>
-        </div>
-        <div class="settings-navigation-buttons">
-          <button>Profila iestatījumi</button>
-          <button>Drošība un Privātums</button>
-          <button>Paziņojumi</button>
+  <form class="settings-sections" @submit.prevent="updateUser()">
+    <div class="settings-sections-basic-info">
+      <div class="settings-sections-profile-background">
+        <label v-show="mobileUpload" class="upload-image mobile-upload">
+          <input type="file" accept="image/*" @change="uploadImage">
+        </label>
+        <div
+          class="background-drop-zone"
+          :style="{ borderColor: dropZoneColor}"
+          @drop.prevent="uploadImage"
+        >
+          <img v-show="!displayDropZone" :src="previewImage" alt="imagePreview">
+          <img v-show="displayDropZone">
+          <label class="upload-image">
+            <span class="icon-circle-cross" />
+            <input type="file" accept="image/*" @change="uploadImage">
+          </label>
         </div>
       </div>
-      <form class="settings-sections" @submit.prevent="updateUser()">
-        <div class="settings-sections-basic-info">
-          <div class="settings-sections-profile-picture">
-            <label v-show="mobileUpload" class="upload-image mobile-upload">
-              <input type="file" accept="image/*" @change="uploadImage">
-            </label>
-            <div
-              class="drop-zone"
-              :style="{ borderColor: dropZoneColor}"
-              @drop.prevent="uploadImage"
-            >
-              <img v-show="!displayDropZone" :src="previewImage" alt="imagePreview">
-              <img v-show="displayDropZone" :src="userNavBarData.avatar">
-              <label class="upload-image">
-                <span class="icon-circle-cross" />
-                <input type="file" accept="image/*" @change="uploadImage">
-              </label>
-            </div>
-          </div>
-          <div class="settings-sections-basic-data">
-            <div class="settings-sections-full-name">
-              <div>
-                <h5>Vārds</h5>
-                <InputField v-model="userData.firstname" class="settings-sections-first-name" placeholder="Vārds" color="grey" />
-              </div>
-              <div>
-                <h5>Uzvārds</h5>
-                <InputField v-model="userData.lastname" class="settings-sections-last-name" placeholder="Uzvārds" color="grey" />
-              </div>
-            </div>
-            <div>
-              <div class="settings-section-gender-select">
-                <h5>Dzimums</h5>
-                <SelectInputField
-                  v-model="computedGender"
-                  class="settings-select-gender"
-                  :placeholder="userData.gender"
-                  :options="[{id: 0, name: 'Sieviete'}, {id: 1, name: 'Vīrietis'}]"
-                  :tabindex="0"
-                  color="grey"
-                />
-              </div>
-              <div>
-                <h5>Dzimšanas datums</h5>
-                <SelectDate v-model="userData.birthday" :date="userData.birthday" class="settings-sections-date" color="grey" />
-              </div>
-            </div>
-          </div>
+      <div class="settings-sections-profile-picture">
+        <label v-show="mobileUpload" class="upload-image mobile-upload">
+          <input type="file" accept="image/*" @change="uploadImage">
+        </label>
+        <div
+          class="drop-zone"
+          :style="{ borderColor: dropZoneColor}"
+          @drop.prevent="uploadImage"
+        >
+          <img v-show="!displayDropZone" :src="previewImage" alt="imagePreview">
+          <img v-show="displayDropZone" :src="userNavBarData.avatar">
+          <label class="upload-image">
+            <span class="icon-circle-cross" />
+            <input type="file" accept="image/*" @change="uploadImage">
+          </label>
         </div>
-        <div class="settings-section-about-user">
+      </div>
+      <div class="settings-sections-basic-data">
+        <div class="settings-sections-full-name">
           <div>
-            <h5>Reģions</h5>
-            <SelectInputField
-              class="select-input-region"
-              placeholder="Reģions"
-              :options="[{id: 1, name: 'Rīga'}, {id: 1, name: 'centrs'}, {id: 1, name: 'Jelgava'}, {id: 1, name: 'Bauska'}, {id: 1, name: 'Daugavpils'}]"
-              color="grey"
-              :tabindex="1"
-            />
+            <h5>Vārds</h5>
+            <InputField v-model="userData.firstname" class="settings-sections-name" placeholder="Vārds" color="grey" />
           </div>
           <div>
-            <h5>Par mani</h5>
-            <TextareaField v-model="userData.about_me" :text="userData.about_me" class="text-area" placeholder="Par mani" color="grey" />
+            <h5>Uzvārds</h5>
+            <InputField v-model="userData.lastname" class="settings-sections-name" placeholder="Uzvārds" color="grey" />
           </div>
         </div>
-        <div class="settings-form-buttons">
-          <button class="setting-cancel-button">Atsaukt</button>
-          <button class="setting-save-button">Saglabāt</button>
+        <div class="settings-sections-birthday-gander-box">
+          <h5>Dzimšanas diena</h5>
+          <DateInput v-model="userData.birthday" />
         </div>
-      </form>
+      </div>
     </div>
-  </div>
+    <div class="settings-section-about-user">
+      <div>
+        <h5>Reģions</h5>
+        <SelectInputField
+          class="select-input-region"
+          placeholder="Reģions"
+          :options="[{id: 1, name: 'Rīga'}, {id: 1, name: 'centrs'}, {id: 1, name: 'Jelgava'}, {id: 1, name: 'Bauska'}, {id: 1, name: 'Daugavpils'}]"
+          color="grey"
+          :tabindex="1"
+        />
+      </div>
+      <div>
+        <h5>Par mani</h5>
+        <div class="settings-text-area-container">
+          <TextareaField v-model="userData.about_me" :text="userData.about_me" class="text-area" placeholder="Par mani" color="grey" />
+        </div>
+      </div>
+    </div>
+    <div class="settings-form-buttons">
+      <button class="setting-cancel-button">Atmest</button>
+      <button class="setting-save-button">Saglabāt</button>
+    </div>
+  </form>
 </template>
 
 <script>
 export default {
   name: 'SettingsPage',
-  layout: 'NavigationLayout',
+  layout: 'SettingsLayout',
   data () {
     return {
       previewImage: null,
@@ -188,85 +177,17 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-@use 'assets/sass/abstract' as *;
+@use '../../assets/sass/abstract/index' as *;
 
-#settings-container {
-  display: flex;
-  justify-content: center;
-  width: 100%;
-  margin-top: 200px;
-  margin-bottom: 50px;
+.gender{
+  width: fit-content;
+  margin-right: auto;
 }
-
-#settings-box {
-  display: flex;
-  width: 60%;
-  border: solid 1px $color-grey-0;
-  border-radius: 15px;
-  background-color: $color-white-2;
-  box-shadow: 0px 4px 44px rgba(0, 0, 0, 0.1);
-}
-
-.settings-navigation {
-  display: flex;
-  flex-direction: column;
-  width: 30%;
-  border-right: solid 2px $color-grey-0;
-  padding-bottom: 220px;
-  font-family: NotoSans;
-  color: $color-grey-5;
-}
-
-.settings-navigation > div > .settings-navigation-profile {
-  display: flex;
-  align-items: center;
-  border-bottom: solid 2px $color-grey-0;
-  padding: 10px;
-  gap: 10px;
-}
-
-.settings-navigation >  div > .settings-navigation-profile > img {
-  border: solid 3px $color-white-2;
-  box-shadow: 0px 4px 44px rgba(0, 0, 0, 0.1);
-  border-radius: 100%;
-}
-
-.settings-navigation >  div > .settings-navigation-profile > h3 {
-  width: 50%;
-}
-
-.settings-navigation-profile-picture {
-  height: 100px;
-  width: 100px;
-  object-fit: cover;
-}
-
-.settings-navigation-buttons {
-  display: flex;
-  flex-direction: column;
-}
-
-.settings-navigation-buttons > button {
-  width: 100%;
-  padding: 10px;
-  text-align: left;
-  background-color: rgba(0, 0, 0, 0);
-  color: $color-grey-5;
-  border: none;
-  border-bottom: solid 2px $color-grey-0;
-  font-size: 24px;
-  transition: 0.2s;
-}
-
-.settings-navigation-buttons > button:hover {
-  color: $color-grey-3;
-}
-
-////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
 .settings-sections {
   display: flex;
   flex-direction: column;
+  width: 100%;
   padding: 32px;
   gap: 20px;
 }
@@ -282,7 +203,16 @@ export default {
   border-radius: 100%;
 }
 
+.settings-sections-profile-background{
+  position: relative;
+  display: flex;
+  align-items: center;
+  width: 100%;
+}
+
 .settings-sections-profile-picture {
+  margin-top: -100px;
+  padding-left: 30px;
   position: relative;
   display: flex;
   align-items: center;
@@ -290,6 +220,20 @@ export default {
 
 .mobile-upload {
   display: none;
+}
+
+.background-drop-zone{
+  background: midnightblue;
+  position: relative;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 150px;
+  width: 100%;
+  outline: #575757 dashed 2px;
+  border-radius: 2%;
+  transition: .3s;
+  overflow: hidden;
 }
 
 .drop-zone {
@@ -401,25 +345,39 @@ export default {
 }
 
 .settings-sections-basic-info {
+  width: 100%;
   display: flex;
+  flex-direction: column;
   gap: 25px;
 }
 
 .settings-sections-basic-data {
+  display: -webkit-flex;
   display: flex;
   flex-direction: column;
   gap: 10px;
 }
-
-.settings-sections-basic-data > div {
+.settings-sections-birthday-gander-box{
   display: flex;
+  flex-direction: column;
 }
 
-.settings-sections-first-name {
-  margin-left: 4%;
+.settings-sections-full-name{
+  display: -webkit-flex;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  flex-wrap: wrap;
+  width: 60%;
+  flex: 1;
 }
 
-.settings-sections-last-name {
+.settings-sections-full-name > div {
+  min-width: 40%;
+}
+
+.settings-sections-name {
+  min-width: 40%;
   margin-left: 4%;
 }
 
@@ -428,20 +386,28 @@ export default {
 }
 
 .settings-select-gender {
+  margin-left: 1%;
   width: 99.5%;
 }
 
 .settings-sections-date {
-  margin-left: 5%;
+  margin-left: 0.5%;
 }
 
 h5 {
-  color: $color-grey-5;
+  font-family: 'Noto Sans', sans-serif;
+  font-style: normal;
+  font-weight: 400;
+  color: #A8A8A8;
+}
+
+.settings-text-area-container{
+  width: 80%;
 }
 
 .text-area {
-  width: 80%;
-  max-height: 120px;
+  margin-left: 1.5%;
+  max-height: 180px;
 }
 
 .settings-section-about-user {
@@ -451,7 +417,7 @@ h5 {
 }
 
 .select-input-region {
-  width: 87%;
+  width: 33%;
 }
 
 .settings-form-buttons {
@@ -461,21 +427,27 @@ h5 {
 }
 
 .settings-form-buttons > button {
-  width: 25%;
+  min-width: 100px;
+  max-width: 120px;
   height: calc(100% + 10px);
-  font-family: Alata;
+  font-family: 'Alata';
+  font-style: normal;
+  font-weight: 400;
+  font-size: 20px;
 }
 
 .setting-cancel-button {
   background-color: rgba(0, 0, 0, 0);
-  border: solid 2px $color-grey-5;
-  border-radius: 6px;
-  color: $color-grey-5;
+  border: solid 2px $color-grey-3;
+  border-radius: 12px;
+  color: $color-grey-3;
   transition: 0.2s;
 }
+
 .setting-cancel-button:hover {
-  color: $color-black-1;
-  border-color: $color-black-1;
+  color: $color-grey-4;
+  border-color: $color-grey-4;
+  box-shadow: 0px 4px 11px $color-grey-4;
 }
 
 .setting-cancel-button:active {
@@ -483,18 +455,32 @@ h5 {
 }
 
 .setting-save-button {
-  background-color: $color-pink-3;
-  border: solid 2px $color-pink-3;
-  border-radius: 6px;
-  color: $color-white-2;
+  background-color: $color-pink-1;
+  border: solid 2px $color-pink-1;
+  border-radius: 12px;
+  color: white;
   transition: 0.2s;
 }
+
 .setting-save-button:hover {
-  background-color: $color-pink-4;
-  border: solid 2px $color-pink-4;
+  background-color: $color-pink-1;
+  border: solid 2px $color-pink-1;
+  box-shadow: 0px 4px 11px $color-pink-1;
 }
 .setting-save-button:active {
   box-shadow: 0px 4px 11px rgba(0, 0, 0, 0.1);
+}
+
+@media only screen and (max-width: 1700px) {
+  .settings-form-buttons > button {
+    min-width: 100px;
+    max-width: 120px;
+    height: calc(100% + 10px);
+    font-family: 'Alata';
+    font-style: normal;
+    font-weight: 400;
+    font-size: 20px;
+  }
 }
 
 @media only screen and (max-width: 1300px) {
