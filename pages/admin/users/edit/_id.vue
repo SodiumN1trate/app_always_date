@@ -24,10 +24,18 @@
             color="grey"
           />
         </label>
-        <label>Dzimšanas diena
-          <p>{{form.birthday}}</p>
-          <DateInput v-model="form.birthday" />
-        </label>
+        <div>Dzimšanas diena
+          <br>
+          <date-pick
+            v-model="form.birthday"
+            :input-attributes="{class: 'date-picker', readonly: true}"
+            next-month-caption="Nākošais mēnesis"
+            prev-month-caption="Iepriekšējais mēneis"
+            :displayFormat="'YYYY-MM-DD'"
+            :weekdays="['P', 'O', 'T', 'C', 'P', 'S', 'Sv']"
+            :months="['Janvāris', 'Februāris', 'Marts', 'Aprīlis','Maijs', 'Jūnijs', 'Jūlijs', 'Augusts','Septembris', 'Oktobris', 'Novembris', 'Decembris']"
+          />
+        </div>
         <label>Dzimums
           <SelectGender
             v-model="form.gender"
@@ -43,8 +51,11 @@
 </template>
 
 <script>
+import DatePick from 'vue-date-pick'
+import 'vue-date-pick/dist/vueDatePick.css'
 export default {
   layout: 'NavigationLayout',
+  components: { DatePick },
   data () {
     return {
       form: {
@@ -56,18 +67,15 @@ export default {
       }
     }
   },
-  created () {
-    this.$axios.get('/users/' + this.$route.params.id).then((response) => {
+  async mounted () {
+    await this.$axios.get('/users/' + this.$route.params.id).then((response) => {
       const data = response.data.data
-      console.log(data)
       this.form.firstname = data.firstname
       this.form.lastname = data.lastname
       this.form.email = data.email
       this.form.gender = data.gender
-      this.form.birthday = data.birthday || `${(new Date()).getFullYear()}-${(new Date()).getMonth()}-${(new Date()).getDate()}`
+      this.form.birthday = data.birthday
     })
-    // console.log(this.$auth.state.user.data)
-    // console.log(this.form)
   },
   methods: {
     async submit () {
@@ -91,7 +99,7 @@ export default {
 }
 </script>
 
-<style lang="scss">
+<style lang="scss" scoped>
 @use 'assets/sass/abstract' as *;
 
 #box {
