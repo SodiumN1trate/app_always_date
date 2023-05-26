@@ -74,7 +74,7 @@ export default {
       this.form.lastname = data.lastname
       this.form.email = data.email
       this.form.gender = data.gender
-      this.form.birthday = data.birthday || `${(new Date()).getFullYear()}-${(new Date()).getMonth()}-${(new Date()).getDate()}`
+      this.form.birthday = data.birthday || `${(new Date()).getFullYear()}-${(new Date()).getMonth() + 1}-${(new Date()).getDate()}`
     })
   },
   methods: {

@@ -67,7 +67,6 @@ export default {
     document.body.style.backgroundColor = '#FFF3F3'
     this.userData.firstname = this.user.firstname
     this.userData.lastname = this.user.lastname
-    console.log(this.userData.birthday)
   },
   methods: {
     async registerUser () {
