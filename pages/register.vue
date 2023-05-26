@@ -58,7 +58,7 @@ export default {
       userData: {
         firstname: null,
         lastname: null,
-        birthday: `${(new Date()).getFullYear()}-${(new Date()).getMonth()}-${(new Date()).getDate()}`,
+        birthday: `${(new Date()).getFullYear()}-${(new Date()).getMonth() + 1}-${(new Date()).getDate()}`,
         gender: null
       }
     }

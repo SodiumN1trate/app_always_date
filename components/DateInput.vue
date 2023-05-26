@@ -5,7 +5,7 @@
       :input-attributes="{class: 'date-picker', readonly: true}"
       next-month-caption="Nākošais mēnesis"
       prev-month-caption="Iepriekšējais mēneis"
-      :display-format="'YYYY-MM-DD'"
+      :displayFormat="'YYYY-MM-DD'"
       :weekdays="['P', 'O', 'T', 'C', 'P', 'S', 'Sv']"
       :months="['Janvāris', 'Februāris', 'Marts', 'Aprīlis','Maijs', 'Jūnijs', 'Jūlijs', 'Augusts','Septembris', 'Oktobris', 'Novembris', 'Decembris']"
       @input="$emit('input', date)"
@@ -17,6 +17,7 @@
 import DatePick from 'vue-date-pick'
 import 'vue-date-pick/dist/vueDatePick.css'
 export default {
+  name: 'DateInput',
   components: { DatePick },
   props: ['value'],
   data () {
