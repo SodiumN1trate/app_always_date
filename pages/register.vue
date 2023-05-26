@@ -58,7 +58,7 @@ export default {
       userData: {
         firstname: null,
         lastname: null,
-        birthday: `${(new Date()).getFullYear()}-${(new Date()).getMonth()}-${(new Date()).getDate()}`,
+        birthday: `${(new Date()).getFullYear()}-${(new Date()).getMonth() + 1}-${(new Date()).getDate()}`,
         gender: null
       }
     }
@@ -67,6 +67,7 @@ export default {
     document.body.style.backgroundColor = '#FFF3F3'
     this.userData.firstname = this.user.firstname
     this.userData.lastname = this.user.lastname
+    console.log(this.userData.birthday)
   },
   methods: {
     async registerUser () {
