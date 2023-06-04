@@ -4,6 +4,7 @@
     class="input-field"
     :type="type"
     :placeholder="placeholder"
+    :pattern="pattern"
     @input="$emit('input', text)"
     required
   >
@@ -12,7 +13,7 @@
 <script>
 export default {
   name: 'InputField',
-  props: ['type', 'placeholder'],
+  props: ['type', 'placeholder', 'pattern'],
   data () {
     return {
       text: ''

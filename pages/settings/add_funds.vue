@@ -7,7 +7,7 @@
       </div>
       <div class="funds-input">
         <p>Cik daudz?</p>
-        <InputField v-model="fundsAmount" />
+        <InputField v-model="fundsAmount" pattern="[0-9]+" />
       </div>
       <button type="submit" class="funds-submit">Papildināt</button>
     </form>
