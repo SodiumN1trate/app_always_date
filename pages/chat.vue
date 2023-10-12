@@ -1,49 +1,19 @@
 <template>
-  <div id="messages-container">
-    <div v-show="chatRooms.length > 0 && showChatsNavigation" class="messages-navigation">
-      <div class="messages-search">
-        <input placeholder="Search...">
-        <span class="icon-search" />
-      </div>
-      <div class="messages-user-chats">
+  <div class="chat-container" v-show="$auth.user?.data.id">
+    <UserSelect @change="selectChatGroup" />
+    <div class="box" v-if="chatGroup">
+      <div class="messages-container">
         <div
-          v-for="chatRoom in chatRooms"
-          :key="chatRoom.user.id"
-          @click="openUserChat(chatRoom)"
+          :class="{'date-label': !message?.user, 'user-message': message?.user && message.user === $auth.user.data.id, 'recipient-message': message?.user && message.user !== $auth.user.data.id}"
+          v-for="(message, index) in messages"
+          :key="index"
         >
-          <UserCard :user="chatRoom.user" />
-        </div>
-      </div>
-    </div>
-    <div v-show="!selectedChatRoom && showNotSelectedUser" id="not-selected-user" :class="{ 'not-created-chats': chatRooms.length <= 0 }">
-      <div v-if="chatRooms.length <= 0">
-        <h2>Nav izveidota neviena sarakste!</h2>
-      </div>
-      <div v-else>
-        <h2>Lai sāktu saraksti, izvēlaties kādu no lietotājiem!</h2>
-      </div>
-    </div>
-    <div v-show="selectedChatRoom || showChat" class="messages-chat">
-      <div class="chat-header">
-        <span v-show="showChat" class="icon-arrow-down" @click="closeUserChat()" />
-        <UserCard v-if="selectedChatRoom" :user="selectedChatRoom.user" />
-      </div>
-      <div ref="chat" class="chat">
-        <Messages
-          v-for="message in messages"
-          :key="message.id"
-          :message="message"
-        />
-      </div>
-      <div class="messages-chat-input">
-        <div>
-          <input v-model="chatInput" placeholder="Write some message.." @keyup.enter="sendMessage()">
-          <div>
-            <span class="icon-attach" />
-            <span class="icon-smile" />
+          <div v-if="message.message" class="message">
+            <span>{{ message.message }}</span>
+            <span class="time">{{ message.time }}</span>
           </div>
+          <span v-else-if="message.created_at">{{ message.created_at }}</span>
         </div>
-        <span class="icon-send" @click="sendMessage()" />
       </div>
     </div>
   </div>
@@ -51,127 +21,24 @@
 
 <script>
 export default {
-  name: 'ChatPage',
+  name: 'chat',
   layout: 'NavigationLayout',
   data () {
     return {
-      chatRooms: [],
-      selectedChatRoom: '',
       messages: [],
-      chatInput: '',
-      showChatsNavigation: true,
-      showChat: false,
-      showNotSelectedUser: true
+      chatGroup: null
     }
-  },
-  mounted () {
-    this.$nextTick(function () {
-      this.onResize()
-    })
-    window.addEventListener('resize', this.onResize)
-    this.checkPageStatus()
-    this.getUsers()
-    if (this.$route.query.chatRoom) {
-      this.$axios.get('/chat_room/' + this.$route.query.chatRoom).then((res) => {
-        this.openUserChat(res.data.data)
-      })
-    }
-  },
-  updated () {
-    this.checkPageStatus()
   },
   methods: {
-    listenChatChannel () {
-      this.$echo.private('chat.' + this.selectedChatRoom.id)
-        .listen('MessageEvent', (e) => {
-          this.getUserMessage(e)
-        })
-    },
-    async getUserMessage (message) {
-      await this.$axios.get('/get_message/' + message.messageId).then((res) => {
-        this.messages.push(res.data.data)
-        this.checkIsDateTitle()
+    async selectChatGroup (id) {
+      this.chatGroup = id
+      await this.$axios.get(`/chat_room_messages/${id}`).then((response) => {
+        this.messages = response.data.data
       })
-    },
-    checkPageStatus () {
-      if (window.matchMedia('(max-width: 850px)').matches) {
-        this.showNotSelectedUser = false
-        if (this.selectedChatRoom) {
-          this.showChatsNavigation = false
-          this.showChat = true
-        } else if (!this.selectedChatRoom) {
-          this.showChatsNavigation = true
-          this.showChat = false
-        }
-      } else {
-        this.showNotSelectedUser = true
-        this.showChatsNavigation = true
-        this.showChat = false
-      }
-    },
-    onResize () {
-      let resizeTimeout
-      window.addEventListener('resize', () => {
-        clearTimeout(resizeTimeout)
-        resizeTimeout = setTimeout(() => {
-          this.checkPageStatus()
-        }, 100)
-      })
-    },
-    scrollBottom () {
-      this.$nextTick(() => {
-        this.$refs.chat.scrollTop = this.$refs.chat.scrollHeight
-      })
-    },
-    async getUsers () {
-      await this.$axios.get('/get_users_chats').then((res) => {
-        this.chatRooms = res.data.data
-      })
-    },
-    async openUserChat (chatRoom) {
-      if (this.selectedChatRoom.id || chatRoom.id === this.selectedChatRoom.id) {
-        return 0
-      } else if (!this.selectedChatRoom || chatRoom.user.id !== this.selectedChatRoom.user.id) {
-        this.$echo.leave('chat.' + this.selectedChatRoom.id)
-      }
-      this.selectedChatRoom = chatRoom
-      this.listenChatChannel()
-      await this.$axios.get('/chat_room_messages/' + chatRoom.id).then((res) => {
-        this.messages = res.data.data
-        this.getMessagesDateTime()
-      })
-    },
-    getMessagesDateTime () {
-      for (let i = 0; i < this.messages.length; i++) {
-        if (!this.messages[i - 1] || (this.messages[i - 1] && this.messages[i].date !== this.messages[i - 1].date)) {
-          this.messages[i].date_title = this.messages[i].date
-        }
-        if (this.$auth.$state.user.data.id === this.messages[i].user) {
-          this.messages[i].is_auth_user = true
-        }
-      }
-      this.scrollBottom()
-    },
-    closeUserChat () {
-      this.selectedChatRoom = ''
-    },
-    async sendMessage () {
-      if (!this.chatInput) { return 0 }
-      await this.$axios.post('/message', {
-        chat_room_id: this.selectedChatRoom.id,
-        message: this.chatInput
-      })
-      this.chatInput = ''
-    },
-    checkIsDateTitle () {
-      if (!this.messages[this.messages.length - 2] || (this.messages[this.messages.length - 2] && this.messages[this.messages.length - 1].date !== this.messages[this.messages.length - 2].date)) {
-        this.messages[this.messages.length - 1].date_title = this.messages[this.messages.length - 1].date
-      }
-      if (this.$auth.$state.user.data.id === this.messages[this.messages.length - 1].user) {
-        this.messages[this.messages.length - 1].is_auth_user = true
-      }
-      this.scrollBottom()
     }
+  },
+  async mounted () {
+    //
   }
 }
 </script>
@@ -179,267 +46,90 @@ export default {
 <style lang="scss" scoped>
 @use 'assets/sass/abstract' as *;
 
-#messages-container {
+.chat-container {
   display: flex;
-  width: 70%;
-  margin-inline: auto;
-  margin-top: 150px;
-  transition: 0.5s;
-}
-
-.messages-navigation {
-  display: flex;
-  flex-direction: column;
-  max-width: 35%;
-  min-width: 354px;
-}
-
-.messages-search-bar {
-  width: 100%;
-}
-
-.messages-search {
-  position: relative;
-  border-bottom: solid 1px $color-grey-0;
-}
-
-.messages-search > input {
-  width: 100%;
-  border: none;
-  outline: none;
-  height: 50px;
-  padding-left: 20px;
-  padding-right: 50px;
-  background-color: white;
-  border-top-left-radius: 16px;
-  border-top: solid 1px $color-grey-0;
-  border-left: solid 1px $color-grey-0;
-}
-
-.messages-search > span {
-  position: absolute;
-  left: 90%;
-  top: 50%;
-  transform: translateY(-50%);
-  font-size: 24px;
-  cursor: pointer;
-}
-
-.messages-user-chats {
-  overflow: scroll;
-  scrollbar-width: none;
-  height: 700px;
-  background-color: white;
-  border-bottom-left-radius: 16px;
-}
-
-.messages-user-chats::-webkit-scrollbar {
-  background: transparent;
-  width: 0px;
-}
-
-.messages-user-chats > div {
-  padding: 10px 20px;
-  cursor: pointer;
-  user-select: none;
-  border-bottom: solid 1px $color-grey-0;
-}
-
-#not-selected-user {
-  background-color: #FFFBFB;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  border: solid 1px $color-grey-0;
-  border-top-right-radius: 16px;
-  border-bottom-right-radius: 16px;
-  width: 70%;
-  min-height: 700px;
-  min-width: 354px;
-  box-shadow: 0px 4px 17px rgba(0, 0, 0, 0.03);
-}
-
-.not-created-chats {
-  border-radius: 16px;
-  margin-inline: auto;
-}
-
-#not-selected-user > div {
-  width: fit-content;
-  margin-bottom: 150px;
-}
-
-#not-selected-user > div > h2 {
-  text-align: center;
-  color: rgba(0, 0, 0, 0.71);
-}
-
-.messages-chat {
-  display: flex;
-  flex-direction: column;
-  flex: 1 0 auto;
-  background-color: #FFFBFB;
-  border: solid 1px $color-grey-0;
-  border-top-right-radius: 16px;
-  border-bottom-right-radius: 16px;
-}
-.messages-chat > div:first-child {
-  background-color: white;
-  border-top-right-radius: 16px;
-}
-
-.messages-chat > div:first-child,
-.messages-chat > div:nth-child(2),
-{
-  border-bottom: solid 1px $color-grey-0;
-}
-
-.chat-header {
-  display: flex;
-  align-items: center;
   gap: 10px;
-  padding: 10px;
+  width: calc(100% - 50px);
+  margin-left: 50px;
+  margin-top: 100px;
+  justify-content: center;
+  align-items: flex-start;
+  margin-bottom: 60px;
 }
 
-.chat-header > span {
-  font-size: 32px;
-  rotate: 90deg;
-  cursor: pointer;
+.box {
+  width: 40%;
+  background-color: #FBFDFF;
+  border: solid 1px $color-grey-0;
+  border-radius: 13px;
+  padding: 1%;
+  font-family: Alata;
+  color: $color-black-1;
 }
 
-.chat {
+.messages-container {
+  background-color: #fff8f8;
+  width: 100%;
+  height: 600px;
+  border-radius: 11px;
+  border: solid 1px $color-grey-0;
   display: flex;
   flex-direction: column;
-  padding: 0 20px;
-  overflow: auto;
-  max-height: 580px;
-  height: 100%;
-  scroll-behavior: smooth;
-  //Firefox
-  scrollbar-width: thin;
-  scrollbar-color: rgba(0, 0, 0, 0) rgba(0, 0, 0, 0);
-  transition: all 0.5s;
+  overflow-y: auto;
+  gap: 10px;
+  padding: 10px 8px;
 }
 
-.chat:hover {
-  scrollbar-color: $color-pink-3 rgba(0, 0, 0, 0);
+.user-message {
+  align-self: flex-end;
+  background-color: #FFBABA;
+  padding: 3px 20px 5px 8px;
+  border-radius: 11px 11px 0px 11px;
+  max-width: 70%;
 }
 
-.chat::-webkit-scrollbar {
-  width: 10px;
-  background-color: rgba(0, 0, 0, 0);
-  -webkit-transition: all 0.5s;
+.recipient-message {
+  align-self: flex-start;
+  background-color: #dadada;
+  padding: 3px 5px 5px 20px;
+  border-radius: 11px 11px 11px 0px;
+  max-width: 70%;
 }
 
-.chat::-webkit-scrollbar-thumb {
-  background-color: rgba(0, 0, 0, 0);
-  -webkit-transition: all 0.5s;
+.date-label {
+  color: $color-grey-0;
+  align-self: center;
+  margin-top: 20px;
 }
 
-.chat:hover::-webkit-scrollbar-thumb {
-  background-color: $color-pink-3;
+.messages-container::-webkit-scrollbar-track, .add-comment-form > div > textarea::-webkit-scrollbar-track {
+  background-color: #FBFDFF;
 }
 
-.chat::-webkit-scrollbar-thumb:hover {
-  background-color: rgba($color-pink-3, 0.8);
+.messages-container::-webkit-scrollbar, .add-comment-form > div > textarea::-webkit-scrollbar {
+  width: 5px;
 }
 
-.chat::-webkit-scrollbar-thumb:active {
-  background-color: rgba($color-pink-3, 0.8);
+.messages-container::-webkit-scrollbar-thumb, .add-comment-form > div > textarea::-webkit-scrollbar-thumb {
+  border-radius: 10px;
+  //box-shadow: inset 0 0 6px rgba(0,0,0,.3);
+  background-color: #FFC5C5;
 }
 
-.messages-chat-input {
-  width: 100%;
+.message {
   display: flex;
-  justify-content: center;
-  padding: 10px 20px;
-  gap: 20px;
-  align-items: center;
-  background-color: white;
-  border-bottom-right-radius: 16px;
+  flex-direction: column;
 }
 
-.messages-chat-input > div {
-  position: relative;
-  width: 90%;
+.time {
+  font-size: 11px;
 }
 
-.messages-chat-input > div > input {
-  width: 100%;
-  padding: 10px;
-  border-radius: 37px;
-  border: solid 1px $color-grey-0;
-  outline: none;
-  font-size: 18px;
-  padding-left: 20px;
-  padding-right: 120px;
+.user-message > .message > .time {
+  align-self: flex-start;
 }
 
-.messages-chat-input > div > input:focus {
-  outline: solid 2px $color-grey-3;
-}
-
-.messages-chat-input > div > div {
-  display: flex;
-  gap: 15px;
-  position: absolute;
-  top: 50%;
-  right: 3%;
-  transform: translateY(-50%);
-}
-
-.messages-chat-input > div > div > span {
-  font-size: 32px;
-  color: $color-grey-5;
-  cursor: pointer;
-}
-
-.messages-chat-input > span {
-  font-size: 48px;
-  color: $color-pink-4;
-  cursor: pointer;
-}
-
-@media only screen and (max-width: 850px) {
-  .messages-navigation {
-    margin-inline: auto;
-    border-radius: 16px;
-    max-width: none;
-  }
-  #messages-container {
-    width: 95%;
-    margin-top: 80px;
-  }
-  .messages-search > input {
-    border-top-right-radius: 16px;
-  }
-  .messages-user-chats {
-    border-bottom-right-radius: 16px;
-  }
-  .messages-chat {
-    flex: initial;
-    margin-inline: auto;
-    max-height: 85vh;
-    min-height: 500px;
-    border-radius: 16px;
-  }
-  .chat-header {
-    border-top-left-radius: 16px;
-  }
-  .messages-chat-input {
-    border-bottom-left-radius: 16px;
-    padding: 5px 5px;
-    gap: 10px;
-  }
-  .messages-chat-input > span {
-    font-size: 42px;
-  }
-  .messages-chat-input > div > input {
-    font-size: 15px;
-    padding: 10px 75px 10px 10px;
-  }
-  .messages-chat-input > div > div > span {
-    font-size: 24px;
-  }
+.recipient-message > .message > .time {
+  align-self: flex-end;
 }
 </style>
