@@ -7,8 +7,7 @@
           <img src="@/static/images/AlwaysDateLogo.png" id="logo">
           <div id="description">
             <div id="title">
-              <h1 style="color: #ACACAC">ĀTRĀKAIS VEIDS KĀ ATRAST</h1>
-              <h1 style="color: #FF9090">ĪSTU MĪLESTĪBU</h1>
+              <h1 style="color: #ACACAC">Ātrākais veids kā atrast<br><span  style="color: #FF9090">īstu mīlestību</span></h1>
             </div>
             <div ref="facebook" id="facebook-button" @click="buttonClick">
               <img src="@/static/svg/FacebookIndexLogo.svg" width="40px" ref="facebookLogo">

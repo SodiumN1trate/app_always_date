@@ -1,4 +1,7 @@
-export default {
+import { defineNuxtConfig } from '@nuxt/bridge'
+
+export default defineNuxtConfig({
+  bridge: false,
   // Disable server-side rendering: https://go.nuxtjs.dev/ssr-mode
   ssr: false,
   // Global page headers: https://go.nuxtjs.dev/config-head
@@ -117,4 +120,4 @@ export default {
       }
     }
   }
-}
+})
