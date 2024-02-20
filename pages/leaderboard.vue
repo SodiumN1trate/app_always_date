@@ -52,7 +52,8 @@ export default {
   },
   methods: {
     scrollEvent () {
-      if ((window.innerHeight + window.scrollY) >= document.body.scrollHeight && this.lastPage !== this.currentPage && this.debounce) {
+      const bottomOfWindow = document.documentElement.scrollHeight - document.documentElement.scrollTop - document.documentElement.clientHeight <= 1
+      if (bottomOfWindow) {
         this.nextPage()
       }
     },
@@ -126,6 +127,12 @@ export default {
   box-shadow: 0px 4px 17px rgba(0, 0, 0, 0.03);
   border: solid 1px $color-grey-0;
   border-radius: 13px;
+  transition: 0.3s all;
+}
+
+.leaderboard-user:hover {
+  transform: scale(1.07);
+  cursor: pointer;
 }
 
 @media only screen and (max-width: 1600px) {

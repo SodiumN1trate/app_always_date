@@ -7,8 +7,8 @@
       </div>
       <div class="messages-user-chats">
         <div
-          v-for="chatRoom in chatRooms"
-          :key="chatRoom.user.id"
+          v-for="(chatRoom, index) in chatRooms"
+          :key="index"
           @click="openUserChat(chatRoom)"
         >
           <UserCard :user="chatRoom.user" />
@@ -72,7 +72,8 @@ export default {
     this.checkPageStatus()
     this.getUsers()
     if (this.$route.query.chatRoom) {
-      this.$axios.get('/chat_room/' + this.$route.query.chatRoom).then((res) => {
+      this.$axios.get('/chat_rooms/' + this.$route.query.chatRoom).then((res) => {
+        // console.log(res)
         this.openUserChat(res.data.data)
       })
     }
@@ -82,8 +83,10 @@ export default {
   },
   methods: {
     listenChatChannel () {
+      console.log(this.$echo.private('chat.' + this.selectedChatRoom.id))
       this.$echo.private('chat.' + this.selectedChatRoom.id)
         .listen('MessageEvent', (e) => {
+          console.log(e)
           this.getUserMessage(e)
         })
     },
@@ -120,7 +123,7 @@ export default {
     },
     scrollBottom () {
       this.$nextTick(() => {
-        this.$refs.chat.scrollTop = this.$refs.chat.scrollHeight
+        this.$refs.chat.scrollTop = this.$refs?.chat.scrollHeight || 0
       })
     },
     async getUsers () {
@@ -157,7 +160,7 @@ export default {
     },
     async sendMessage () {
       if (!this.chatInput) { return 0 }
-      await this.$axios.post('/message', {
+      await this.$axios.post('/send_message', {
         chat_room_id: this.selectedChatRoom.id,
         message: this.chatInput
       })

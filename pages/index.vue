@@ -1,48 +1,29 @@
 <template>
-  <div id="index-background">
+  <main>
     <div id="index-content">
-      <CloudBox />
-      <div id="content-background">
-        <div>
-          <img src="@/static/images/AlwaysDateLogo.png" id="logo">
-          <div id="description">
-            <div id="title">
-              <h1 style="color: #ACACAC">Ātrākais veids kā atrast<br><span  style="color: #FF9090">īstu mīlestību</span></h1>
-            </div>
-            <div ref="facebook" id="facebook-button" @click="buttonClick">
-              <img src="@/static/svg/FacebookIndexLogo.svg" width="40px" ref="facebookLogo">
+      <div id="description">
+        <span class="logo">AlwaysDate</span>
+        <div id="title">
+          <div>
+            <h1>Ātrākais veids kā atrast
+              savu īsto mīlestību</h1>
+            <p style="color: #454545; font-size: 140%">Gatavojies ceļojumam, kas mainīs tavu skatījumu uz iepazīšanos! Mūsu platforma nav tikai par partneru meklēšanu; tas ir par jaunu pieredzi, kas izmainīs tavu dzīvi.
+            </p>
+            <div id="facebook-button" ref="facebook" @click="buttonClick">
               <transition name="button-text">
-                <p v-show="showText">Pieslēgties ar Facebook</p>
+                <p v-show="showText">Ienāc ar Facebook</p>
               </transition>
-            </div>
-          </div>
-          <div id="info">
-            <div class="info-message">
-              <div class="info-message-header">
-                <i class="icon-message"></i>
-                <h2>Čats</h2>
-              </div>
-              <h5>Sazinies ar cilvēkiem kuri tev patīk un kuriem patīc tu</h5>
-            </div>
-            <div class="info-message">
-              <div class="info-message-header">
-                <i class="icon-book"></i>
-                <h2>Dzīves skola</h2>
-              </div>
-              <h5>Mācies dzīves padomus kas tev palīdzēs būt laimīgākam</h5>
-            </div>
-            <div class="info-message">
-              <div class="info-message-header">
-                <i class="icon-globe"></i>
-                <h2>Tuvumā</h2>
-              </div>
-              <h5>Iepazīsti cilvēkus kas ir tuvu tavam reģionam</h5>
+              <transition name="button-spinner">
+                <p v-show="showSpinner">
+                  <img width="25px" height="25px" src="@/static/gifs/Spinner.svg" alt="spinner">
+                </p>
+              </transition>
             </div>
           </div>
         </div>
       </div>
     </div>
-  </div>
+  </main>
 </template>
 
 <script>
@@ -50,21 +31,22 @@ export default {
   name: 'IndexPage',
   data () {
     return {
+      clicked: false,
       showText: true,
-      clicked: false
+      showSpinner: false
     }
   },
   methods: {
     buttonClick () {
       if (this.clicked) { return 0 }
       this.clicked = true
-      this.$refs.facebook.style.userSelect = 'none'
       this.showText = false
-      this.$refs.facebookLogo.style.animation = 'move 2.5s ease-in-out'
       setTimeout(() => {
-        this.showText = true
-      }, 2100)
-      this.authorize()
+        this.showSpinner = true
+      }, 202)
+      setTimeout(() => {
+        this.authorize()
+      }, 2002)
       setTimeout(() => {
         this.$refs.facebookLogo.style.animation = ''
         this.clicked = false
@@ -78,27 +60,30 @@ export default {
 }
 </script>
 
-<style lang="scss">
+<style lang="scss" scoped>
 @use 'assets/sass/abstract' as *;
 
-#content-background {
-  position: relative;
-  background-image: url("static/images/PixelHeartPattern.svg");
+main {
+  background-image: url('static/images/mainPageBackground.png');
+  background-size: auto 100%;
+  background-color: #FAF1F2;
   background-repeat: no-repeat;
-  background-size: cover;
-  background-position: center;
-  width: 63%;
-  height: 100%;
-  z-index: 2;
-  aspect-ratio: 1.107 / 1;
+  background-attachment: fixed;
+  background-position: right;
+  display: flex;
+  width: 100%;
+  height: 100vh;
+  font-family: Alata;
+  overflow-y: hidden;
+  color: #454545;
 }
 
 #index-content {
-  background-image: url("static/images/IndexPageBackground.png");
-  background-repeat: no-repeat;
-  background-size: cover;
-  background-position: center;
+  display: flex;
+  vertical-align: center;
+  width: 100%;
   height: 100vh;
+  margin-left: 100px;
 }
 
 body::-webkit-scrollbar {
@@ -109,48 +94,65 @@ html {
   scrollbar-width: none
 }
 
-#logo {
+.logo {
   position: relative;
-  margin: 10px;
+  margin: 20px;
+  margin-bottom: 0px;
+  font-size: 1.8rem;
   width: 310px;
 }
 
 #description {
-  margin-left: 50px;
+  display: flex;
+  flex-direction: column;
+  align-items: start;
+  vertical-align: center;
+  padding-left: 3%;
+  width: 100%;
+  height: fit-content;
 }
 
 #title {
-  margin-top: 180px;
+  display: flex;
+  align-items: center;
+  vertical-align: center;
+  margin:0;
+  height: 90vh;
+}
+#title > div > h1 {
+  font-size: 80px;
+  font-weight: normal;
+}
+
+#title > div {
+  width: 55%;
 }
 
 #facebook-button {
+  background-color: #FF778A;
+  border-style: none;
+  border-radius: 10px;
+  color: #FFFFFF;
   cursor: pointer;
-  padding: 5px;
+  padding: 15px 30px;
   display: flex;
-  align-items: center;
-  gap: 15px;
-  background-color: #6590E7;
-  max-width: 300px;
+  transition: .3s;
+  max-width: 250px;
   width: 100%;
-  margin-top: 30px;
-  border-radius: 50px;
-  color: white;
-  box-shadow: 2px 5px 36px -9px rgba(101,144,231,1);
-  -webkit-box-shadow: 2px 5px 36px -9px rgba(101,144,231,1);
-  -moz-box-shadow: 2px 5px 36px -9px rgba(101,144,231,1);
+  justify-content: center;
 }
 
-#facebook-button > p {
-  margin: 0;
-  padding: 0;
-}
-
-#index-background {
-  font-family: Alata;
+#facebook-button:hover {
+  scale: 1.03;
+  transition: .3s;
 }
 
 #facebook-button > p{
-  font-family: NotoSans;
+  margin: 0px;
+  padding: 0px;
+  font-size: 18px;
+  font-family: Alata;
+  font-weight: bold;
 }
 
 .fade-enter-active,
@@ -161,31 +163,6 @@ html {
 .fade-enter-from,
 .fade-leave-to {
   opacity: 0;
-}
-
-#info {
-  display: flex;
-  width: 700px;
-  justify-content: space-between;
-  gap: 30px;
-  margin-top: 15%;
-  color: #BDBDBD;
-  margin-left: 50px;
-}
-
-#info p {
-  font-size: 12px;
-  color: #BDBDBD;
-}
-
-.info-message-header {
-  display: flex;
-  gap: 10px;
-}
-
-.info-message-header i {
-  font-size: 40px;
-  color: #BDBDBD;
 }
 
 @keyframes move {
@@ -210,7 +187,145 @@ html {
 }
 .button-text-enter,
 .button-text-leave-to {
-  transform: translateX(20px);
+  //transform: translateX(20px);
   opacity: 0;
+}
+
+.button-spinner-enter-active {
+  transition: all 0.5s ease-out;
+  transform: translateY(0px);
+}
+.button-spinner-leave-active {
+  transition: all 0.5s cubic-bezier(1, 0.5, 0.8, 1);
+}
+.button-spinner-enter,
+.button-spinner-leave-to {
+  transform: translateY(100px);
+  opacity: 0;
+}
+
+@media only screen and (max-width: 1890px) {
+    main {
+      background-image: url('static/images/mainPageBackground.png');
+      background-size: auto 100%;
+      background-color: #FAF1F2;
+      background-repeat: no-repeat;
+      background-attachment: fixed;
+      background-position: right;
+      display: flex;
+      width: 100%;
+      height: 100vh;
+      font-family: Alata;
+      overflow-y: hidden;
+  }
+
+  #index-content {
+    display: flex;
+    vertical-align: center;
+    padding: 0;
+    margin: 0;
+    width: 100%;
+    height: 100vh;
+  }
+
+  #description {
+    display: flex;
+    flex-direction: column;
+    align-items: start;
+    vertical-align: center;
+    width: 100%;
+    height: fit-content;
+  }
+
+  #title{
+    display: flex;
+    align-items: center;
+    vertical-align: center;
+    margin:0;
+    height: 90vh;
+    padding-left: 2%;
+  }
+
+  #title > div > h1{
+    font-size: 55px;
+  }
+
+  #title > div {
+    display: flex;
+    flex-direction: column;
+    align-items: start;
+    width: 40%;
+  }
+}
+
+@media only screen and (max-width: 1300px) {
+  main {
+    background-image: none;
+    display: flex;
+    width: 100%;
+    height: 100vh;
+    font-family: Alata;
+  }
+
+  #index-content {
+    display: flex;
+    padding: 0;
+    margin: 0;
+    width: 100%;
+    height: 100vh;
+  }
+
+  #description {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    width: 100%;
+    height: fit-content;
+    padding: 0;
+    margin: 0;
+  }
+
+  .logo {
+    text-align: center;
+    font-size: 28px;
+  }
+
+  #title{
+    align-items: start;
+    text-align: center;
+    margin-top: 70px;
+    padding: 0;
+  }
+
+  #title > div {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    width: 100%;
+    gap: 10px;
+  }
+
+  #title > div > h1 {
+    font-size: 31px;
+  }
+
+  #title > div > p {
+    font-size: 16px!important;
+  }
+
+  #facebook-button {
+    background-color: #FF778A;
+    border-style: none;
+    border-radius: 10px;
+    color: #FFFFFF;
+    cursor: pointer;
+    padding: 15px 20px;
+    display: flex;
+    //width: fit-content;
+    transition: .3s;
+    max-width: 250px;
+    width: 100%;
+    justify-content: center;
+  }
 }
 </style>

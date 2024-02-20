@@ -23,7 +23,7 @@
       </div>
       <div id="user-data">
         <div>
-          <h1>{{ $store.state.targetUser.firstname }} {{ $store.state.targetUser.lastname }}, {{ $store.state.targetUser.age }}</h1>
+          <h1><nuxt-link :to="`users/${$store.state.targetUser.id}`">{{ $store.state.targetUser.firstname }} {{ $store.state.targetUser.lastname }}, {{ $store.state.targetUser.age }}</nuxt-link></h1>
           <p>Esmu enerģētiska, patīk ceļot, ēst, sportot, klausīties mūziku un runāt ar cilvēkiem 😉</p>
         </div>
         <UserData
@@ -173,6 +173,14 @@ export default {
 #user-data > h1 {
    font-family: Alata;
  }
+//
+//#user-data > div:first-child > h1 > a {
+//  transition: .5s all;
+//}
+
+#user-data > div:first-child > h1 > a:hover {
+  text-decoration: underline;
+}
 
 .user-data-main {
   display: flex;
