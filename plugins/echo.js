@@ -1,6 +1,8 @@
 import Echo from 'laravel-echo'
 
 window.Pusher = require('pusher-js')
+
+console.log(process.env.API_ADDRESS)
 export default (_, inject) => {
   const echo = new Echo({
     broadcaster: 'pusher',

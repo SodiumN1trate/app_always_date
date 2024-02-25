@@ -1,5 +1,6 @@
+<script src="../plugins/echo.js"></script>
 <template>
-  <div class="user-container">
+  <div class="user-container" v-if="user">
     <div>
       <img :src="user.avatar">
     </div>

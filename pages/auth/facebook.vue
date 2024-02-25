@@ -19,8 +19,7 @@ export default {
         location.replace('/profile')
       }
     } catch (e) {
-      alert(e)
-      location.replace('/profile')
+      // location.replace('/profile')
     }
   }
 }

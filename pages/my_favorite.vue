@@ -97,6 +97,12 @@ body {
   box-shadow: 0px 4px 17px rgba(0, 0, 0, 0.03);
   border: solid 1px $color-grey-0;
   border-radius: 13px;
+  transition: 0.3s all;
+}
+
+.leaderboard-user:hover {
+  transform: scale(1.07);
+  cursor: pointer;
 }
 
 @media only screen and (max-width: 780px) {

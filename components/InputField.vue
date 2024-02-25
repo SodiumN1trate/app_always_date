@@ -26,9 +26,14 @@ export default {
 @use 'assets/sass/abstract' as *;
 
 .input-field {
-  border: solid 1px $color-grey-4;
+  border: solid 2px $color-grey-4;
   color: $color-black-2;
   background-color: $color-white-2;
+  font-size: 16px;
+  font-family: NotoSans;
+  border-radius: 8px;
+  padding: 15px;
+  width: 100%;
 }
 
 .input-field::placeholder {
@@ -36,18 +41,11 @@ export default {
 }
 
 .input-field:focus {
-  outline: solid 1px $color-grey-4;
-}
-
-.input-field {
-  font-family: NotoSans;
-  border-radius: 8px;
-  height: 40px;
-  padding: 15px;
-  width: 100%;
+  outline: unset;
+  border: solid 2px $color-grey-5;
 }
 
 .input-field::placeholder {
-  font-size: 20px;
+  font-size: 16px;
 }
 </style>

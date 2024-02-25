@@ -52,6 +52,7 @@ export default {
   display: flex;
   gap: 10px;
   align-items: center;
+  cursor: pointer;
 }
 
 .profile-image-container {
