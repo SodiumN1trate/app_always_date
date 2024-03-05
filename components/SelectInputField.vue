@@ -77,7 +77,9 @@ export default {
 }
 </script>
 
-<style scoped>
+<style lang="scss" scoped>
+@use 'assets/sass/abstract' as *;
+
 .input-dropdown {
   display: flex;
   align-items: center;
@@ -90,6 +92,7 @@ export default {
   border: 1px solid #BDBDBD;
   width: 93%;
   margin-left: 4%;
+  background-color: $color-white-2;
 }
 
 .input-dropdown > span {
@@ -125,6 +128,7 @@ export default {
   border-radius: 7px;
   overflow-y: scroll;
   scrollbar-width: thin;
+  text-align: left;
 }
 
 .dropdown-content::-webkit-scrollbar {

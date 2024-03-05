@@ -83,10 +83,8 @@ export default {
   },
   methods: {
     listenChatChannel () {
-      console.log(this.$echo.private('chat.' + this.selectedChatRoom.id))
       this.$echo.private('chat.' + this.selectedChatRoom.id)
         .listen('MessageEvent', (e) => {
-          console.log(e)
           this.getUserMessage(e)
         })
     },

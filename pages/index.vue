@@ -15,7 +15,7 @@
               </transition>
               <transition name="button-spinner">
                 <p v-show="showSpinner">
-                  <img width="25px" height="25px" src="@/static/gifs/Spinner.svg" alt="spinner">
+                  <img width="25px" height="25px" src="@/static/gifs/spinner.svg" alt="spinner">
                 </p>
               </transition>
             </div>

@@ -6,11 +6,9 @@
       <div v-for="(gender, index) in genders" :key="index" class="radio-button" @click="select($event, gender)">
         {{ gender.name }}
       </div>
-      <InputField placeholder="Cits..." @input="select($event, { borderColor: 'purple'})" />
+<!--      <InputField v-model="custom_gender" placeholder="Cits..." @input="select($event, { borderColor: 'gray'})" />-->
     </div>
-    <button ref="button" class="register-button">
-      Nākamais
-    </button>
+    <FlowNextButton @click="save()" :loading="loading" />
   </div>
 </template>
 
@@ -25,17 +23,38 @@ export default {
         {
           id: 0,
           name: 'Vīrietis',
-          borderColor: 'blue'
+          borderColor: '#4d5fff'
         },
         {
           id: 1,
           name: 'Sieviete',
-          borderColor: 'pink'
+          borderColor: '#ff4d97'
         }
-      ]
+      ],
+      custom_gender: null,
+      loading: false
     }
   },
   methods: {
+    save () {
+      this.loading = true
+      setTimeout(async () => {
+        await this.$axios.put('/users/' + this.$auth.state.user.data.id, {
+          gender: this.selected
+        }).then((res) => {
+          this.$router.push('/flow/birthday')
+        }).catch((e) => {
+          for (const error in e.response.data.errors) {
+            this.$store.commit('setPopup', {
+              text: e.response.data.errors[error][0],
+              type: 'danger',
+              seconds: 5
+            })
+          }
+          this.loading = false
+        })
+      }, 1000)
+    },
     select (event, gender) {
       const children = this.$refs.genders.children
       this.selected = null
@@ -45,9 +64,10 @@ export default {
           children[i].style.borderColor = gender.borderColor
           this.selected = gender.id
         }
-        if (children[children.length - 1] === children[i] && this.selected === null) {
-          children[i].style.borderColor = gender.borderColor
-        }
+        // if (children[children.length - 1] === children[i] && this.selected === null) {
+        //   children[i].style.borderColor = gender.borderColor
+        //   this.selected = this.custom_gender
+        // }
       }
     }
   }

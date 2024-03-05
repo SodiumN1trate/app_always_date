@@ -1,15 +1,11 @@
 <template>
   <div class="container">
-    <small>Izskatās ka neesi reģistrējies</small>
-    <ProgressBar progress="1" />
-    <h3>Vai Tevi sauc?</h3>
-    <form @submit.prevent="save">
-      <div class="input-container">
-        <InputField v-model="form.firstname" placeholder="Vārds" />
-        <InputField v-model="form.lastname" placeholder="Uzvārds" />
-      </div>
-      <FlowNextButton :loading="loading" />
-    </form>
+    <ProgressBar progress="3" />
+    <h3>Izvēlies savu dzimšanas datumu</h3>
+    <div class="input-container" ref="genders">
+      <DateInput v-model="form.birthday" />
+    </div>
+    <FlowNextButton @click="save()" :loading="loading" />
     <div class="popups">
       <PopUp
         v-for="(pop, index) in $store.state.popups"
@@ -26,26 +22,20 @@
 
 export default {
   layout: 'FlowLayout',
-  auth: true,
   data () {
     return {
-      loading: false,
       form: {
-        firstname: null,
-        lastname: null
-      }
+        birthday: null
+      },
+      loading: false
     }
-  },
-  created () {
-    this.form.firstname = this.$auth.state.user.data.firstname || null
-    this.form.lastname = this.$auth.state.user.data.lastname || null
   },
   methods: {
     save () {
       this.loading = true
       setTimeout(async () => {
         await this.$axios.put('/users/' + this.$auth.state.user.data.id, this.form).then((res) => {
-          this.$router.push('/flow/gender')
+          this.$router.push('/flow/region')
         }).catch((e) => {
           for (const error in e.response.data.errors) {
             this.$store.commit('setPopup', {
@@ -62,8 +52,9 @@ export default {
 }
 </script>
 
-<style scoped>
-.container, form {
+<style lang="scss" scoped>
+@use 'assets/sass/abstract' as *;
+.container {
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -79,12 +70,20 @@ export default {
   margin-top: 10px;
 }
 
-.input-field {
-  height: 30px;
+.register-button {
+  background: #FF778A;
+  border-radius: 11px;
+  font-weight: 300;
   font-size: 16px;
+  line-height: 24px;
+  display: flex;
+  align-items: center;
+  color: #FFFFFF;
+  padding: 7px 15px;
+  margin-top: 50px;
 }
 
-.input-field::placeholder {
-  font-size: 16px;
+.input-field {
+  padding: 2px 15px;
 }
 </style>

@@ -14,7 +14,7 @@ export default {
         this.$auth.strategy.token.sync()
       }
       if (response.data.data.age == null) {
-        location.replace('/register')
+        location.replace('/flow/name')
       } else {
         location.replace('/profile')
       }

@@ -33,15 +33,15 @@ export default {
 @use '../assets/sass/abstract/index' as *;
 
 .date-picker {
-  margin-left: 4%;
   border: solid 1px $color-grey-4;
   color: $color-black-2;
   background-color: $color-white-2;
   font-family: NotoSans;
   border-radius: 8px;
-  height: 40px;
+  height: 35px;
   font-size: 16px;
-  padding: 15px 10px 15px 15px !important;
+  width: 90%;
+  padding-left: 10px;
 }
 
 .date-picker::placeholder {

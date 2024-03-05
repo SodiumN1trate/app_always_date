@@ -1,15 +1,11 @@
 <template>
   <div class="container">
-    <small>Izskatās ka neesi reģistrējies</small>
-    <ProgressBar progress="1" />
-    <h3>Vai Tevi sauc?</h3>
-    <form @submit.prevent="save">
-      <div class="input-container">
-        <InputField v-model="form.firstname" placeholder="Vārds" />
-        <InputField v-model="form.lastname" placeholder="Uzvārds" />
-      </div>
-      <FlowNextButton :loading="loading" />
-    </form>
+    <ProgressBar progress="4" />
+    <h3>Izvēlies savu reģionu</h3>
+    <div class="input-container" ref="genders">
+      <SelectInputField v-model="form.region" placeholder="Izvēleis reģionu" :options="regions" :tabindex="0" />
+    </div>
+    <FlowNextButton @click="save()" :loading="loading" />
     <div class="popups">
       <PopUp
         v-for="(pop, index) in $store.state.popups"
@@ -23,22 +19,27 @@
 </template>
 
 <script>
-
 export default {
   layout: 'FlowLayout',
-  auth: true,
   data () {
     return {
-      loading: false,
       form: {
-        firstname: null,
-        lastname: null
-      }
+        region: null
+      },
+      regions: [],
+      loading: false
     }
   },
-  created () {
-    this.form.firstname = this.$auth.state.user.data.firstname || null
-    this.form.lastname = this.$auth.state.user.data.lastname || null
+  async created () {
+    await this.$axios.get('/regions').then((response) => {
+      Object.keys(response.data).map((key) => {
+        this.regions.push({
+          id: key,
+          name: key
+        })
+        return key
+      })
+    })
   },
   methods: {
     save () {
@@ -62,8 +63,9 @@ export default {
 }
 </script>
 
-<style scoped>
-.container, form {
+<style lang="scss" scoped>
+@use 'assets/sass/abstract' as *;
+.container {
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -79,12 +81,20 @@ export default {
   margin-top: 10px;
 }
 
-.input-field {
-  height: 30px;
+.register-button {
+  background: #FF778A;
+  border-radius: 11px;
+  font-weight: 300;
   font-size: 16px;
+  line-height: 24px;
+  display: flex;
+  align-items: center;
+  color: #FFFFFF;
+  padding: 7px 15px;
+  margin-top: 50px;
 }
 
-.input-field::placeholder {
-  font-size: 16px;
+.input-field {
+  padding: 2px 15px;
 }
 </style>

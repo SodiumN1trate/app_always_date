@@ -20,12 +20,16 @@ header, main {
   font-family: 'Alata';
 }
 
+main {
+  height: 100vh;
+}
+
 header {
   display: flex;
   align-items: center;
   justify-content: center;
   height: 60px;
-  width: 100vw;
+  width: 100%;
   box-shadow: 0px 2px 4px rgba(0, 0, 0, 0.25);
   background-color: #fff;
 }
